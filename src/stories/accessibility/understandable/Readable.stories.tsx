@@ -111,7 +111,7 @@ const ReadableDemo = ({
         {/* Main Content */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Understanding Plant Biology
               {enableSimplifiedVersion && (
                 <IconButton
@@ -134,7 +134,7 @@ const ReadableDemo = ({
             {/* Technical Terms */}
             {showDefinitions && !showSimplified && (
               <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle2" gutterBottom>
+                <Typography variant="h2" component="h2" gutterBottom>
                   Technical Terms:
                 </Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -172,7 +172,7 @@ const ReadableDemo = ({
         {enableSimplifiedVersion && (
           <Card>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h2" component="h2" gutterBottom>
                 Reading Level
               </Typography>
               <Stack direction="row" spacing={2}>

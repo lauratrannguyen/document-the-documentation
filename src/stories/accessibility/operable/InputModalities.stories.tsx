@@ -113,7 +113,7 @@ const InputModalitiesDemo = ({
         {/* Value Display */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Current Value: {value}
             </Typography>
             {lastAction && (
@@ -127,7 +127,7 @@ const InputModalitiesDemo = ({
         {/* Touch/Pointer Controls */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Touch & Pointer Controls
             </Typography>
             <Box
@@ -148,6 +148,7 @@ const InputModalitiesDemo = ({
                   setValue(prev => prev - 1);
                   setLastAction('Button click decrease');
                 }}
+                aria-label="Decrease value"
                 sx={showTargetSizing ? { 
                   width: targetSize, 
                   height: targetSize,
@@ -159,7 +160,7 @@ const InputModalitiesDemo = ({
                 <RemoveIcon />
               </IconButton>
               
-              <Typography variant="h4" sx={{ mx: 3 }}>
+              <Typography variant="body1" sx={{ mx: 3 }}>
                 {value}
               </Typography>
               
@@ -168,6 +169,7 @@ const InputModalitiesDemo = ({
                   setValue(prev => prev + 1);
                   setLastAction('Button click increase');
                 }}
+                aria-label="Increase value"
                 sx={showTargetSizing ? { 
                   width: targetSize, 
                   height: targetSize,
@@ -192,7 +194,7 @@ const InputModalitiesDemo = ({
         {showTargetSizing && (
           <Card>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" component="h2" gutterBottom>
                 Target Size Adjustment
               </Typography>
               <Stack spacing={2}>
@@ -219,7 +221,7 @@ const InputModalitiesDemo = ({
         {/* Input Methods Grid */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Available Input Methods
             </Typography>
             <Box sx={{ 
@@ -251,10 +253,10 @@ const InputModalitiesDemo = ({
         {/* Motion Controls */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Motion Controls
               <Tooltip title="Motion controls can be disabled system-wide" arrow>
-                <IconButton size="small" sx={{ ml: 1 }}>
+                <IconButton size="small" sx={{ ml: 1 }} aria-label="Motion controls information">
                   <ScreenRotationIcon />
                 </IconButton>
               </Tooltip>

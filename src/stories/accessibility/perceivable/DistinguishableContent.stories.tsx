@@ -76,7 +76,7 @@ const DistinguishableContentDemo = ({
 
         {/* Content with Adjustable Spacing */}
         <Box sx={spacingStyles}>
-          <Typography variant="h4" gutterBottom component="h1">
+          <Typography variant="h1" component="h1" gutterBottom>
             Distinguishable Content Example
           </Typography>
           
@@ -140,7 +140,7 @@ const DistinguishableContentDemo = ({
             variant="outlined"
             sx={{ p: 2, bgcolor: 'background.default' }}
           >
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Audio Control Example
             </Typography>
             
@@ -177,7 +177,7 @@ const DistinguishableContentDemo = ({
 
         {/* Visual Presentation Example */}
         <Paper variant="outlined" sx={{ p: 2 }}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h2" component="h2" gutterBottom>
             Visual Presentation Options
           </Typography>
           
@@ -212,7 +212,7 @@ const DistinguishableContentDemo = ({
 
         {/* Text Resize Example */}
         <section aria-labelledby="resize-title">
-          <Typography id="resize-title" variant="h6" gutterBottom>
+          <Typography id="resize-title" variant="h2" component="h2" gutterBottom>
             Text Resize Example
           </Typography>
           <Typography variant="body2" gutterBottom>

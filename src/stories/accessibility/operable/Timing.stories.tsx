@@ -88,14 +88,18 @@ const TimingDemo = ({
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           Timing Accessibility Demo
         </Typography>
 
         {/* Session Timeout Section */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Session Timeout
             </Typography>
             
@@ -120,7 +124,7 @@ const TimingDemo = ({
             <Stack spacing={2}>
               {allowTimeAdjustment && (
                 <Box>
-                  <Typography id="timeout-slider" gutterBottom>
+                  <Typography variant="h6" component="h3" id="timeout-slider" gutterBottom>
                     Adjust Session Timeout (minutes)
                   </Typography>
                   <Slider
@@ -139,13 +143,14 @@ const TimingDemo = ({
               )}
 
               <Box>
-                <Typography gutterBottom>
+                <Typography variant="h6" component="h3" gutterBottom>
                   Time Remaining: {formatTime(timeRemaining)}
                 </Typography>
                 <LinearProgress
                   variant="determinate"
                   value={(timeRemaining / sessionTimeout) * 100}
                   sx={{ mb: 2 }}
+                  aria-label="Session time remaining progress"
                 />
                 <Stack direction="row" spacing={1}>
                   <IconButton
@@ -169,7 +174,7 @@ const TimingDemo = ({
         {/* Auto-updating Content Section */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Auto-updating Content
             </Typography>
             
@@ -200,6 +205,9 @@ const TimingDemo = ({
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
+          <Typography variant="h2" component="h2" gutterBottom>
+            WCAG Guidelines
+          </Typography>
           <Typography variant="body2">
             This demo implements WCAG 2.2 Timing guidelines:
             <ul>

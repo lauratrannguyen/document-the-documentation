@@ -13,12 +13,9 @@ import {
   DialogActions,
   IconButton,
   Tooltip,
-  FormControlLabel,
-  Switch,
   List,
   ListItem,
   ListItemText,
-  ListItemSecondaryAction,
   ListItemButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -99,12 +96,19 @@ const KeyboardAccessibilityDemo = ({
       tabIndex={-1}
     >
       <Stack spacing={4}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           Keyboard Accessibility Demo
         </Typography>
 
         {/* Keyboard Controls Info */}
         <Paper variant="outlined" sx={{ p: 2, bgcolor: 'background.default' }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Keyboard Controls
+          </Typography>
           <Stack direction="row" alignItems="center" spacing={1}>
             <InfoIcon color="info" />
             <Typography variant="body2">
@@ -117,7 +121,7 @@ const KeyboardAccessibilityDemo = ({
         {/* Accessible Form Section */}
         {showAccessibleForm && (
           <Box component="form" onSubmit={handleFormSubmit} sx={{ width: '100%' }}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Keyboard Accessible Form
             </Typography>
             <Stack spacing={2}>
@@ -154,27 +158,16 @@ const KeyboardAccessibilityDemo = ({
         )}
 
         {/* Main Content */}
+        <Typography variant="h6" component="h2" gutterBottom>
+          Task List
+        </Typography>
         <List>
           {items.map((item) => (
             <ListItem
               key={item.id}
               disablePadding
-            >
-              <ListItemButton
-                selected={selectedItem === item.id}
-                onClick={() => setSelectedItem(item.id)}
-                divider
-                sx={{
-                  '&:focus-within': {
-                    bgcolor: 'action.selected',
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={item.title}
-                  secondary={item.description}
-                />
-                <ListItemSecondaryAction>
+              secondaryAction={
+                <Stack direction="row" spacing={1}>
                   <Tooltip 
                     title={showTooltips ? "Edit item (Enter)" : ""}
                     arrow
@@ -182,7 +175,6 @@ const KeyboardAccessibilityDemo = ({
                     <IconButton
                       edge="end"
                       aria-label={`Edit ${item.title}`}
-                      sx={{ mr: 1 }}
                     >
                       <EditIcon />
                     </IconButton>
@@ -198,7 +190,23 @@ const KeyboardAccessibilityDemo = ({
                       <DeleteIcon />
                     </IconButton>
                   </Tooltip>
-                </ListItemSecondaryAction>
+                </Stack>
+              }
+            >
+              <ListItemButton
+                selected={selectedItem === item.id}
+                onClick={() => setSelectedItem(item.id)}
+                divider
+                sx={{
+                  '&:focus-within': {
+                    bgcolor: 'action.selected',
+                  },
+                }}
+              >
+                <ListItemText
+                  primary={item.title}
+                  secondary={item.description}
+                />
               </ListItemButton>
             </ListItem>
           ))}
@@ -233,7 +241,9 @@ const KeyboardAccessibilityDemo = ({
           maxWidth="sm"
         >
           <DialogTitle id="form-dialog-title">
-            Add New Item
+            <Typography variant="h2" component="h2">
+              Add New Item
+            </Typography>
             <IconButton
               ref={closeButtonRef}
               aria-label="close"
@@ -281,7 +291,9 @@ const KeyboardAccessibilityDemo = ({
           aria-labelledby="shortcuts-dialog-title"
         >
           <DialogTitle id="shortcuts-dialog-title">
-            Keyboard Shortcuts
+            <Typography variant="h2" component="h2">
+              Keyboard Shortcuts
+            </Typography>
             <IconButton
               aria-label="close"
               onClick={() => setShowShortcutInfo(false)}
@@ -343,6 +355,9 @@ const KeyboardAccessibilityDemo = ({
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
+          <Typography variant="h2" component="h2" gutterBottom>
+            WCAG Guidelines
+          </Typography>
           <Typography variant="body2">
             This demo implements WCAG 2.1 Keyboard Accessible guidelines:
             <ul>

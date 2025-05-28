@@ -51,7 +51,11 @@ const SeizureSafeDemo = ({
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           Seizure Safe Content Demo
         </Typography>
 
@@ -79,12 +83,12 @@ const SeizureSafeDemo = ({
         {/* Animation Controls */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Animation Controls
             </Typography>
             <Stack spacing={3}>
               <Box>
-                <Typography id="flash-rate-slider" gutterBottom>
+                <Typography variant="h6" component="h3" id="flash-rate-slider" gutterBottom>
                   Flash Rate (per second): {flashRate}
                 </Typography>
                 <Slider
@@ -100,7 +104,7 @@ const SeizureSafeDemo = ({
               </Box>
 
               <Box>
-                <Typography id="brightness-slider" gutterBottom>
+                <Typography variant="h6" component="h3" id="brightness-slider" gutterBottom>
                   Brightness: {brightness}%
                 </Typography>
                 <Slider
@@ -133,7 +137,7 @@ const SeizureSafeDemo = ({
         {/* Animation Demo */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Animation Example
               <Tooltip title="This is a demonstration of controlled animation with safety features" arrow>
                 <IconButton size="small" sx={{ ml: 1 }}>
@@ -180,7 +184,7 @@ const SeizureSafeDemo = ({
         {/* Safety Settings */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Safety Settings
             </Typography>
             <Stack spacing={2}>
@@ -208,6 +212,9 @@ const SeizureSafeDemo = ({
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            WCAG Guidelines
+          </Typography>
           <Typography variant="body2">
             This demo implements WCAG 2.3 Seizures and Physical Reactions guidelines:
             <ul>

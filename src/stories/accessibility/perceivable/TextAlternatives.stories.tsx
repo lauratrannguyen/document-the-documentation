@@ -52,7 +52,7 @@ const TextAlternativesDemo = ({
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h1" component="h1" gutterBottom>
           Text Alternatives Demo
         </Typography>
 
@@ -76,7 +76,7 @@ const TextAlternativesDemo = ({
         {/* Decorative Image Example */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Decorative Image
               {showAltText && (
                 <Tooltip title="This image is decorative and should have an empty alt text" arrow>
@@ -99,7 +99,7 @@ const TextAlternativesDemo = ({
         {/* Informative Image Example */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Informative Image
               {showAltText && (
                 <Tooltip title={`Alt text: ${demoImage.alt}`} arrow>
@@ -126,7 +126,7 @@ const TextAlternativesDemo = ({
         {/* Complex Image (Chart) Example */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Complex Image (Chart)
               {showAltText && (
                 <Tooltip title={`Alt text: ${demoChart.alt}`} arrow>
@@ -153,7 +153,7 @@ const TextAlternativesDemo = ({
         {/* Audio Example */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Audio Content
             </Typography>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -174,7 +174,7 @@ const TextAlternativesDemo = ({
         {/* Video Example */}
         <Card>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h2" component="h2" gutterBottom>
               Video Content
             </Typography>
             <Box

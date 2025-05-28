@@ -70,7 +70,17 @@ const NavigationDemo = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="h1" sx={{ ml: 2 }}>
+          <Typography 
+            variant="h4" 
+            component="h1" 
+            sx={{ 
+              ml: 2, 
+              flexGrow: 1,
+              fontSize: { xs: '1.25rem', sm: '1.5rem' }, // Responsive font size
+              lineHeight: '1.2',
+              fontWeight: 500 // Medium weight for better header appearance
+            }}
+          >
             {pageTitle}
           </Typography>
         </Toolbar>
@@ -78,6 +88,9 @@ const NavigationDemo = ({
 
       {/* Breadcrumb Navigation */}
       <Box sx={{ p: 2 }}>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Navigation
+        </Typography>
         <Breadcrumbs aria-label="breadcrumb navigation">
           {breadcrumbs.map((crumb, index) => (
             <Link
@@ -147,7 +160,7 @@ const NavigationDemo = ({
       >
         <Stack spacing={3}>
           <section aria-labelledby="section1-heading">
-            <Typography id="section1-heading" variant="h6" gutterBottom>
+            <Typography id="section1-heading" variant="h6" component="h2" gutterBottom>
               Section 1
             </Typography>
             <Typography paragraph>
@@ -157,7 +170,7 @@ const NavigationDemo = ({
           </section>
 
           <section aria-labelledby="section2-heading">
-            <Typography id="section2-heading" variant="h6" gutterBottom>
+            <Typography id="section2-heading" variant="h6" component="h2" gutterBottom>
               Section 2
             </Typography>
             <Typography paragraph>
@@ -171,6 +184,9 @@ const NavigationDemo = ({
 
       {/* Help Text */}
       <Box sx={{ p: 2, bgcolor: 'background.default' }}>
+        <Typography variant="h6" component="h2" gutterBottom>
+          Features
+        </Typography>
         <Typography variant="body2">
           Navigation features demonstrated:
           <List>
