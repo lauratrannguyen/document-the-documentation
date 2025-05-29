@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import type { StoryFn } from '@storybook/react';
 import {
   Box,
   Paper,
   Typography,
   Stack,
-  Card,
-  CardContent,
   CardMedia,
-  IconButton,
   Button,
-  TextField,
-  Tooltip,
-  FormControlLabel,
-  Switch,
   Alert,
   Table,
   TableBody,
@@ -21,22 +14,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Grid,
   Divider,
-  Chip,
   AlertTitle,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import InfoIcon from '@mui/icons-material/Info';
 import ImageIcon from '@mui/icons-material/Image';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import WarningIcon from '@mui/icons-material/Warning';
 import SecurityIcon from '@mui/icons-material/Security';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
@@ -51,8 +37,6 @@ interface DecorativeExample {
 }
 
 const BasicTextAlternativesDemo = () => {
-  const [showDescriptions, setShowDescriptions] = useState(false);
-
   const simpleImage = {
     src: 'https://source.unsplash.com/random/345x140/?nature',
     alt: 'A beautiful nature landscape showing mountains and trees',
@@ -473,8 +457,6 @@ const BasicTextAlternativesDemo = () => {
 };
 
 const ComplexContentDemo = () => {
-  const [showDescriptions, setShowDescriptions] = useState(false);
-
   const demoChart = {
     src: 'https://via.placeholder.com/400x300/2196f3/ffffff?text=Sales+Chart',
     alt: 'Bar chart showing monthly sales data for 2023',
