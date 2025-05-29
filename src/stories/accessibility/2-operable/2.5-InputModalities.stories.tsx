@@ -303,7 +303,47 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.5 Input Modalities - Make it easier for users to operate functionality through various inputs beyond keyboard.'
+        component: `
+## WCAG 2.5 Input Modalities
+Make it easier for users to operate functionality through various inputs beyond keyboard.
+
+### Overview
+This component demonstrates best practices for supporting different input methods, ensuring content is accessible across various devices and interaction methods.
+
+### Key Features
+- Touch gestures
+- Pointer cancellation
+- Target sizing
+- Motion actuation
+- Character key shortcuts
+- Label targeting
+
+### Implementation Guidelines
+1. Support various input methods:
+   - Touch
+   - Mouse
+   - Pen/stylus
+   - Voice
+2. Ensure adequate target sizes
+3. Allow gesture alternatives
+4. Provide motion alternatives
+5. Support pointer cancellation
+
+### WCAG Success Criteria
+- 2.5.1 Pointer Gestures (Level A)
+- 2.5.2 Pointer Cancellation (Level A)
+- 2.5.3 Label in Name (Level A)
+- 2.5.4 Motion Actuation (Level A)
+- 2.5.5 Target Size (Level AAA)
+- 2.5.6 Concurrent Input Mechanisms (Level AAA)
+
+### Best Practices
+- Design for touch-first interaction
+- Provide large enough touch targets
+- Support both simple and complex gestures
+- Allow input method switching
+- Maintain consistent interaction patterns
+`
       }
     }
   }
@@ -316,9 +356,38 @@ BasicInput.args = {
   enableTouchGestures: false,
   showTargetSizing: false,
 };
+BasicInput.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Input Features
+Demonstrates fundamental input handling:
+- Simple click/tap interactions
+- Basic touch support
+- Standard target sizes
+- Simple pointer events
+`
+    }
+  }
+};
 
 export const AdvancedInput = Template.bind({});
 AdvancedInput.args = {
   enableTouchGestures: true,
   showTargetSizing: true,
+};
+AdvancedInput.parameters = {
+  docs: {
+    description: {
+      story: `
+### Advanced Input Features
+Shows comprehensive input support:
+- Complex touch gestures
+- Optimized target sizing
+- Motion-based interactions
+- Multiple input methods
+- Input method switching
+`
+    }
+  }
 }; 

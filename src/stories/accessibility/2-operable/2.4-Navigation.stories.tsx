@@ -215,7 +215,47 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.4 Navigable - Provide ways to help users navigate, find content, and determine where they are.'
+        component: `
+## WCAG 2.4 Navigable
+Provide ways to help users navigate, find content, and determine where they are.
+
+### Overview
+This component demonstrates best practices for website navigation, ensuring users can easily find content and understand their current location.
+
+### Key Features
+- Skip links
+- Breadcrumb navigation
+- Clear page titles
+- Logical focus order
+- Multiple navigation methods
+- Descriptive headings
+
+### Implementation Guidelines
+1. Implement skip links to bypass repeated content
+2. Provide clear and consistent navigation
+3. Use descriptive page titles and headings
+4. Maintain logical tab and reading order
+5. Offer multiple ways to find content
+
+### WCAG Success Criteria
+- 2.4.1 Bypass Blocks (Level A)
+- 2.4.2 Page Titled (Level A)
+- 2.4.3 Focus Order (Level A)
+- 2.4.4 Link Purpose (Level A)
+- 2.4.5 Multiple Ways (Level AA)
+- 2.4.6 Headings and Labels (Level AA)
+- 2.4.7 Focus Visible (Level AA)
+- 2.4.8 Location (Level AAA)
+- 2.4.9 Link Purpose (Level AAA)
+- 2.4.10 Section Headings (Level AAA)
+
+### Best Practices
+- Use clear and descriptive link text
+- Implement visible focus indicators
+- Structure content with semantic HTML
+- Provide consistent navigation patterns
+- Use ARIA landmarks appropriately
+`
       }
     }
   }
@@ -229,10 +269,39 @@ BasicNavigation.args = {
   breadcrumbs: ['Home', 'Catalog', 'Products'],
   mainContentId: 'main-content',
 };
+BasicNavigation.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Navigation Example
+Demonstrates fundamental navigation features:
+- Simple breadcrumb trail
+- Clear page title
+- Skip to main content link
+- Basic navigation menu
+`
+    }
+  }
+};
 
 export const ComplexNavigation = Template.bind({});
 ComplexNavigation.args = {
   pageTitle: 'Product Details',
   breadcrumbs: ['Home', 'Catalog', 'Electronics', 'Laptops', 'Product XYZ'],
   mainContentId: 'product-details',
+};
+ComplexNavigation.parameters = {
+  docs: {
+    description: {
+      story: `
+### Complex Navigation Structure
+Shows advanced navigation features:
+- Deep breadcrumb hierarchy
+- Multiple navigation methods
+- Section landmarks
+- Skip links for different sections
+- Enhanced focus management
+`
+    }
+  }
 }; 
