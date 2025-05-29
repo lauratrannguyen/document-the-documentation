@@ -319,17 +319,49 @@ const PredictableDemo = ({
   );
 };
 
-export default {
+const meta = {
   title: 'Accessibility/3. Understandable/3.2 Predictable',
   component: PredictableDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.2 Predictable - Make Web pages appear and operate in predictable ways. Includes guidelines 3.2.1 On Focus, 3.2.2 On Input, 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification, and 3.2.5 Change on Request.'
+        component: 'WCAG 3.2 Predictable - Make web pages appear and operate in predictable ways.'
+      },
+      story: {
+        inline: true
       }
     }
-  }
-};
+  },
+  argTypes: {
+    showConsistentNavigation: {
+      description: 'Shows consistent navigation patterns across pages',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    enableContextChanges: {
+      description: 'Demonstrates predictable context changes in the UI',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    showConsistentIdentification: {
+      description: 'Shows consistent identification of UI components',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    }
+  },
+  tags: ['autodocs']
+} as const;
+
+export default meta;
 
 const Template: StoryFn<typeof PredictableDemo> = (args) => <PredictableDemo {...args} />;
 

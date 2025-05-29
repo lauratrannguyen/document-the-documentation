@@ -352,10 +352,48 @@ export default {
     docs: {
       description: {
         component: 'WCAG 3.3 Input Assistance - Help users avoid and correct mistakes, with a focus on proper form labeling and comprehensive error prevention.'
+      },
+      story: {
+        inline: true
       }
     }
-  }
-};
+  },
+  argTypes: {
+    showHelperText: {
+      description: 'Shows additional helper text below form fields',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    requireConfirmation: {
+      description: 'Shows a confirmation dialog before form submission',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    showErrors: {
+      description: 'Shows validation errors as the user types',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    requiredFields: {
+      description: 'List of fields that are required for form submission',
+      control: 'object',
+      table: {
+        type: { summary: 'string[]' },
+        defaultValue: { summary: '[]' }
+      }
+    }
+  },
+  tags: ['autodocs']
+} as const;
 
 const Template: StoryFn<typeof InputAssistanceDemo> = (args) => <InputAssistanceDemo {...args} />;
 

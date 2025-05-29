@@ -236,17 +236,49 @@ const ReadableDemo = ({
   );
 };
 
-export default {
+const meta = {
   title: 'Accessibility/3. Understandable/3.1 Readable',
   component: ReadableDemo,
   parameters: {
     docs: {
       description: {
         component: 'WCAG 3.1 Readable - Make text content readable and understandable. Includes guidelines 3.1.1 Language of Page, 3.1.2 Language of Parts, 3.1.3 Unusual Words, 3.1.4 Abbreviations, and 3.1.5 Reading Level.'
+      },
+      story: {
+        inline: true
       }
     }
-  }
-};
+  },
+  argTypes: {
+    showLanguageControls: {
+      description: 'Shows language selection controls for the content',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    enableAbbreviations: {
+      description: 'Shows section with abbreviations and their definitions',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    showReadingLevel: {
+      description: 'Shows examples of different reading levels',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    }
+  },
+  tags: ['autodocs']
+} as const;
+
+export default meta;
 
 const Template: StoryFn<typeof ReadableDemo> = (args) => <ReadableDemo {...args} />;
 
@@ -264,8 +296,8 @@ WithLanguageControls.args = {
   showReadingLevel: false,
 };
 
-export const Complete = Template.bind({});
-Complete.args = {
+export const FullFeatures = Template.bind({});
+FullFeatures.args = {
   showLanguageControls: true,
   enableAbbreviations: true,
   showReadingLevel: true,
