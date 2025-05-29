@@ -59,21 +59,16 @@ const DistinguishableContentDemo = ({
               <Switch
                 checked={useCustomSpacing}
                 onChange={(e) => setUseCustomSpacing(e.target.checked)}
-                icon={<TextFieldsIcon />}
-                checkedIcon={<TextFieldsIcon />}
               />
             }
             label="Enhanced Text Spacing"
           />
-          {useCustomSpacing && (
             <Typography variant="caption" display="block" color="text.secondary" sx={{ mt: 1 }}>
               Current spacing: {initialTextSpacing.lineHeight}em line height, 
               {initialTextSpacing.letterSpacing}em letter spacing, 
               {initialTextSpacing.wordSpacing}em word spacing
             </Typography>
-          )}
         </Box>
-
         {/* Content with Adjustable Spacing */}
         <Box sx={spacingStyles}>
           <Typography variant="h4" component="h1" sx={{ 
@@ -278,19 +273,6 @@ BasicExample.args = {
   showAudioControls: false,
 };
 
-export const WithColorExamples = Template.bind({});
-WithColorExamples.args = {
-  initialTextSpacing: {
-    lineHeight: 1.5,
-    letterSpacing: 0.12,
-    wordSpacing: 0.16,
-    paragraphSpacing: 2,
-  },
-  initialAudioMuted: true,
-  showColorExample: true,
-  showAudioControls: false,
-};
-
 export const CompleteExample = Template.bind({});
 CompleteExample.args = {
   initialTextSpacing: {
@@ -302,44 +284,4 @@ CompleteExample.args = {
   initialAudioMuted: false,
   showColorExample: true,
   showAudioControls: true,
-};
-
-export const TextSpacingExample = Template.bind({});
-TextSpacingExample.args = {
-  initialTextSpacing: {
-    lineHeight: 1.5,
-    letterSpacing: 0.12,
-    wordSpacing: 0.16,
-    paragraphSpacing: 2,
-  },
-  initialAudioMuted: true,
-  showColorExample: false,
-  showAudioControls: false,
-};
-
-// Color Contrast Examples
-export const ContrastAACompliant = Template.bind({});
-ContrastAACompliant.args = {
-  initialTextSpacing: {
-    lineHeight: 1.5,
-    letterSpacing: 0.12,
-    wordSpacing: 0.16,
-    paragraphSpacing: 2,
-  },
-  initialAudioMuted: true,
-  showColorExample: true,
-  showAudioControls: false,
-};
-
-export const ContrastAAACompliant = Template.bind({});
-ContrastAAACompliant.args = {
-  initialTextSpacing: {
-    lineHeight: 1.5,
-    letterSpacing: 0.12,
-    wordSpacing: 0.16,
-    paragraphSpacing: 2,
-  },
-  initialAudioMuted: true,
-  showColorExample: true,
-  showAudioControls: false,
 }; 
