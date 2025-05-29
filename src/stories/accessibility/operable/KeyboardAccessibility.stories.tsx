@@ -374,7 +374,7 @@ const KeyboardAccessibilityDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Operable/KeyboardAccessibility',
+  title: 'Accessibility/Operable/2.1 Keyboard Accessible',
   component: KeyboardAccessibilityDemo,
   parameters: {
     docs: {

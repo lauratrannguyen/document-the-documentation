@@ -246,7 +246,7 @@ const DistinguishableContentDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/DistinguishableContent',
+  title: 'Accessibility/Perceivable/1.4 Distinguishable',
   component: DistinguishableContentDemo,
   parameters: {
     docs: {

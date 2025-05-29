@@ -225,7 +225,7 @@ const TimingDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Operable/Timing',
+  title: 'Accessibility/Operable/2.2 Timing',
   component: TimingDemo,
   parameters: {
     docs: {

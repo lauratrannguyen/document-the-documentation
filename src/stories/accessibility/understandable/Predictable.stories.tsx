@@ -24,28 +24,35 @@ import {
   Link,
   Alert,
   Tooltip,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import InfoIcon from '@mui/icons-material/Info';
+import HomeIcon from '@mui/icons-material/Home';
 
 interface PredictableProps {
-  showContextChanges: boolean;
-  enableAutoSubmit: boolean;
+  showConsistentNavigation: boolean;
+  enableContextChanges: boolean;
+  showConsistentIdentification: boolean;
 }
 
 const PredictableDemo = ({
-  showContextChanges,
-  enableAutoSubmit,
+  showConsistentNavigation,
+  enableContextChanges,
+  showConsistentIdentification,
 }: PredictableProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [showSearchAlert, setShowSearchAlert] = useState(false);
-  const [autoSubmit, setAutoSubmit] = useState(enableAutoSubmit);
+  const [selectedItem, setSelectedItem] = useState('home');
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -60,11 +67,16 @@ const PredictableDemo = ({
     setUserMenuAnchor(null);
   };
 
+  const handleMenuItemClick = (item: string) => {
+    setSelectedItem(item);
+    handleClose();
+  };
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     setSearchValue(newValue);
     
-    if (autoSubmit && newValue.length > 2) {
+    if (newValue.length > 2) {
       setShowSearchAlert(true);
     }
   };
@@ -72,33 +84,35 @@ const PredictableDemo = ({
   return (
     <Paper elevation={3} sx={{ maxWidth: 800 }}>
       {/* Consistent Navigation */}
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleMenu}
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Predictable UI Demo
-          </Typography>
-          <IconButton
-            size="large"
-            aria-label="account"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleUserMenu}
-            color="inherit"
-          >
-            <AccountCircle />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      {showConsistentNavigation && (
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Predictable UI Demo
+            </Typography>
+            <IconButton
+              size="large"
+              aria-label="account"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleUserMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      )}
 
       {/* Navigation Menu */}
       <Menu
@@ -107,10 +121,24 @@ const PredictableDemo = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Home</MenuItem>
-        <MenuItem onClick={handleClose}>Products</MenuItem>
-        <MenuItem onClick={handleClose}>About</MenuItem>
-        <MenuItem onClick={handleClose}>Contact</MenuItem>
+        <MenuItem 
+          onClick={() => handleMenuItemClick('home')}
+          aria-current={selectedItem === 'home' ? 'page' : undefined}
+        >
+          Home
+        </MenuItem>
+        <MenuItem 
+          onClick={() => handleMenuItemClick('about')}
+          aria-current={selectedItem === 'about' ? 'page' : undefined}
+        >
+          About
+        </MenuItem>
+        <MenuItem 
+          onClick={() => handleMenuItemClick('settings')}
+          aria-current={selectedItem === 'settings' ? 'page' : undefined}
+        >
+          Settings
+        </MenuItem>
       </Menu>
 
       {/* User Menu */}
@@ -150,13 +178,6 @@ const PredictableDemo = ({
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 Search
-                {showContextChanges && (
-                  <Tooltip title="Changes will only occur after clicking the search button" arrow>
-                    <IconButton size="small" sx={{ ml: 1 }}>
-                      <InfoIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
               </Typography>
               <Stack spacing={2}>
                 <TextField
@@ -165,20 +186,6 @@ const PredictableDemo = ({
                   value={searchValue}
                   onChange={handleSearch}
                 />
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={autoSubmit}
-                      onChange={(e) => setAutoSubmit(e.target.checked)}
-                    />
-                  }
-                  label="Enable auto-search"
-                />
-                {!autoSubmit && (
-                  <Button variant="contained">
-                    Search
-                  </Button>
-                )}
               </Stack>
             </CardContent>
           </Card>
@@ -228,16 +235,81 @@ const PredictableDemo = ({
             </DialogActions>
           </Dialog>
 
+          {/* Context Changes */}
+          {enableContextChanges && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Context Changes
+                </Typography>
+                <Stack spacing={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {}}
+                    aria-label="Save changes and continue"
+                  >
+                    Save and Continue
+                  </Button>
+                  <Alert severity="info">
+                    Context changes are initiated only by explicit user action
+                  </Alert>
+                </Stack>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Consistent Identification */}
+          {showConsistentIdentification && (
+            <Card>
+              <CardContent>
+                <Typography variant="h6" component="h2" gutterBottom>
+                  Consistent Identification
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Home"
+                      secondary="Consistently identified with house icon"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <InfoIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="About"
+                      secondary="Consistently identified with info icon"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <SettingsIcon />
+                    </ListItemIcon>
+                    <ListItemText 
+                      primary="Settings"
+                      secondary="Consistently identified with gear icon"
+                    />
+                  </ListItem>
+                </List>
+                <Alert severity="info" sx={{ mt: 2 }}>
+                  Icons and labels are used consistently throughout the interface
+                </Alert>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Help Text */}
           <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
             <Typography variant="body2">
               This demo implements WCAG 3.2 Predictable guidelines:
               <ul>
-                <li>3.2.1 On Focus - Elements do not change context when receiving focus</li>
-                <li>3.2.2 On Input - Changing a form control setting does not automatically cause context changes</li>
-                <li>3.2.3 Consistent Navigation - Navigation mechanisms appear in the same order</li>
-                <li>3.2.4 Consistent Identification - Components with the same functionality are identified consistently</li>
-                <li>3.2.5 Change on Request - Context changes are initiated only by user request</li>
+                <li>Navigation remains consistent across pages</li>
+                <li>Components maintain consistent functionality</li>
+                <li>Changes in context are initiated only by user request</li>
+                <li>Components are identified consistently throughout</li>
               </ul>
             </Typography>
           </Box>
@@ -248,12 +320,12 @@ const PredictableDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/Predictable',
+  title: 'Accessibility/Understandable/3.2 Predictable',
   component: PredictableDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.2 Predictable - Make content appear and operate in predictable ways.'
+        component: 'WCAG 3.2 Predictable - Make Web pages appear and operate in predictable ways. Includes guidelines 3.2.1 On Focus, 3.2.2 On Input, 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification, and 3.2.5 Change on Request.'
       }
     }
   }
@@ -261,14 +333,23 @@ export default {
 
 const Template: StoryFn<typeof PredictableDemo> = (args) => <PredictableDemo {...args} />;
 
-export const BasicPredictable = Template.bind({});
-BasicPredictable.args = {
-  showContextChanges: false,
-  enableAutoSubmit: false,
+export const Basic = Template.bind({});
+Basic.args = {
+  showConsistentNavigation: false,
+  enableContextChanges: false,
+  showConsistentIdentification: false,
 };
 
-export const AdvancedPredictable = Template.bind({});
-AdvancedPredictable.args = {
-  showContextChanges: true,
-  enableAutoSubmit: true,
+export const WithNavigation = Template.bind({});
+WithNavigation.args = {
+  showConsistentNavigation: true,
+  enableContextChanges: false,
+  showConsistentIdentification: false,
+};
+
+export const Complete = Template.bind({});
+Complete.args = {
+  showConsistentNavigation: true,
+  enableContextChanges: true,
+  showConsistentIdentification: true,
 }; 

@@ -16,14 +16,16 @@ import {
   Collapse,
   Button,
   Chip,
+  Alert,
 } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import TranslateIcon from '@mui/icons-material/Translate';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 
-interface ReadableDemoProps {
-  showDefinitions: boolean;
-  enableSimplifiedVersion: boolean;
+interface ReadableProps {
+  showLanguageControls: boolean;
+  enableAbbreviations: boolean;
+  showReadingLevel: boolean;
 }
 
 interface Term {
@@ -33,10 +35,11 @@ interface Term {
 }
 
 const ReadableDemo = ({
-  showDefinitions,
-  enableSimplifiedVersion,
-}: ReadableDemoProps) => {
-  const [currentLanguage, setCurrentLanguage] = useState('en');
+  showLanguageControls,
+  enableAbbreviations,
+  showReadingLevel,
+}: ReadableProps) => {
+  const [language, setLanguage] = useState('en');
   const [showSimplified, setShowSimplified] = useState(false);
 
   const languages = {
@@ -73,10 +76,6 @@ const ReadableDemo = ({
     },
   ];
 
-  const handleLanguageChange = (event: any) => {
-    setCurrentLanguage(event.target.value);
-  };
-
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
@@ -85,40 +84,44 @@ const ReadableDemo = ({
         </Typography>
 
         {/* Language Selection */}
-        <Card>
-          <CardContent>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <TranslateIcon />
-              <FormControl sx={{ minWidth: 200 }}>
-                <InputLabel id="language-select-label">Language</InputLabel>
+        {showLanguageControls && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6" component="h2" gutterBottom>
+                Language Selection
+              </Typography>
+              <FormControl fullWidth>
+                <InputLabel id="language-select-label">Page Language</InputLabel>
                 <Select
                   labelId="language-select-label"
-                  value={currentLanguage}
-                  label="Language"
-                  onChange={handleLanguageChange}
+                  value={language}
+                  label="Page Language"
+                  onChange={(e) => setLanguage(e.target.value)}
+                  lang={language}
                 >
-                  {Object.entries(languages).map(([code, { name }]) => (
-                    <MenuItem key={code} value={code}>
-                      {name}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value="en">English</MenuItem>
+                  <MenuItem value="es">Español</MenuItem>
+                  <MenuItem value="fr">Français</MenuItem>
                 </Select>
               </FormControl>
-            </Stack>
-          </CardContent>
-        </Card>
+              <Alert severity="info" sx={{ mt: 2 }}>
+                The lang attribute helps screen readers use the correct pronunciation
+              </Alert>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Main Content */}
         <Card>
           <CardContent>
             <Typography variant="h2" component="h2" gutterBottom>
               Understanding Plant Biology
-              {enableSimplifiedVersion && (
+              {showSimplified && (
                 <IconButton
                   size="small"
-                  onClick={() => setShowSimplified(!showSimplified)}
+                  onClick={() => setShowSimplified(false)}
                   sx={{ ml: 1 }}
-                  aria-label={showSimplified ? "Show technical version" : "Show simplified version"}
+                  aria-label="Show technical version"
                 >
                   <MenuBookIcon />
                 </IconButton>
@@ -127,12 +130,12 @@ const ReadableDemo = ({
 
             <Typography variant="body1" paragraph>
               {showSimplified
-                ? languages[currentLanguage as keyof typeof languages].simplified
-                : languages[currentLanguage as keyof typeof languages].content}
+                ? languages[language as keyof typeof languages].simplified
+                : languages[language as keyof typeof languages].content}
             </Typography>
 
             {/* Technical Terms */}
-            {showDefinitions && !showSimplified && (
+            {!showSimplified && (
               <Box sx={{ mt: 2 }}>
                 <Typography variant="h2" component="h2" gutterBottom>
                   Technical Terms:
@@ -168,27 +171,49 @@ const ReadableDemo = ({
           </CardContent>
         </Card>
 
-        {/* Reading Level Options */}
-        {enableSimplifiedVersion && (
+        {/* Abbreviations and Definitions */}
+        {enableAbbreviations && (
           <Card>
             <CardContent>
-              <Typography variant="h2" component="h2" gutterBottom>
-                Reading Level
+              <Typography variant="h6" component="h2" gutterBottom>
+                Abbreviations and Definitions
               </Typography>
-              <Stack direction="row" spacing={2}>
-                <Button
-                  variant={!showSimplified ? "contained" : "outlined"}
-                  onClick={() => setShowSimplified(false)}
-                >
-                  Technical
-                </Button>
-                <Button
-                  variant={showSimplified ? "contained" : "outlined"}
-                  onClick={() => setShowSimplified(true)}
-                >
-                  Simplified
-                </Button>
-              </Stack>
+              <Box>
+                <Typography paragraph>
+                  <abbr title="World Wide Web Consortium">W3C</abbr> develops web
+                  standards.
+                </Typography>
+                <Typography paragraph>
+                  <abbr title="Web Content Accessibility Guidelines">WCAG</abbr>{' '}
+                  provides accessibility guidelines.
+                </Typography>
+              </Box>
+              <Alert severity="info">
+                Abbreviations are marked up with expanded forms on first use
+              </Alert>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Reading Level */}
+        {showReadingLevel && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6" component="h2" gutterBottom>
+                Reading Level Example
+              </Typography>
+              <Box>
+                <Typography paragraph>
+                  Simple Version: The cat sat on the mat. It was sunny outside.
+                </Typography>
+                <Typography paragraph sx={{ color: 'text.secondary' }}>
+                  Complex Version: The feline reclined upon the floor covering
+                  while solar illumination permeated the external environment.
+                </Typography>
+              </Box>
+              <Alert severity="info">
+                Content should be written as clearly and simply as possible
+              </Alert>
             </CardContent>
           </Card>
         )}
@@ -198,12 +223,11 @@ const ReadableDemo = ({
           <Typography variant="body2">
             This demo implements WCAG 3.1 Readable guidelines:
             <ul>
-              <li>3.1.1 Language of Page - The default language is clearly identified</li>
-              <li>3.1.2 Language of Parts - Changes in language are identified</li>
-              <li>3.1.3 Unusual Words - Definitions for technical terms are provided</li>
-              <li>3.1.4 Abbreviations - Explanations for abbreviations are available</li>
-              <li>3.1.5 Reading Level - Simplified versions of content are available</li>
-              <li>3.1.6 Pronunciation - Pronunciation information is provided for complex terms</li>
+              <li>Language of Page is identified</li>
+              <li>Language of Parts can be programmatically determined</li>
+              <li>Unusual words are explained</li>
+              <li>Abbreviations are expanded on first use</li>
+              <li>Content is written at an appropriate reading level</li>
             </ul>
           </Typography>
         </Box>
@@ -213,12 +237,12 @@ const ReadableDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/Readable',
+  title: 'Accessibility/Understandable/3.1 Readable',
   component: ReadableDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.1 Readable - Make text content readable and understandable.'
+        component: 'WCAG 3.1 Readable - Make text content readable and understandable. Includes guidelines 3.1.1 Language of Page, 3.1.2 Language of Parts, 3.1.3 Unusual Words, 3.1.4 Abbreviations, and 3.1.5 Reading Level.'
       }
     }
   }
@@ -226,14 +250,23 @@ export default {
 
 const Template: StoryFn<typeof ReadableDemo> = (args) => <ReadableDemo {...args} />;
 
-export const BasicReadable = Template.bind({});
-BasicReadable.args = {
-  showDefinitions: false,
-  enableSimplifiedVersion: false,
+export const Basic = Template.bind({});
+Basic.args = {
+  showLanguageControls: false,
+  enableAbbreviations: false,
+  showReadingLevel: false,
 };
 
-export const AdvancedReadable = Template.bind({});
-AdvancedReadable.args = {
-  showDefinitions: true,
-  enableSimplifiedVersion: true,
+export const WithLanguageControls = Template.bind({});
+WithLanguageControls.args = {
+  showLanguageControls: true,
+  enableAbbreviations: false,
+  showReadingLevel: false,
+};
+
+export const Complete = Template.bind({});
+Complete.args = {
+  showLanguageControls: true,
+  enableAbbreviations: true,
+  showReadingLevel: true,
 }; 

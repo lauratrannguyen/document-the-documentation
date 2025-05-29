@@ -34,6 +34,12 @@ const TextAlternativesDemo = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [showDescriptions, setShowDescriptions] = useState(false);
 
+  const natureImage = {
+    src: 'https://source.unsplash.com/random/345x140/?nature',
+    alt: 'A beautiful nature landscape showing mountains and trees',
+    longDesc: 'A scenic mountain landscape with snow-capped peaks rising against a clear blue sky. In the foreground, a dense forest of evergreen trees creates a natural frame. A winding path leads through the trees towards the mountains, inviting exploration.',
+  };
+
   const demoImage = {
     src: 'https://placekitten.com/400/300',
     alt: 'A cute kitten playing with a ball of yarn',
@@ -52,7 +58,7 @@ const TextAlternativesDemo = ({
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h1" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" gutterBottom>
           Text Alternatives Demo
         </Typography>
 
@@ -73,10 +79,42 @@ const TextAlternativesDemo = ({
           </CardContent>
         </Card>
 
+        {/* Simple Nature Image Example */}
+        <Card>
+          <CardContent>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Simple Image Example
+              {showAltText && (
+                <Tooltip title={`Alt text: ${natureImage.alt}`} arrow>
+                  <IconButton size="small" sx={{ ml: 1 }}>
+                    <InfoIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Typography>
+            <CardMedia
+              component="img"
+              height="140"
+              image={natureImage.src}
+              alt={natureImage.alt}
+              sx={{ borderRadius: 1 }}
+            />
+            {enableLongDescriptions && showDescriptions && (
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                <strong>Long Description:</strong> {natureImage.longDesc}
+              </Typography>
+            )}
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+              This image demonstrates basic alt text implementation, providing a clear description
+              of the visual content for screen readers and when images fail to load.
+            </Typography>
+          </CardContent>
+        </Card>
+
         {/* Decorative Image Example */}
         <Card>
           <CardContent>
-            <Typography variant="h2" component="h2" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Decorative Image
               {showAltText && (
                 <Tooltip title="This image is decorative and should have an empty alt text" arrow>
@@ -99,7 +137,7 @@ const TextAlternativesDemo = ({
         {/* Informative Image Example */}
         <Card>
           <CardContent>
-            <Typography variant="h2" component="h2" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Informative Image
               {showAltText && (
                 <Tooltip title={`Alt text: ${demoImage.alt}`} arrow>
@@ -126,7 +164,7 @@ const TextAlternativesDemo = ({
         {/* Complex Image (Chart) Example */}
         <Card>
           <CardContent>
-            <Typography variant="h2" component="h2" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Complex Image (Chart)
               {showAltText && (
                 <Tooltip title={`Alt text: ${demoChart.alt}`} arrow>
@@ -153,7 +191,7 @@ const TextAlternativesDemo = ({
         {/* Audio Example */}
         <Card>
           <CardContent>
-            <Typography variant="h2" component="h2" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Audio Content
             </Typography>
             <Stack direction="row" spacing={2} alignItems="center">
@@ -174,7 +212,7 @@ const TextAlternativesDemo = ({
         {/* Video Example */}
         <Card>
           <CardContent>
-            <Typography variant="h2" component="h2" gutterBottom>
+            <Typography variant="h6" component="h2" gutterBottom>
               Video Content
             </Typography>
             <Box
@@ -207,10 +245,10 @@ const TextAlternativesDemo = ({
             This demo implements WCAG 1.1 Text Alternatives guidelines:
             <ul>
               <li>1.1.1 Non-text Content - All non-text content has text alternatives</li>
-              <li>Decorative images are marked as presentational</li>
+              <li>Simple images have clear, concise alt text</li>
+              <li>Decorative images have empty alt text</li>
               <li>Complex images have detailed descriptions</li>
-              <li>Audio and video content have text transcripts</li>
-              <li>Controls and inputs have descriptive labels</li>
+              <li>Audio and video content have text transcripts and captions</li>
             </ul>
           </Typography>
         </Box>
@@ -220,12 +258,12 @@ const TextAlternativesDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/TextAlternatives',
+  title: 'Accessibility/Perceivable/1.1 Text Alternatives',
   component: TextAlternativesDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 1.1 Text Alternatives - Provide text alternatives for non-text content.'
+        component: 'WCAG 1.1 Text Alternatives - Provide text alternatives for any non-text content.'
       }
     }
   }
@@ -233,14 +271,20 @@ export default {
 
 const Template: StoryFn<typeof TextAlternativesDemo> = (args) => <TextAlternativesDemo {...args} />;
 
-export const BasicAlternatives = Template.bind({});
-BasicAlternatives.args = {
-  showAltText: false,
+export const SimpleExample = Template.bind({});
+SimpleExample.args = {
+  showAltText: true,
   enableLongDescriptions: false,
 };
 
-export const AdvancedAlternatives = Template.bind({});
-AdvancedAlternatives.args = {
+export const WithDescriptions = Template.bind({});
+WithDescriptions.args = {
   showAltText: true,
   enableLongDescriptions: true,
+};
+
+export const NoAltText = Template.bind({});
+NoAltText.args = {
+  showAltText: false,
+  enableLongDescriptions: false,
 }; 

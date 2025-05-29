@@ -298,7 +298,7 @@ const InputModalitiesDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Operable/InputModalities',
+  title: 'Accessibility/Operable/2.5 Input Modalities',
   component: InputModalitiesDemo,
   parameters: {
     docs: {
