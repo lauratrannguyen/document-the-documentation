@@ -180,7 +180,7 @@ const TimeBasedMediaDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/1.2 Time-based Media',
+  title: 'Accessibility/1. Perceivable/1.2 Time-based Media',
   component: TimeBasedMediaDemo,
   parameters: {
     docs: {

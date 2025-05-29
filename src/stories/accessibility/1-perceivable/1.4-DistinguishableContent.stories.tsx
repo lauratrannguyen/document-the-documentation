@@ -246,7 +246,7 @@ const DistinguishableContentDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/1.4 Distinguishable',
+  title: 'Accessibility/1. Perceivable/1.4 Distinguishable',
   component: DistinguishableContentDemo,
   parameters: {
     docs: {
@@ -298,4 +298,44 @@ CompleteExample.args = {
   initialAudioMuted: false,
   showColorExample: true,
   showAudioControls: true,
+};
+
+export const TextSpacingExample = Template.bind({});
+TextSpacingExample.args = {
+  initialTextSpacing: {
+    lineHeight: 1.5,
+    letterSpacing: 0.12,
+    wordSpacing: 0.16,
+    paragraphSpacing: 2,
+  },
+  initialAudioMuted: true,
+  showColorExample: false,
+  showAudioControls: false,
+};
+
+// Color Contrast Examples
+export const ContrastAACompliant = Template.bind({});
+ContrastAACompliant.args = {
+  initialTextSpacing: {
+    lineHeight: 1.5,
+    letterSpacing: 0.12,
+    wordSpacing: 0.16,
+    paragraphSpacing: 2,
+  },
+  initialAudioMuted: true,
+  showColorExample: true,
+  showAudioControls: false,
+};
+
+export const ContrastAAACompliant = Template.bind({});
+ContrastAAACompliant.args = {
+  initialTextSpacing: {
+    lineHeight: 1.5,
+    letterSpacing: 0.12,
+    wordSpacing: 0.16,
+    paragraphSpacing: 2,
+  },
+  initialAudioMuted: true,
+  showColorExample: true,
+  showAudioControls: false,
 }; 

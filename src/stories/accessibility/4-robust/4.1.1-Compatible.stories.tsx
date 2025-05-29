@@ -151,7 +151,7 @@ const CompatibleDemo = ({ showValidation }: CompatibleProps) => {
 };
 
 export default {
-  title: 'Accessibility/Robust/4.1.1 Compatible',
+  title: 'Accessibility/4. Robust/4.1.1 Compatible',
   component: CompatibleDemo,
   parameters: {
     docs: {

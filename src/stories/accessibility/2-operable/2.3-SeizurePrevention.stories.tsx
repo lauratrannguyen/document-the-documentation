@@ -259,7 +259,7 @@ const SeizurePreventionDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Operable/2.3 Seizures and Physical Reactions',
+  title: 'Accessibility/2. Operable/2.3 Seizures and Physical Reactions',
   component: SeizurePreventionDemo,
   parameters: {
     docs: {

@@ -203,7 +203,7 @@ const NameRoleValueDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Robust/4.1.2 Name Role Value',
+  title: 'Accessibility/4. Robust/4.1.2 Name Role Value',
   component: NameRoleValueDemo,
   parameters: {
     docs: {

@@ -297,7 +297,7 @@ const AdaptableContentDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/1.3 Adaptable',
+  title: 'Accessibility/1. Perceivable/1.3 Adaptable',
   component: AdaptableContentDemo,
   parameters: {
     docs: {

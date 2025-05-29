@@ -258,7 +258,7 @@ const TextAlternativesDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Perceivable/1.1 Text Alternatives',
+  title: 'Accessibility/1. Perceivable/1.1 Text Alternatives',
   component: TextAlternativesDemo,
   parameters: {
     docs: {

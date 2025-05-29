@@ -237,7 +237,7 @@ const ReadableDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/3.1 Readable',
+  title: 'Accessibility/3. Understandable/3.1 Readable',
   component: ReadableDemo,
   parameters: {
     docs: {

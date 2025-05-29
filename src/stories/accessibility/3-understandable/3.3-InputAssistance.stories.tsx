@@ -317,7 +317,7 @@ const InputAssistanceDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/3.3 Input Assistance',
+  title: 'Accessibility/3. Understandable/3.3 Input Assistance',
   component: InputAssistanceDemo,
   parameters: {
     docs: {

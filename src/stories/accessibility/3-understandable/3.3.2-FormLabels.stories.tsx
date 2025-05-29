@@ -137,7 +137,7 @@ const FormLabelsDemo = ({ showErrors, requiredFields }: FormLabelsProps) => {
 };
 
 export default {
-  title: 'Accessibility/Understandable/Form Labels',
+  title: 'Accessibility/3. Understandable/3.3.2 Form Labels',
   component: FormLabelsDemo,
   parameters: {
     docs: {
