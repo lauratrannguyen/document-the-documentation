@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react-vite'
+import type { Preview } from '@storybook/react'
 
 const preview: Preview = {
   parameters: {
@@ -7,6 +7,11 @@ const preview: Preview = {
        color: /(background|color)$/i,
        date: /Date$/i,
       },
+    },
+
+    // Enable automatic documentation for all stories
+    docs: {
+      autodocs: true
     },
 
     a11y: {
