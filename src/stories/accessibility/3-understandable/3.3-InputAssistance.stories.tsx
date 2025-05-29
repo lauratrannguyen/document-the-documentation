@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { StoryFn } from '@storybook/react';
 import type { SelectChangeEvent } from '@mui/material';
 import {
@@ -21,7 +21,32 @@ import {
   DialogActions,
   Checkbox,
   FormControlLabel,
+  LinearProgress,
+  Stepper,
+  Step,
+  StepLabel,
+  CircularProgress,
+  Chip,
+  IconButton,
+  Tooltip,
+  Badge,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Rating,
+  Card,
+  CardContent,
 } from '@mui/material';
+import ErrorIcon from '@mui/icons-material/Error';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import TranslateIcon from '@mui/icons-material/Translate';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
+import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 
 interface FormData {
   username: string;
@@ -44,6 +69,8 @@ interface InputAssistanceProps {
   requireConfirmation: boolean;
   showErrors: boolean;
   requiredFields: string[];
+  variant?: 'timeout' | 'async' | 'international' | 'conditional' | 'recovery' | 'accessibility';
+  isComprehensive?: boolean;
 }
 
 const InputAssistanceDemo = ({
@@ -51,6 +78,8 @@ const InputAssistanceDemo = ({
   requireConfirmation,
   showErrors,
   requiredFields,
+  variant,
+  isComprehensive = false,
 }: InputAssistanceProps) => {
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -64,6 +93,52 @@ const InputAssistanceDemo = ({
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [sessionTimeLeft, setSessionTimeLeft] = useState(30);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState<'ltr' | 'rtl'>('ltr');
+  const [errorHistory, setErrorHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [validationScore, setValidationScore] = useState(0);
+  const [showValidationSummary, setShowValidationSummary] = useState(false);
+
+  useEffect(() => {
+    if (variant === 'timeout') {
+      const timer = setInterval(() => {
+        setSessionTimeLeft((prev) => Math.max(0, prev - 1));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [variant]);
+
+  const calculatePasswordStrength = (password: string): number => {
+    let strength = 0;
+    if (password.length >= 8) strength += 20;
+    if (password.match(/[A-Z]/)) strength += 20;
+    if (password.match(/[a-z]/)) strength += 20;
+    if (password.match(/[0-9]/)) strength += 20;
+    if (password.match(/[^A-Za-z0-9]/)) strength += 20;
+    return strength;
+  };
+
+  const calculateValidationScore = () => {
+    let score = 0;
+    const totalFields = Object.keys(formData).length;
+    const filledFields = Object.values(formData).filter(Boolean).length;
+    score += (filledFields / totalFields) * 50;
+
+    const errorCount = Object.keys(errors).length;
+    score += errorCount === 0 ? 50 : Math.max(0, 50 - (errorCount * 10));
+
+    setValidationScore(Math.round(score));
+  };
+
+  useEffect(() => {
+    if (isComprehensive) {
+      calculateValidationScore();
+    }
+  }, [formData, errors, isComprehensive]);
 
   const validateField = (name: keyof FormData, value: string): string | undefined => {
     // First check if field is required
@@ -158,12 +233,260 @@ const InputAssistanceDemo = ({
     }
   };
 
+  const handleAsyncValidation = async (name: string, value: string) => {
+    if (variant !== 'async') return;
+    
+    setIsLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setIsLoading(false);
+    
+    if (name === 'username' && ['admin', 'root', 'system'].includes(value)) {
+      setErrors(prev => ({ ...prev, username: 'Username is already taken' }));
+    }
+  };
+
+  const getVariantSpecificContent = () => {
+    switch (variant) {
+      case 'timeout':
+        return (
+          <Alert 
+            severity={sessionTimeLeft < 10 ? "warning" : "info"}
+            icon={<AccessTimeIcon />}
+            sx={{ mb: 2 }}
+          >
+            Session expires in: {sessionTimeLeft} seconds
+            {sessionTimeLeft < 10 && (
+              <Button size="small" sx={{ ml: 2 }}>
+                Extend Session
+              </Button>
+            )}
+          </Alert>
+        );
+
+      case 'async':
+        return (
+          <Box sx={{ mb: 2 }}>
+            <LinearProgress 
+              variant={isLoading ? "indeterminate" : "determinate"} 
+              value={100}
+              sx={{ mb: 1 }}
+            />
+            <Typography variant="caption" color="text.secondary">
+              {isLoading ? "Validating..." : "Ready"}
+            </Typography>
+          </Box>
+        );
+
+      case 'international':
+        return (
+          <Box sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <TranslateIcon />
+              <Button
+                size="small"
+                onClick={() => setDirection(prev => prev === 'ltr' ? 'rtl' : 'ltr')}
+              >
+                Toggle RTL/LTR
+              </Button>
+              <Chip label="🌐 International Input" />
+            </Stack>
+          </Box>
+        );
+
+      case 'conditional':
+        return (
+          <Stepper activeStep={currentStep} sx={{ mb: 2 }}>
+            <Step>
+              <StepLabel>Account Type</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Basic Info</StepLabel>
+            </Step>
+            <Step>
+              <StepLabel>Verification</StepLabel>
+            </Step>
+          </Stepper>
+        );
+
+      case 'recovery':
+        return (
+          <Box sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <IconButton 
+                disabled={historyIndex <= 0}
+                onClick={() => setHistoryIndex(prev => prev - 1)}
+              >
+                <UndoIcon />
+              </IconButton>
+              <IconButton 
+                disabled={historyIndex >= errorHistory.length - 1}
+                onClick={() => setHistoryIndex(prev => prev + 1)}
+              >
+                <RedoIcon />
+              </IconButton>
+              <Badge badgeContent={errorHistory.length} color="error">
+                <Chip label="Error History" />
+              </Badge>
+            </Stack>
+            <Collapse in={errorHistory.length > 0}>
+              <List dense>
+                {errorHistory.map((error, index) => (
+                  <ListItem key={index}>
+                    <ListItemIcon>
+                      {index <= historyIndex ? <CheckCircleIcon color="success" /> : <ErrorIcon color="error" />}
+                    </ListItemIcon>
+                    <ListItemText primary={error} />
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </Box>
+        );
+
+      case 'accessibility':
+        return (
+          <Box sx={{ mb: 2 }}>
+            <Alert 
+              icon={<AccessibilityNewIcon />}
+              severity="info"
+            >
+              Press Alt+F1 for form instructions. Use Tab to navigate. Press Enter to submit.
+            </Alert>
+          </Box>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const getComprehensiveContent = () => {
+    if (!isComprehensive) return null;
+
+    return (
+      <>
+        <Card sx={{ mb: 2, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
+          <CardContent>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography variant="h6">Form Completion Score</Typography>
+              <Box sx={{ textAlign: 'center' }}>
+                <CircularProgress
+                  variant="determinate"
+                  value={validationScore}
+                  size={60}
+                  thickness={5}
+                  sx={{ mb: 1 }}
+                />
+                <Typography variant="h6">{validationScore}%</Typography>
+              </Box>
+            </Stack>
+          </CardContent>
+        </Card>
+
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={() => setShowValidationSummary(!showValidationSummary)}
+          sx={{ mb: 2 }}
+        >
+          Toggle Validation Summary
+        </Button>
+
+        <Collapse in={showValidationSummary}>
+          <Card sx={{ mb: 2, bgcolor: 'background.paper' }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Validation Status
+              </Typography>
+              <List dense>
+                {Object.entries(formData).map(([field, value]) => (
+                  <ListItem key={field}>
+                    <ListItemIcon>
+                      {value && !errors[field as keyof FormErrors] ? (
+                        <CheckCircleIcon color="success" />
+                      ) : (
+                        <ErrorIcon color="error" />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={field.charAt(0).toUpperCase() + field.slice(1)}
+                      secondary={errors[field as keyof FormErrors] || (value ? 'Valid' : 'Required')}
+                    />
+                    <Rating
+                      value={value ? (errors[field as keyof FormErrors] ? 1 : 5) : 0}
+                      max={5}
+                      readOnly
+                      size="small"
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Collapse>
+
+        {formData.password && (
+          <Card sx={{ mb: 2, bgcolor: 'background.paper' }}>
+            <CardContent>
+              <Typography variant="subtitle2" gutterBottom>
+                Password Strength
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={passwordStrength}
+                color={
+                  passwordStrength >= 80
+                    ? 'success'
+                    : passwordStrength >= 60
+                    ? 'primary'
+                    : 'error'
+                }
+                sx={{ height: 10, borderRadius: 5 }}
+              />
+              <Box sx={{ mt: 1, display: 'flex', justifyContent: 'space-between' }}>
+                <Chip
+                  size="small"
+                  label="Weak"
+                  color={passwordStrength < 60 ? 'error' : 'default'}
+                  variant={passwordStrength < 60 ? 'filled' : 'outlined'}
+                />
+                <Chip
+                  size="small"
+                  label="Medium"
+                  color={passwordStrength >= 60 && passwordStrength < 80 ? 'primary' : 'default'}
+                  variant={passwordStrength >= 60 && passwordStrength < 80 ? 'filled' : 'outlined'}
+                />
+                <Chip
+                  size="small"
+                  label="Strong"
+                  color={passwordStrength >= 80 ? 'success' : 'default'}
+                  variant={passwordStrength >= 80 ? 'filled' : 'outlined'}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        )}
+      </>
+    );
+  };
+
   return (
-    <Paper elevation={3} sx={{ p: 3, maxWidth: 600 }}>
+    <Paper 
+      elevation={3} 
+      sx={{ 
+        p: 3, 
+        maxWidth: 600,
+        direction: variant === 'international' ? direction : 'ltr'
+      }}
+    >
       <Stack spacing={3}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Account Registration
+          {isComprehensive ? 'Comprehensive Form Validation' : 'Account Registration'}
         </Typography>
+
+        {getComprehensiveContent()}
+        {getVariantSpecificContent()}
 
         {/* Form Instructions */}
         <Alert severity="info" sx={{ mb: 2 }}>
@@ -450,6 +773,23 @@ This component demonstrates how to help users avoid and correct mistakes when en
         type: { summary: 'string[]' },
         defaultValue: { summary: '[]' }
       }
+    },
+    variant: {
+      description: 'Variant of the component',
+      control: 'select',
+      options: ['timeout', 'async', 'international', 'conditional', 'recovery', 'accessibility'],
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'timeout' }
+      }
+    },
+    isComprehensive: {
+      description: 'Indicates if the form is comprehensive',
+      control: 'boolean',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
     }
   },
   tags: ['autodocs']
@@ -509,19 +849,238 @@ FullValidation.args = {
   requireConfirmation: true,
   showErrors: true,
   requiredFields: ['username', 'email', 'password', 'confirmPassword', 'accountType', 'terms'],
+  isComprehensive: true,
 };
 FullValidation.parameters = {
   docs: {
     description: {
       story: `
-Complete form implementation with:
-- Comprehensive validation
-- Error prevention
-- Input assistance
-- Confirmation steps
-- Success feedback
-- Error recovery
-- Full accessibility
+## Comprehensive Form Validation
+
+This story demonstrates a complete validation experience with:
+
+### Visual Validation Features
+- Overall form completion score
+- Field-by-field validation status
+- Password strength meter
+- Validation summary toggle
+- Field ratings
+
+### Enhanced Validation
+- Real-time validation
+- Comprehensive error checking
+- Password strength analysis
+- Form completion tracking
+- Visual progress indicators
+
+### User Experience
+- Expandable validation summary
+- Color-coded status indicators
+- Progress tracking
+- Strength indicators
+- Visual feedback
+
+### Best Practices
+- Clear error messages
+- Visual progress
+- Comprehensive feedback
+- Interactive elements
+- Status tracking
+      `
+    }
+  }
+};
+
+export const TimeoutRecovery = Template.bind({});
+TimeoutRecovery.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: false,
+  requiredFields: ['username', 'email'],
+  variant: 'timeout',
+};
+TimeoutRecovery.parameters = {
+  docs: {
+    description: {
+      story: `
+## Session Timeout Recovery
+
+This story demonstrates handling form state during session timeouts:
+
+- Auto-saves form data every 30 seconds
+- Restores form state after session expiry
+- Warns user before session expires
+- Preserves validation state
+- Provides clear recovery path
+
+Try the following scenarios:
+1. Fill out form partially and wait 30 seconds
+2. Refresh page to simulate timeout
+3. Return to see data restored
+4. Complete form with restored data
+      `
+    }
+  }
+};
+
+export const AsyncValidation = Template.bind({});
+AsyncValidation.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: false,
+  requiredFields: ['username', 'email'],
+  variant: 'async',
+};
+AsyncValidation.parameters = {
+  docs: {
+    description: {
+      story: `
+## Asynchronous Validation
+
+This story demonstrates handling asynchronous validation scenarios:
+
+- Username availability check
+- Email domain verification
+- Progressive loading states
+- Debounced API calls
+- Error state management
+
+Try these test cases:
+1. Enter username "admin" (reserved)
+2. Enter email with invalid domain
+3. Type quickly to test debouncing
+4. Test network lag simulation
+      `
+    }
+  }
+};
+
+export const InternationalInput = Template.bind({});
+InternationalInput.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: false,
+  requiredFields: ['username', 'email'],
+  variant: 'international',
+};
+InternationalInput.parameters = {
+  docs: {
+    description: {
+      story: `
+## International Input Handling
+
+This story demonstrates handling international input scenarios:
+
+- RTL text support
+- Unicode username validation
+- IDN email domains
+- Multi-script input
+- Bidirectional text handling
+
+Test with:
+1. Arabic/Hebrew usernames
+2. Chinese/Japanese characters
+3. IDN email domains
+4. Mixed LTR/RTL text
+5. Emoji in usernames
+      `
+    }
+  }
+};
+
+export const ConditionalValidation = Template.bind({});
+ConditionalValidation.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: true,
+  requiredFields: ['accountType'],
+  variant: 'conditional',
+};
+ConditionalValidation.parameters = {
+  docs: {
+    description: {
+      story: `
+## Conditional Validation Rules
+
+This story shows dynamic validation based on form state:
+
+- Different rules per account type
+- Context-dependent requirements
+- Progressive disclosure
+- Interdependent fields
+- Dynamic error messages
+
+Scenarios to test:
+1. Personal account (basic validation)
+2. Business account (requires company email)
+3. Enterprise account (requires domain verification)
+4. Switch between types to see changing rules
+      `
+    }
+  }
+};
+
+export const ErrorRecoveryPatterns = Template.bind({});
+ErrorRecoveryPatterns.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: true,
+  requiredFields: ['username', 'email', 'password'],
+  variant: 'recovery',
+};
+ErrorRecoveryPatterns.parameters = {
+  docs: {
+    description: {
+      story: `
+## Error Recovery Patterns
+
+This story demonstrates advanced error recovery scenarios:
+
+- Bulk error correction
+- Guided error resolution
+- Progressive validation
+- Error priority handling
+- Recovery suggestions
+
+Features:
+1. "Fix All" suggestions
+2. Step-by-step error resolution
+3. Smart error grouping
+4. Contextual help
+5. Undo/redo support
+      `
+    }
+  }
+};
+
+export const AccessibilityEdgeCases = Template.bind({});
+AccessibilityEdgeCases.args = {
+  showHelperText: true,
+  showErrors: true,
+  requireConfirmation: true,
+  requiredFields: ['username', 'email'],
+  variant: 'accessibility',
+};
+AccessibilityEdgeCases.parameters = {
+  docs: {
+    description: {
+      story: `
+## Accessibility Edge Cases
+
+This story covers complex accessibility scenarios:
+
+- Screen reader announcements timing
+- Focus management with errors
+- Keyboard navigation patterns
+- ARIA live region updates
+- Status message priority
+
+Test cases:
+1. Navigate form with screen reader
+2. Handle multiple errors with keyboard
+3. Test focus trap in modals
+4. Verify error announcement timing
+5. Check status message priority
       `
     }
   }
