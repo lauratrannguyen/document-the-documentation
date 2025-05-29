@@ -98,7 +98,6 @@ const TimeBasedMediaGuidance = () => {
 
         <Divider />
 
-        {/* Common Challenges Section - Keeping your existing section as is */}
         <Box>
           <Typography 
             component="h2" 
