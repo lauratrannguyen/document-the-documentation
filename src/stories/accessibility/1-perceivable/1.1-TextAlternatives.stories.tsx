@@ -139,13 +139,13 @@ const BasicTextAlternativesDemo = () => {
         </Alert>
 
         {/* Examples Section */}
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
             variant="h6" 
             gutterBottom
           >
-            Common Scenarios
+            Common Scenarios:
           </Typography>
           <Stack spacing={2}>
             {/* Informative Image Example */}
@@ -189,25 +189,66 @@ const BasicTextAlternativesDemo = () => {
               >
                 2. Decorative Images
               </Typography>
-              <Box>
-                <Stack spacing={2}>
-                  {decorativeExamples.map((example) => (
-                    <Box key={example.type}>
-                      {renderDecorativeElement(example)}
-                      <Typography variant="body2" sx={{ mt: 1 }}>
-                        {example.description} - {example.usage}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Stack>
-                <Alert severity="warning" sx={{ mt: 2 }}>
-                  <AlertTitle>Important Note</AlertTitle>
-                  Decorative images should be hidden from screen readers to avoid unnecessary noise in the accessibility tree.
-                </Alert>
-              </Box>
+              <Alert severity="info" sx={{ mb: 2 }}>
+                Decorative images are purely aesthetic and don't convey meaning or functionality.
+                They should be hidden from assistive technology to avoid unnecessary noise.
+              </Alert>
+              <Stack spacing={2}>
+                {decorativeExamples.map((example, index) => (
+                  <Box 
+                    key={index} 
+                    sx={{ 
+                      p: 2, 
+                      bgcolor: 'grey.100',
+                      borderRadius: 1 
+                    }}
+                  >
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Box sx={{ 
+                        width: 'auto',
+                        flex: 'none'
+                      }}>
+                        {renderDecorativeElement(example)}
+                      </Box>
+                      <Box>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {example.description}
+                        </Typography>
+                        <Chip
+                          label={example.usage}
+                          size="small"
+                          color="primary"
+                          sx={{ 
+                            mb: 1,
+                            bgcolor: 'primary.main',
+                            color: 'primary.contrastText',
+                            '& .MuiChip-label': {
+                              color: 'inherit'
+                            }
+                          }}
+                        />
+                        <Typography 
+                          variant="body2" 
+                          sx={{ 
+                            color: 'text.primary'
+                          }}
+                        >
+                          When this image is {example.description.toLowerCase()}, it adds visual interest
+                          but doesn't convey information, so it should be hidden from screen readers.
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
+                ))}
+              </Stack>
+              <Alert severity="warning" sx={{ mt: 2 }}>
+                <AlertTitle>Common Mistake</AlertTitle>
+                Don't use empty alt text for images that convey information or have functional purposes.
+                Only use it for purely decorative elements.
+              </Alert>
             </Paper>
 
-            {/* Functional Images Example */}
+            {/* Functional Image Example */}
             <Paper variant="outlined" sx={{ p: 2 }}>
               <Typography 
                 component="h3" 
@@ -236,6 +277,83 @@ const BasicTextAlternativesDemo = () => {
                   Icons used as controls need alt text describing their function, not their appearance.
                   Here, we use aria-label to describe the action the button performs.
                 </Typography>
+                <Box sx={{ mt: 2, p: 2, bgcolor: 'grey.100', borderRadius: 1 }}>
+                  <Typography 
+                    component="h4" 
+                    variant="subtitle2" 
+                    gutterBottom
+                  >
+                    More Examples:
+                  </Typography>
+                  <Stack spacing={1}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <IconButton 
+                        aria-label="Play audio"
+                        sx={{ 
+                          color: 'primary.main'
+                        }}
+                      >
+                        <PlayArrowIcon />
+                      </IconButton>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.primary'
+                        }}
+                      >
+                        aria-label="Play audio"
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <IconButton 
+                        aria-label="Close dialog"
+                        sx={{ 
+                          color: 'error.main'
+                        }}
+                      >
+                        <WarningIcon />
+                      </IconButton>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.primary'
+                        }}
+                      >
+                        aria-label="Close dialog"
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <IconButton 
+                        aria-label="Show more information"
+                        sx={{ 
+                          color: 'info.main'
+                        }}
+                      >
+                        <InfoIcon />
+                      </IconButton>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          color: 'text.primary'
+                        }}
+                      >
+                        aria-label="Show more information"
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
+                <Alert severity="info" sx={{ mt: 2 }}>
+                  <AlertTitle>Best Practice</AlertTitle>
+                  <Typography variant="body2">
+                    When writing aria-labels for functional images:
+                    <ul style={{ margin: '0.5rem 0 0 1.5rem' }}>
+                      <li>Use action verbs (e.g., "Upload", "Play", "Close")</li>
+                      <li>Be concise but descriptive</li>
+                      <li>Focus on the function, not the visual appearance</li>
+                      <li>Consider the context where the control appears</li>
+                    </ul>
+                  </Typography>
+                </Alert>
               </Box>
             </Paper>
           </Stack>
@@ -244,7 +362,7 @@ const BasicTextAlternativesDemo = () => {
         <Divider />
 
         {/* Implementation Guidelines */}
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
             variant="h6" 
@@ -289,7 +407,7 @@ const BasicTextAlternativesDemo = () => {
         </Alert>
 
         {/* Quality Checklist */}
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
             variant="h6" 
@@ -515,7 +633,7 @@ const ComplexContentDemo = () => {
         </Alert>
 
         {/* Quality Checklist */}
-        <Box>
+        <Box sx={{ mt: 2 }}>
           <Typography 
             component="h2" 
             variant="h6" 
@@ -578,16 +696,18 @@ const CAPTCHAGuidanceDemo = () => {
 
         <Alert severity="info" sx={{ mb: 2 }}>
           <AlertTitle>Key Principle</AlertTitle>
-          Always provide multiple ways to verify that the user is human, ensuring at least one method is accessible to users with different abilities.
+          <Typography component="div" variant="body1">
+            Always provide multiple ways to verify that the user is human, ensuring at least one method is accessible to users with different abilities.
+          </Typography>
         </Alert>
 
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
-            Example Alternative Methods
+            Example Alternative Methods:
           </Typography>
           <Stack spacing={2} sx={{ ml: 2 }}>
             {[
@@ -612,16 +732,13 @@ const CAPTCHAGuidanceDemo = () => {
                   {method.icon}
                   <Box>
                     <Typography 
-                      component="div"
-                      sx={{ 
-                        fontWeight: 'bold',
-                        fontSize: '1rem',
-                        mb: 0.5
-                      }}
+                      component="h3" 
+                      variant="h6"
                     >
                       {method.label}
                     </Typography>
                     <Typography 
+                      component="p" 
                       variant="body2" 
                       color="text.secondary"
                     >
@@ -636,10 +753,10 @@ const CAPTCHAGuidanceDemo = () => {
 
         <Divider />
 
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
             Implementation Checklist
@@ -657,7 +774,13 @@ const CAPTCHAGuidanceDemo = () => {
                 <ListItemIcon>
                   <CheckCircleOutlineIcon color="success" />
                 </ListItemIcon>
-                <ListItemText primary={item} />
+                <ListItemText 
+                  primary={
+                    <Typography component="span" variant="body1">
+                      {item}
+                    </Typography>
+                  }
+                />
               </ListItem>
             ))}
           </List>
@@ -665,8 +788,10 @@ const CAPTCHAGuidanceDemo = () => {
 
         <Alert severity="warning">
           <AlertTitle>Important Note</AlertTitle>
-          Traditional visual CAPTCHAs can be a significant barrier for users with visual impairments. 
-          Consider using modern alternatives like token-based verification or behavioral analysis when possible.
+          <Typography component="div" variant="body2">
+            Traditional visual CAPTCHAs can be a significant barrier for users with visual impairments. 
+            Consider using modern alternatives like token-based verification or behavioral analysis when possible.
+          </Typography>
         </Alert>
       </Stack>
     </Paper>
@@ -687,136 +812,99 @@ const VideoGuidanceDemo = () => {
 
         <Alert severity="info" sx={{ mb: 2 }}>
           <AlertTitle>Key Principle</AlertTitle>
-          Ensure video content is accessible to all users by providing multiple ways to consume and understand the content.
+          <Typography component="div" variant="body1">
+            Ensure video content is accessible to all users by providing multiple ways to consume and understand the content.
+          </Typography>
         </Alert>
 
-        <Box component="section">
+        <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
-            Video Components
+            Essential Components:
           </Typography>
-          <Stack spacing={2}>
-            <Paper variant="outlined" sx={{ p: 2 }}>
-              <Typography 
-                component="h3" 
-                variant="subtitle1" 
-                gutterBottom
-              >
-                1. Essential Components
-              </Typography>
-              <Stack spacing={2} sx={{ ml: 2 }}>
-                {[
-                  {
-                    icon: <ClosedCaptionIcon />,
-                    label: 'Captions',
-                    description: 'Synchronized text alternatives for spoken dialogue and important sounds'
-                  },
-                  {
-                    icon: <DescriptionIcon />,
-                    label: 'Transcript',
-                    description: 'Text document containing all audio content and important visual information'
-                  },
-                  {
-                    icon: <RecordVoiceOverIcon />,
-                    label: 'Audio Description',
-                    description: 'Narration of important visual content for blind users'
-                  }
-                ].map((method) => (
-                  <Paper key={method.label} variant="outlined" sx={{ p: 2 }}>
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                      {method.icon}
-                      <Box>
-                        <Typography variant="subtitle1">{method.label}</Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {method.description}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  </Paper>
-                ))}
-              </Stack>
-            </Paper>
-
-            <Paper variant="outlined" sx={{ p: 2 }}>
-              <Typography 
-                component="h3" 
-                variant="subtitle1" 
-                gutterBottom
-              >
-                2. Implementation Requirements
-              </Typography>
-              <List>
-                {[
-                  'Captions must be synchronized with the video',
-                  'Transcripts should include both audio and visual information',
-                  'Audio descriptions should be available when important visual content is not conveyed through audio',
-                  'Provide a keyboard-accessible video player',
-                  'Include proper controls for captions and audio descriptions',
-                  'Ensure high contrast for captions'
-                ].map((item) => (
-                  <ListItem key={item}>
-                    <ListItemIcon>
-                      <CheckCircleOutlineIcon color="success" />
-                    </ListItemIcon>
-                    <ListItemText primary={item} />
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-
-            <Paper variant="outlined" sx={{ p: 2 }}>
-              <Typography 
-                component="h3" 
-                variant="subtitle1" 
-                gutterBottom
-              >
-                3. Quality Checklist
-              </Typography>
-              <TableContainer component={Paper} variant="outlined">
-                <Table size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell><strong>Component</strong></TableCell>
-                      <TableCell><strong>Requirements</strong></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {[
-                      {
-                        component: 'Captions',
-                        requirements: 'Accurate, synchronized, and include speaker identification and important sounds'
-                      },
-                      {
-                        component: 'Transcript',
-                        requirements: 'Complete, properly formatted, and includes relevant visual information'
-                      },
-                      {
-                        component: 'Audio Description',
-                        requirements: 'Describes important visual content without overlapping dialogue'
-                      },
-                      {
-                        component: 'Video Player',
-                        requirements: 'Keyboard accessible, screen reader friendly, with adjustable playback speed'
-                      }
-                    ].map((row) => (
-                      <TableRow key={row.component}>
-                        <TableCell>{row.component}</TableCell>
-                        <TableCell>{row.requirements}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
+          <Stack spacing={2} sx={{ ml: 2 }}>
+            {[
+              {
+                icon: <ClosedCaptionIcon />,
+                label: 'Captions',
+                description: 'Synchronized text alternatives for spoken dialogue and important sounds'
+              },
+              {
+                icon: <DescriptionIcon />,
+                label: 'Transcript',
+                description: 'Text document containing all audio content and important visual information'
+              },
+              {
+                icon: <RecordVoiceOverIcon />,
+                label: 'Audio Description',
+                description: 'Narration of important visual content for blind users'
+              }
+            ].map((method) => (
+              <Paper key={method.label} variant="outlined" sx={{ p: 2 }}>
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  {method.icon}
+                  <Box>
+                    <Typography 
+                      component="h3" 
+                      variant="h6"
+                    >
+                      {method.label}
+                    </Typography>
+                    <Typography 
+                      component="p" 
+                      variant="body2" 
+                      color="text.secondary"
+                    >
+                      {method.description}
+                    </Typography>
+                  </Box>
+                </Stack>
+              </Paper>
+            ))}
           </Stack>
+        </Box>
+
+        <Divider />
+
+        <Box>
+          <Typography 
+            component="h2" 
+            variant="h5" 
+            gutterBottom
+          >
+            Implementation Requirements
+          </Typography>
+          <List>
+            {[
+              'Captions must be synchronized with the video',
+              'Transcripts should include both audio and visual information',
+              'Audio descriptions should be available when important visual content is not conveyed through audio',
+              'Provide a keyboard-accessible video player',
+              'Include proper controls for captions and audio descriptions',
+              'Ensure high contrast for captions'
+            ].map((item) => (
+              <ListItem key={item}>
+                <ListItemIcon>
+                  <CheckCircleOutlineIcon color="success" />
+                </ListItemIcon>
+                <ListItemText 
+                  primary={
+                    <Typography component="span" variant="body1">
+                      {item}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
         </Box>
 
         <Alert severity="warning">
           <AlertTitle>Important Considerations</AlertTitle>
-          <Typography variant="body2" component="div">
+          <Typography component="div" variant="body2">
             <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
               <li>Auto-generated captions alone do not meet WCAG requirements</li>
               <li>Consider providing a sign language version for content primarily aimed at deaf users</li>
@@ -824,6 +912,67 @@ const VideoGuidanceDemo = () => {
             </ul>
           </Typography>
         </Alert>
+
+        <Box sx={{ mt: 2 }}>
+          <Typography 
+            component="h2" 
+            variant="h5" 
+            gutterBottom
+          >
+            Quality Checklist
+          </Typography>
+          <TableContainer component={Paper} variant="outlined">
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography component="span" variant="subtitle2">
+                      <strong>Component</strong>
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography component="span" variant="subtitle2">
+                      <strong>Requirements</strong>
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {[
+                  {
+                    component: 'Captions',
+                    requirements: 'Accurate, synchronized, and include speaker identification and important sounds'
+                  },
+                  {
+                    component: 'Transcript',
+                    requirements: 'Complete, properly formatted, and includes relevant visual information'
+                  },
+                  {
+                    component: 'Audio Description',
+                    requirements: 'Describes important visual content without overlapping dialogue'
+                  },
+                  {
+                    component: 'Video Player',
+                    requirements: 'Keyboard accessible, screen reader friendly, with adjustable playback speed'
+                  }
+                ].map((row) => (
+                  <TableRow key={row.component}>
+                    <TableCell>
+                      <Typography component="span" variant="body2">
+                        {row.component}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography component="span" variant="body2">
+                        {row.requirements}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Stack>
     </Paper>
   );
