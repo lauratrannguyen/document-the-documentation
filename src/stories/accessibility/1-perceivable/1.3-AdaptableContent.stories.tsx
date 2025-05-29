@@ -529,12 +529,12 @@ const AdaptableChallenges = () => {
           variant="h4" 
           gutterBottom
         >
-          Common Adaptable Content Challenges
+          Adaptable Content Challenges
         </Typography>
 
         <Alert severity="info" sx={{ mb: 2 }}>
           <AlertTitle>Key Principle</AlertTitle>
-          Address common challenges in making content adaptable while maintaining accessibility and usability across different contexts and user needs.
+          Common challenges in implementing adaptable content often arise from complex layouts, dynamic content, and varying device capabilities.
         </Alert>
 
         {/* Examples Section */}
