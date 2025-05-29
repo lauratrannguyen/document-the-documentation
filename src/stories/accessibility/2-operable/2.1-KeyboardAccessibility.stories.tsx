@@ -142,18 +142,19 @@ const KeyboardAccessibilityDemo = () => {
               <Box>
                 <List>
                   {items.map((item) => (
-                    <ListItemButton
-                      key={item.id}
-                      sx={{
-                        '&:focus-visible': {
-                          outline: '2px solid',
-                          outlineColor: 'primary.main',
-                          outlineOffset: '2px',
-                        }
-                      }}
-                    >
-                      <ListItemText primary={item.title} />
-                    </ListItemButton>
+                    <ListItem key={item.id} disablePadding>
+                      <ListItemButton
+                        sx={{
+                          '&:focus-visible': {
+                            outline: '2px solid',
+                            outlineColor: 'primary.main',
+                            outlineOffset: '2px',
+                          }
+                        }}
+                      >
+                        <ListItemText primary={item.title} />
+                      </ListItemButton>
+                    </ListItem>
                   ))}
                 </List>
                 <Alert severity="success" sx={{ mt: 2 }}>
