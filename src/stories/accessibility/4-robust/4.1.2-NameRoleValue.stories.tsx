@@ -33,10 +33,38 @@ import ErrorIcon from '@mui/icons-material/Error';
 import MenuIcon from '@mui/icons-material/Menu';
 
 interface NameRoleValueProps {
+  showARIA: boolean;
   showValidation: boolean;
 }
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ py: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
 const NameRoleValueDemo = ({
+  showARIA,
   showValidation,
 }: NameRoleValueProps) => {
   const [activeTab, setActiveTab] = useState(0);
@@ -98,7 +126,7 @@ const NameRoleValueDemo = ({
   ];
 
   // Interactive examples demonstrating proper ARIA usage
-  const InteractiveExamples = () => {
+  const InteractiveExamples: React.FC = () => {
     return (
       <Stack spacing={3}>
         {/* Menu Example */}
@@ -112,10 +140,7 @@ const NameRoleValueDemo = ({
                 aria-controls={Boolean(anchorEl) ? 'menu-example' : undefined}
                 aria-expanded={Boolean(anchorEl)}
                 aria-haspopup="true"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setAnchorEl(e.currentTarget);
-                }}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(e.currentTarget)}
                 startIcon={<MenuIcon />}
               >
                 Open Menu
@@ -138,7 +163,7 @@ const NameRoleValueDemo = ({
                 <MenuItem onClick={() => setAnchorEl(null)}>Option 2</MenuItem>
               </Menu>
             </Box>
-            {showValidation && (
+            {showARIA && (
               <Alert severity="info" sx={{ mt: 2 }}>
                 <Typography variant="body2">
                   ARIA attributes used:
@@ -199,7 +224,7 @@ const NameRoleValueDemo = ({
                 aria-live="polite"
               />
             </Box>
-            {showValidation && (
+            {showARIA && (
               <Alert severity="info" sx={{ mt: 2 }}>
                 <Typography variant="body2">
                   ARIA attributes used:
@@ -236,14 +261,30 @@ const NameRoleValueDemo = ({
         </Alert>
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)}>
-            <Tab label="Common Edge Cases" />
-            <Tab label="Interactive Examples" />
-            <Tab label="Best Practices" />
+          <Tabs 
+            value={activeTab} 
+            onChange={(_, newValue: number) => setActiveTab(newValue)}
+            aria-label="Name Role Value examples"
+          >
+            <Tab 
+              label="Common Edge Cases" 
+              id="tab-0" 
+              aria-controls="tabpanel-0" 
+            />
+            <Tab 
+              label="Interactive Examples" 
+              id="tab-1" 
+              aria-controls="tabpanel-1" 
+            />
+            <Tab 
+              label="Best Practices" 
+              id="tab-2" 
+              aria-controls="tabpanel-2" 
+            />
           </Tabs>
         </Box>
 
-        {activeTab === 0 && (
+        <TabPanel value={activeTab} index={0}>
           <Stack spacing={3}>
             {edgeCases.map((example, index) => (
               <Card key={index}>
@@ -253,7 +294,7 @@ const NameRoleValueDemo = ({
                       <Typography variant="h6" component="h2">
                         {example.title}
                       </Typography>
-                      <Tooltip title="View validation details">
+                      <Tooltip title="View ARIA details">
                         <IconButton
                           size="small"
                           onClick={() => setShowLiveValidation(!showLiveValidation)}
@@ -297,7 +338,7 @@ const NameRoleValueDemo = ({
                       </Box>
                     </Box>
 
-                    {(showValidation || showLiveValidation) && (
+                    {(showARIA || showLiveValidation) && (
                       <>
                         <Alert severity="error" icon={<ErrorIcon />}>
                           {example.error}
@@ -312,11 +353,13 @@ const NameRoleValueDemo = ({
               </Card>
             ))}
           </Stack>
-        )}
+        </TabPanel>
 
-        {activeTab === 1 && <InteractiveExamples />}
+        <TabPanel value={activeTab} index={1}>
+          <InteractiveExamples />
+        </TabPanel>
 
-        {activeTab === 2 && (
+        <TabPanel value={activeTab} index={2}>
           <Card>
             <CardContent>
               <Typography variant="h6" component="h2" gutterBottom>
@@ -325,38 +368,38 @@ const NameRoleValueDemo = ({
               <List>
                 <ListItem>
                   <ListItemText
-                    primary="1. Use Native Elements When Possible"
-                    secondary="Native HTML elements have built-in accessibility features"
+                    primary="1. Use semantic HTML"
+                    secondary="Choose appropriate HTML elements for their intended purpose"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="2. Provide Accessible Names"
+                    primary="2. Provide accessible names"
                     secondary="Use labels, aria-label, or aria-labelledby for all interactive elements"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="3. Define Clear Roles"
-                    secondary="Use appropriate ARIA roles when native elements aren't suitable"
+                    primary="3. Use correct ARIA roles"
+                    secondary="Apply roles only when necessary and ensure they match the expected behavior"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="4. Manage Component States"
-                    secondary="Keep ARIA states (expanded, pressed, selected) up to date"
+                    primary="4. Manage component states"
+                    secondary="Keep ARIA states (pressed, expanded, etc.) synchronized with actual states"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="5. Announce Dynamic Changes"
-                    secondary="Use live regions to announce important content updates"
+                    primary="5. Test with assistive technologies"
+                    secondary="Verify that screen readers correctly announce all information"
                   />
                 </ListItem>
               </List>
             </CardContent>
           </Card>
-        )}
+        </TabPanel>
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>

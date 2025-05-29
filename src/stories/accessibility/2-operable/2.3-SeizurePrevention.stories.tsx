@@ -264,7 +264,41 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.3 Seizures and Physical Reactions - Do not design content in a way that is known to cause seizures or physical reactions.'
+        component: `
+## WCAG 2.3 Seizures and Physical Reactions
+Do not design content in a way that is known to cause seizures or physical reactions.
+
+### Overview
+This component demonstrates safe animation and flashing content practices to prevent seizures, disorientation, and other physical reactions.
+
+### Key Features
+- Flash rate monitoring
+- Animation controls
+- Warning systems
+- Safety checks
+- User preferences
+
+### Implementation Guidelines
+1. Ensure content does not flash more than 3 times per second
+2. Provide controls to:
+   - Disable animations
+   - Reduce motion
+   - Stop flashing content
+3. Implement warning systems
+4. Monitor and control flash rates
+
+### WCAG Success Criteria
+- 2.3.1 Three Flashes or Below Threshold (Level A)
+- 2.3.2 Three Flashes (Level AAA)
+- 2.3.3 Animation from Interactions (Level AAA)
+
+### Best Practices
+- Default to reduced motion when possible
+- Respect system-level reduced motion settings
+- Provide clear warnings for potential triggers
+- Allow users to disable animations globally
+- Test flash rates with specialized tools
+`
       }
     }
   }
@@ -281,6 +315,20 @@ Basic.args = {
   enableSafetyChecks: false,
   allowAnimations: true,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Safety Features
+Demonstrates fundamental seizure prevention:
+- Basic flash rate control
+- Simple warning messages
+- Animation toggles
+- Basic safety measures
+`
+    }
+  }
+};
 
 export const WithSafetyChecks = Template.bind({});
 WithSafetyChecks.args = {
@@ -289,6 +337,21 @@ WithSafetyChecks.args = {
   enableSafetyChecks: true,
   allowAnimations: true,
 };
+WithSafetyChecks.parameters = {
+  docs: {
+    description: {
+      story: `
+### Enhanced Safety Features
+Shows comprehensive safety measures:
+- Advanced flash detection
+- Proactive warning system
+- Automated safety checks
+- Real-time monitoring
+- User preference persistence
+`
+    }
+  }
+};
 
 export const AnimationsDisabled = Template.bind({});
 AnimationsDisabled.args = {
@@ -296,4 +359,19 @@ AnimationsDisabled.args = {
   showWarning: false,
   enableSafetyChecks: true,
   allowAnimations: false,
+};
+AnimationsDisabled.parameters = {
+  docs: {
+    description: {
+      story: `
+### No Animations Mode
+Demonstrates fully accessible mode:
+- All animations disabled
+- No flashing content
+- Static content only
+- Maximum safety settings
+- Reduced motion optimization
+`
+    }
+  }
 }; 
