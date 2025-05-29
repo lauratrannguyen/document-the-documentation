@@ -175,7 +175,51 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.2 Conformance Claims - Understanding how to properly document and declare conformance with WCAG guidelines.'
+        component: `
+# WCAG 2.2 Conformance Claims
+
+This component demonstrates how to properly document and declare conformance with WCAG guidelines.
+
+## Key Features
+- **Date of Claim**: When the conformance claim was made
+- **Guidelines Version**: Version of WCAG used for conformance
+- **Conformance Level**: Level of conformance achieved (A, AA, or AAA)
+- **Scope**: Exact pages covered by the claim
+- **Technologies**: List of technologies required for conformance
+
+## Implementation Guidelines
+- Claims must be accurate and verifiable
+- All required components must be included
+- Claims should be regularly reviewed and updated
+- Scope must be clearly defined
+- Exceptions must be documented
+
+## Best Practices
+- Keep claims current and accurate
+- Document testing methodologies
+- Include specific version numbers
+- List all relied-upon technologies
+- Specify any limitations or exceptions
+- Maintain detailed documentation
+- Review claims periodically
+
+## Technical Requirements
+- Include all mandatory claim components
+- Document accessibility-supported technologies
+- Specify exact pages or sections covered
+- List any additional requirements met
+- Document testing and verification methods
+`
+      }
+    }
+  },
+  argTypes: {
+    showExampleClaim: {
+      control: 'boolean',
+      description: 'Shows an example of a complete conformance claim',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -189,8 +233,29 @@ export const Basic = Template.bind({});
 Basic.args = {
   showExampleClaim: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing the required components of a WCAG conformance claim.'
+    }
+  }
+};
 
 export const WithExampleClaim = Template.bind({});
 WithExampleClaim.args = {
   showExampleClaim: true,
+};
+WithExampleClaim.parameters = {
+  docs: {
+    description: {
+      story: `
+Complete example of a WCAG conformance claim including:
+- Detailed date and version information
+- Specific conformance level declaration
+- Clear scope definition
+- List of relied-upon technologies
+- Additional conformance information
+      `
+    }
+  }
 }; 

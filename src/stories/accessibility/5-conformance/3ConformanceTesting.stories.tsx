@@ -257,7 +257,69 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.2 Conformance Testing and Evaluation - Understanding how to test and evaluate web content for WCAG conformance.'
+        component: `
+# WCAG 2.2 Conformance Testing and Evaluation
+
+This component demonstrates comprehensive testing and evaluation procedures for ensuring WCAG conformance.
+
+## Key Features
+- **Preliminary Review**: Initial assessment of web content accessibility
+- **Automated Testing**: Use of accessibility testing tools and validators
+- **Manual Testing**: Detailed testing by accessibility experts
+- **User Testing**: Testing with users with disabilities
+
+## Testing Process
+1. **Preliminary Review**
+   - Review page structure and navigation
+   - Check basic keyboard accessibility
+   - Verify presence of alt text
+   - Test color contrast
+
+2. **Automated Testing**
+   - Run automated accessibility checkers
+   - Validate HTML and CSS
+   - Check ARIA implementation
+   - Generate accessibility reports
+
+3. **Manual Testing**
+   - Keyboard navigation testing
+   - Screen reader compatibility
+   - Focus management verification
+   - Form validation testing
+
+4. **User Testing**
+   - Recruit diverse user groups
+   - Conduct usability sessions
+   - Gather feedback
+   - Document experiences
+
+## Best Practices
+- Use multiple testing methods
+- Combine automated and manual testing
+- Include users with disabilities
+- Document all test results
+- Maintain testing records
+- Regular retesting schedule
+- Address issues promptly
+
+## Technical Requirements
+- Use current testing tools
+- Follow standardized procedures
+- Document testing methodology
+- Track issues and resolutions
+- Maintain testing environment
+- Regular tool updates
+`
+      }
+    }
+  },
+  argTypes: {
+    showDetailedSteps: {
+      control: 'boolean',
+      description: 'Shows detailed steps for each testing phase',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -271,8 +333,29 @@ export const Basic = Template.bind({});
 Basic.args = {
   showDetailedSteps: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing the main testing phases and evaluation methods for WCAG conformance.'
+    }
+  }
+};
 
 export const WithDetails = Template.bind({});
 WithDetails.args = {
   showDetailedSteps: true,
+};
+WithDetails.parameters = {
+  docs: {
+    description: {
+      story: `
+Detailed view of the testing process including:
+- Step-by-step testing procedures
+- Specific tools and methods for each phase
+- Evaluation criteria and requirements
+- Documentation guidelines
+- Testing tools and resources
+      `
+    }
+  }
 }; 
