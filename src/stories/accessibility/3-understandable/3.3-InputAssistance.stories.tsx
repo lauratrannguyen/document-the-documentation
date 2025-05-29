@@ -103,6 +103,16 @@ const InputAssistanceDemo = ({
   const [validationScore, setValidationScore] = useState(0);
   const [showValidationSummary, setShowValidationSummary] = useState(false);
 
+  // Add ref for status announcements
+  const statusRef = React.useRef<HTMLDivElement>(null);
+
+  // Add status announcement function
+  const announceStatus = (message: string) => {
+    if (statusRef.current) {
+      statusRef.current.textContent = message;
+    }
+  };
+
   useEffect(() => {
     if (variant === 'timeout') {
       const timer = setInterval(() => {
@@ -224,12 +234,15 @@ const InputAssistanceDemo = ({
     setErrors(newErrors);
     setSubmitted(true);
 
-    if (Object.keys(newErrors).length === 0) {
-      if (requireConfirmation) {
-        setShowConfirmDialog(true);
-      } else {
-        console.log('Form submitted:', formData);
-      }
+    // Announce validation status to screen readers
+    if (Object.keys(newErrors).length > 0) {
+      announceStatus(`Form has ${Object.keys(newErrors).length} validation errors. Please correct them and try again.`);
+    } else if (requireConfirmation) {
+      setShowConfirmDialog(true);
+      announceStatus('Please review your information before final submission.');
+    } else {
+      announceStatus('Form submitted successfully!');
+      console.log('Form submitted:', formData);
     }
   };
 
@@ -271,8 +284,18 @@ const InputAssistanceDemo = ({
               variant={isLoading ? "indeterminate" : "determinate"} 
               value={100}
               sx={{ mb: 1 }}
+              aria-label="Validation progress"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={isLoading ? undefined : 100}
             />
-            <Typography variant="caption" color="text.secondary">
+            <Typography 
+              variant="caption" 
+              color="text.secondary"
+              role="status"
+              aria-live="polite"
+            >
               {isLoading ? "Validating..." : "Ready"}
             </Typography>
           </Box>
@@ -313,30 +336,62 @@ const InputAssistanceDemo = ({
         return (
           <Box sx={{ mb: 2 }}>
             <Stack direction="row" spacing={1} alignItems="center">
-              <IconButton 
-                disabled={historyIndex <= 0}
-                onClick={() => setHistoryIndex(prev => prev - 1)}
+              <Tooltip title="Undo last error">
+                <span>
+                  <IconButton 
+                    disabled={historyIndex <= 0}
+                    onClick={() => setHistoryIndex(prev => prev - 1)}
+                    aria-label="Undo last error"
+                  >
+                    <UndoIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              <Tooltip title="Redo error">
+                <span>
+                  <IconButton 
+                    disabled={historyIndex >= errorHistory.length - 1}
+                    onClick={() => setHistoryIndex(prev => prev + 1)}
+                    aria-label="Redo error"
+                  >
+                    <RedoIcon />
+                  </IconButton>
+                </span>
+              </Tooltip>
+              <Badge 
+                badgeContent={errorHistory.length} 
+                color="error"
+                aria-label={`${errorHistory.length} errors in history`}
               >
-                <UndoIcon />
-              </IconButton>
-              <IconButton 
-                disabled={historyIndex >= errorHistory.length - 1}
-                onClick={() => setHistoryIndex(prev => prev + 1)}
-              >
-                <RedoIcon />
-              </IconButton>
-              <Badge badgeContent={errorHistory.length} color="error">
-                <Chip label="Error History" />
+                <Chip 
+                  label="Error History" 
+                  icon={<ErrorIcon />}
+                  role="status"
+                  aria-live="polite"
+                />
               </Badge>
             </Stack>
             <Collapse in={errorHistory.length > 0}>
-              <List dense>
+              <List dense aria-label="Error history list">
                 {errorHistory.map((error, index) => (
                   <ListItem key={index}>
                     <ListItemIcon>
-                      {index <= historyIndex ? <CheckCircleIcon color="success" /> : <ErrorIcon color="error" />}
+                      {index <= historyIndex ? (
+                        <CheckCircleIcon 
+                          color="success" 
+                          aria-label="Resolved error"
+                        />
+                      ) : (
+                        <ErrorIcon 
+                          color="error" 
+                          aria-label="Unresolved error"
+                        />
+                      )}
                     </ListItemIcon>
-                    <ListItemText primary={error} />
+                    <ListItemText 
+                      primary={error}
+                      aria-label={`${index <= historyIndex ? 'Resolved' : 'Unresolved'} error: ${error}`}
+                    />
                   </ListItem>
                 ))}
               </List>
@@ -369,16 +424,21 @@ const InputAssistanceDemo = ({
         <Card sx={{ mb: 2, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
           <CardContent>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
-              <Typography variant="h6">Form Completion Score</Typography>
-              <Box sx={{ textAlign: 'center' }}>
+              <Typography variant="h2" component="h2" sx={{ fontSize: '1.25rem' }}>
+                Form Completion Score
+              </Typography>
+              <Box sx={{ textAlign: 'center' }} role="status" aria-live="polite">
                 <CircularProgress
                   variant="determinate"
                   value={validationScore}
                   size={60}
                   thickness={5}
                   sx={{ mb: 1 }}
+                  aria-label="Form completion progress"
                 />
-                <Typography variant="h6">{validationScore}%</Typography>
+                <Typography component="span" sx={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+                  {validationScore}%
+                </Typography>
               </Box>
             </Stack>
           </CardContent>
@@ -389,35 +449,32 @@ const InputAssistanceDemo = ({
           fullWidth
           onClick={() => setShowValidationSummary(!showValidationSummary)}
           sx={{ mb: 2 }}
+          aria-expanded={showValidationSummary}
+          aria-controls="validation-summary"
         >
-          Toggle Validation Summary
+          {showValidationSummary ? 'Hide' : 'Show'} Validation Summary
         </Button>
 
         <Collapse in={showValidationSummary}>
-          <Card sx={{ mb: 2, bgcolor: 'background.paper' }}>
+          <Card sx={{ mb: 2, bgcolor: 'background.paper' }} id="validation-summary">
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h2" component="h2" sx={{ fontSize: '1.25rem' }} gutterBottom>
                 Validation Status
               </Typography>
-              <List dense>
+              <List dense aria-label="Form field validation status">
                 {Object.entries(formData).map(([field, value]) => (
                   <ListItem key={field}>
                     <ListItemIcon>
                       {value && !errors[field as keyof FormErrors] ? (
-                        <CheckCircleIcon color="success" />
+                        <CheckCircleIcon color="success" aria-label="Valid" />
                       ) : (
-                        <ErrorIcon color="error" />
+                        <ErrorIcon color="error" aria-label="Error" />
                       )}
                     </ListItemIcon>
                     <ListItemText
                       primary={field.charAt(0).toUpperCase() + field.slice(1)}
                       secondary={errors[field as keyof FormErrors] || (value ? 'Valid' : 'Required')}
-                    />
-                    <Rating
-                      value={value ? (errors[field as keyof FormErrors] ? 1 : 5) : 0}
-                      max={5}
-                      readOnly
-                      size="small"
+                      aria-label={`${field} status: ${errors[field as keyof FormErrors] || (value ? 'Valid' : 'Required')}`}
                     />
                   </ListItem>
                 ))}
@@ -429,7 +486,7 @@ const InputAssistanceDemo = ({
         {formData.password && (
           <Card sx={{ mb: 2, bgcolor: 'background.paper' }}>
             <CardContent>
-              <Typography variant="subtitle2" gutterBottom>
+              <Typography variant="h2" component="h2" sx={{ fontSize: '1.25rem' }} gutterBottom>
                 Password Strength
               </Typography>
               <LinearProgress
@@ -479,11 +536,21 @@ const InputAssistanceDemo = ({
         maxWidth: 600,
         direction: variant === 'international' ? direction : 'ltr'
       }}
+      role="main"
     >
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h1" component="h1" sx={{ fontSize: '2rem', fontWeight: 500 }} gutterBottom>
           {isComprehensive ? 'Comprehensive Form Validation' : 'Account Registration'}
         </Typography>
+
+        {/* Status announcements for screen readers */}
+        <div
+          ref={statusRef}
+          role="status"
+          aria-live="polite"
+          className="sr-only"
+          style={{ position: 'absolute', width: '1px', height: '1px', padding: '0', margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', border: '0' }}
+        />
 
         {getComprehensiveContent()}
         {getVariantSpecificContent()}
@@ -495,14 +562,15 @@ const InputAssistanceDemo = ({
             : 'Please fill out the form below'}
         </Alert>
 
-        {submitted && Object.keys(errors).length === 0 && !requireConfirmation && (
-          <Alert severity="success">Form submitted successfully!</Alert>
-        )}
-
-        <form onSubmit={handleSubmit} noValidate>
+        <form 
+          onSubmit={handleSubmit} 
+          noValidate
+          aria-label="Account registration form"
+        >
           <Stack spacing={3}>
             <FormControl error={!!errors.username}>
               <TextField
+                id="username-input"
                 name="username"
                 label="Username"
                 value={formData.username}
@@ -511,8 +579,17 @@ const InputAssistanceDemo = ({
                 helperText={showHelperText ? (errors.username || 'Use letters, numbers, and underscores') : errors.username}
                 required={requiredFields.includes('username')}
                 fullWidth
-                aria-describedby="username-helper-text"
+                aria-describedby={`username-helper-text ${errors.username ? 'username-error' : ''}`}
+                inputProps={{
+                  'aria-invalid': !!errors.username,
+                  'aria-required': requiredFields.includes('username'),
+                }}
               />
+              {errors.username && (
+                <span id="username-error" className="sr-only">
+                  {errors.username}
+                </span>
+              )}
             </FormControl>
 
             <FormControl error={!!errors.email}>
@@ -593,38 +670,47 @@ const InputAssistanceDemo = ({
               control={
                 <Checkbox
                   checked={agreedToTerms}
-                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  onChange={(e) => {
+                    setAgreedToTerms(e.target.checked);
+                    announceStatus(e.target.checked ? 'Terms accepted' : 'Terms not accepted');
+                  }}
                   name="terms"
                   required={requiredFields.includes('terms')}
+                  aria-describedby="terms-description"
                 />
               }
               label="I agree to the terms and conditions"
             />
+            <span id="terms-description" className="sr-only">
+              You must accept the terms and conditions to continue
+            </span>
 
             <Button
               type="submit"
               variant="contained"
               size="large"
               disabled={!agreedToTerms}
+              aria-disabled={!agreedToTerms}
             >
               Create Account
             </Button>
           </Stack>
         </form>
 
-        {/* Confirmation Dialog */}
         <Dialog
           open={showConfirmDialog}
           onClose={() => setShowConfirmDialog(false)}
           aria-labelledby="confirm-dialog-title"
+          aria-describedby="confirm-dialog-description"
+          role="dialog"
         >
           <DialogTitle id="confirm-dialog-title">
             Confirm Registration
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText id="confirm-dialog-description">
               Please review your information:
-              <Box component="ul" sx={{ mt: 2 }}>
+              <Box component="ul" sx={{ mt: 2 }} role="list">
                 <li>Username: {formData.username}</li>
                 <li>Email: {formData.email}</li>
                 <li>Account Type: {formData.accountType}</li>
@@ -633,7 +719,10 @@ const InputAssistanceDemo = ({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setShowConfirmDialog(false)}>
+            <Button 
+              onClick={() => setShowConfirmDialog(false)}
+              aria-label="Go back to edit form"
+            >
               Go Back
             </Button>
             <Button
@@ -642,18 +731,26 @@ const InputAssistanceDemo = ({
                 console.log('Form submitted:', formData);
                 setShowConfirmDialog(false);
                 setSubmitted(true);
+                announceStatus('Account created successfully!');
               }}
+              aria-label="Confirm and create account"
             >
               Confirm
             </Button>
           </DialogActions>
         </Dialog>
 
-        {/* Help Text */}
-        <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
+        <Box 
+          sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}
+          role="complementary"
+          aria-label="WCAG Guidelines Implementation"
+        >
+          <Typography variant="h2" component="h2" sx={{ fontSize: '1.25rem', mb: 2 }}>
+            WCAG Guidelines Implementation
+          </Typography>
           <Typography variant="body2">
             This demo implements WCAG 3.3 Input Assistance guidelines:
-            <ul>
+            <ul role="list">
               <li>3.3.1 Error Identification - Errors are clearly identified</li>
               <li>3.3.2 Labels or Instructions - Form fields have clear labels and instructions</li>
               <li>3.3.3 Error Suggestion - Error messages suggest how to fix the problem</li>
