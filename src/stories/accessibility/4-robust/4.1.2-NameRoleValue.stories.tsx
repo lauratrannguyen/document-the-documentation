@@ -11,179 +11,352 @@ import {
   IconButton,
   TextField,
   Tooltip,
-  FormControlLabel,
-  Switch,
   Alert,
-  LinearProgress,
+  Tab,
+  Tabs,
+  List,
+  ListItem,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Snackbar,
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import InfoIcon from '@mui/icons-material/Info';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import MenuIcon from '@mui/icons-material/Menu';
 
 interface NameRoleValueProps {
-  showARIA: boolean;
   showValidation: boolean;
 }
 
 const NameRoleValueDemo = ({
-  showARIA,
   showValidation,
 }: NameRoleValueProps) => {
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [isValid, setIsValid] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [showLiveValidation, setShowLiveValidation] = useState(showValidation);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setShowError(!isValid);
+  // Common edge cases in ARIA usage
+  const edgeCases = [
+    {
+      title: 'Custom Button States',
+      valid: `<button
+  aria-pressed="false"
+  aria-expanded="false"
+  aria-controls="menu-1">
+  Toggle Menu
+</button>`,
+      invalid: `<div 
+  onclick="toggleMenu()"
+  role="button">
+  Toggle Menu
+</div>`,
+      error: 'Missing proper button semantics and state information',
+      fix: 'Use native button element with proper ARIA states'
+    },
+    {
+      title: 'Dynamic Content Updates',
+      valid: `<div 
+  role="alert" 
+  aria-live="assertive">
+  Error: Form submission failed
+</div>`,
+      invalid: `<div class="error-message">
+  Error: Form submission failed
+</div>`,
+      error: 'Changes not announced to screen readers',
+      fix: 'Use appropriate live region roles and aria-live attributes'
+    },
+    {
+      title: 'Form Labels and Descriptions',
+      valid: `<label for="password">Password</label>
+<input 
+  id="password"
+  type="password"
+  aria-describedby="pwd-hint">
+<div id="pwd-hint">
+  Must be 8+ characters
+</div>`,
+      invalid: `<input 
+  type="password" 
+  placeholder="Password">
+<span class="hint">
+  Must be 8+ characters
+</span>`,
+      error: 'Missing proper label and description associations',
+      fix: 'Use explicit labels and aria-describedby for hints'
+    }
+  ];
+
+  // Interactive examples demonstrating proper ARIA usage
+  const InteractiveExamples = () => {
+    return (
+      <Stack spacing={3}>
+        {/* Menu Example */}
+        <Card>
+          <CardContent>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Menu Button Example
+            </Typography>
+            <Box>
+              <Button
+                aria-controls={Boolean(anchorEl) ? 'menu-example' : undefined}
+                aria-expanded={Boolean(anchorEl)}
+                aria-haspopup="true"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setAnchorEl(e.currentTarget);
+                }}
+                startIcon={<MenuIcon />}
+              >
+                Open Menu
+              </Button>
+              <Menu
+                id="menu-example"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                <MenuItem onClick={() => setAnchorEl(null)}>Option 1</MenuItem>
+                <MenuItem onClick={() => setAnchorEl(null)}>Option 2</MenuItem>
+              </Menu>
+            </Box>
+            {showValidation && (
+              <Alert severity="info" sx={{ mt: 2 }}>
+                <Typography variant="body2">
+                  ARIA attributes used:
+                  <ul>
+                    <li>aria-controls: Links button to controlled menu</li>
+                    <li>aria-expanded: Indicates menu state</li>
+                    <li>aria-haspopup: Indicates presence of popup menu</li>
+                  </ul>
+                </Typography>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Dialog Example */}
+        <Card>
+          <CardContent>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Dialog Example
+            </Typography>
+            <Box>
+              <Button
+                onClick={() => setDialogOpen(true)}
+                aria-haspopup="dialog"
+              >
+                Open Dialog
+              </Button>
+              <Dialog
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}
+                aria-labelledby="dialog-title"
+              >
+                <DialogTitle id="dialog-title">
+                  Confirmation
+                </DialogTitle>
+                <DialogContent>
+                  Are you sure you want to proceed?
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
+                  <Button 
+                    onClick={() => {
+                      setDialogOpen(false);
+                      setSnackbarOpen(true);
+                    }}
+                    autoFocus
+                  >
+                    Confirm
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={() => setSnackbarOpen(false)}
+                message="Action confirmed"
+                role="status"
+                aria-live="polite"
+              />
+            </Box>
+            {showValidation && (
+              <Alert severity="info" sx={{ mt: 2 }}>
+                <Typography variant="body2">
+                  ARIA attributes used:
+                  <ul>
+                    <li>aria-haspopup: Indicates dialog will appear</li>
+                    <li>aria-labelledby: Associates dialog with its title</li>
+                    <li>role="status": Identifies status message</li>
+                    <li>aria-live: Announces confirmation to screen readers</li>
+                  </ul>
+                </Typography>
+              </Alert>
+            )}
+          </CardContent>
+        </Card>
+      </Stack>
+    );
   };
 
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           Name, Role, Value Demo
         </Typography>
 
-        {/* Custom Controls Example */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Custom Media Controls
-            </Typography>
-            <Box sx={{ mb: 2 }}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <IconButton
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  aria-label={isPlaying ? 'Pause' : 'Play'}
-                  aria-pressed={isPlaying}
-                >
-                  {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-                </IconButton>
-                <Box sx={{ width: '100%' }}>
-                  <LinearProgress
-                    variant="determinate"
-                    value={progress}
-                    aria-label="Playback progress"
-                    role="progressbar"
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuenow={progress}
-                  />
-                </Box>
-              </Stack>
-            </Box>
-            {showARIA && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                <Typography variant="body2">
-                  ARIA attributes used:
-                  <ul>
-                    <li>aria-label: Identifies the control's purpose</li>
-                    <li>aria-pressed: Indicates toggle button state</li>
-                    <li>role: Defines the element's role</li>
-                    <li>aria-valuemin/max/now: Provides progress information</li>
-                  </ul>
-                </Typography>
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
+        <Alert severity="info">
+          Proper use of ARIA attributes ensures that custom interface components are
+          accessible to assistive technologies. Common issues include missing labels,
+          incorrect roles, and unannounced state changes.
+        </Alert>
 
-        {/* Form Controls Example */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Form Controls with ARIA
-            </Typography>
-            <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-              <Stack spacing={2}>
-                <TextField
-                  label="Email"
-                  type="email"
-                  required
-                  error={showError}
-                  helperText={showError ? 'Please enter a valid email' : ''}
-                  onChange={(e) => {
-                    setIsValid(e.target.value.includes('@'));
-                    setShowError(false);
-                  }}
-                  aria-invalid={showError}
-                  aria-describedby={showError ? 'email-error' : undefined}
-                />
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Switch
-                    checked={isSubscribed}
-                    onChange={(e) => setIsSubscribed(e.target.checked)}
-                    inputProps={{
-                      'aria-label': 'Subscribe to newsletter'
-                    }}
-                  />
-                  <Typography>Subscribe to newsletter</Typography>
-                </Box>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  aria-label="Submit form"
-                >
-                  Submit
-                </Button>
-              </Stack>
-            </Box>
-            {showARIA && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                <Typography variant="body2">
-                  Form control attributes:
-                  <ul>
-                    <li>aria-invalid: Indicates validation state</li>
-                    <li>aria-describedby: Links error messages</li>
-                    <li>role="switch": Defines toggle behavior</li>
-                    <li>aria-checked: Indicates switch state</li>
-                  </ul>
-                </Typography>
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)}>
+            <Tab label="Common Edge Cases" />
+            <Tab label="Interactive Examples" />
+            <Tab label="Best Practices" />
+          </Tabs>
+        </Box>
 
-        {/* Status Updates Example */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Dynamic Status Updates
-            </Typography>
-            <Box
-              role="status"
-              aria-live="polite"
-              sx={{ p: 2, bgcolor: 'background.default', borderRadius: 1 }}
-            >
-              <Stack direction="row" spacing={1} alignItems="center">
-                {isValid ? (
-                  <CheckCircleIcon color="success" />
-                ) : (
-                  <ErrorIcon color="error" />
-                )}
-                <Typography>
-                  {isValid ? 'Form is valid' : 'Form needs attention'}
-                </Typography>
-              </Stack>
-            </Box>
-            {showARIA && (
-              <Alert severity="info" sx={{ mt: 2 }}>
-                <Typography variant="body2">
-                  Status update attributes:
-                  <ul>
-                    <li>role="status": Identifies status message</li>
-                    <li>aria-live: Announces changes to screen readers</li>
-                  </ul>
-                </Typography>
-              </Alert>
-            )}
-          </CardContent>
-        </Card>
+        {activeTab === 0 && (
+          <Stack spacing={3}>
+            {edgeCases.map((example, index) => (
+              <Card key={index}>
+                <CardContent>
+                  <Stack spacing={2}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="h6" component="h2">
+                        {example.title}
+                      </Typography>
+                      <Tooltip title="View validation details">
+                        <IconButton
+                          size="small"
+                          onClick={() => setShowLiveValidation(!showLiveValidation)}
+                        >
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+
+                    <Box>
+                      <Typography variant="subtitle1" component="h3" gutterBottom>
+                        ✓ Valid Example:
+                      </Typography>
+                      <Box
+                        component="pre"
+                        sx={{
+                          p: 2,
+                          bgcolor: 'success.light',
+                          borderRadius: 1,
+                          overflow: 'auto',
+                        }}
+                      >
+                        <code>{example.valid}</code>
+                      </Box>
+                    </Box>
+
+                    <Box>
+                      <Typography variant="subtitle1" component="h3" gutterBottom>
+                        ✗ Invalid Example:
+                      </Typography>
+                      <Box
+                        component="pre"
+                        sx={{
+                          p: 2,
+                          bgcolor: 'error.light',
+                          borderRadius: 1,
+                          overflow: 'auto',
+                        }}
+                      >
+                        <code>{example.invalid}</code>
+                      </Box>
+                    </Box>
+
+                    {(showValidation || showLiveValidation) && (
+                      <>
+                        <Alert severity="error" icon={<ErrorIcon />}>
+                          {example.error}
+                        </Alert>
+                        <Alert severity="success" icon={<CheckCircleIcon />}>
+                          Fix: {example.fix}
+                        </Alert>
+                      </>
+                    )}
+                  </Stack>
+                </CardContent>
+              </Card>
+            ))}
+          </Stack>
+        )}
+
+        {activeTab === 1 && <InteractiveExamples />}
+
+        {activeTab === 2 && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6" component="h2" gutterBottom>
+                Best Practices for Name, Role, Value
+              </Typography>
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="1. Use Native Elements When Possible"
+                    secondary="Native HTML elements have built-in accessibility features"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="2. Provide Accessible Names"
+                    secondary="Use labels, aria-label, or aria-labelledby for all interactive elements"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="3. Define Clear Roles"
+                    secondary="Use appropriate ARIA roles when native elements aren't suitable"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="4. Manage Component States"
+                    secondary="Keep ARIA states (expanded, pressed, selected) up to date"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="5. Announce Dynamic Changes"
+                    secondary="Use live regions to announce important content updates"
+                  />
+                </ListItem>
+              </List>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
@@ -195,6 +368,10 @@ const NameRoleValueDemo = ({
               <li>States, properties, and values are programmatically set</li>
               <li>Changes in content are notified to assistive technologies</li>
             </ul>
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              Remember: ARIA should be used to supplement HTML semantics, not replace them.
+              Always prefer native HTML elements with built-in accessibility features.
+            </Alert>
           </Typography>
         </Box>
       </Stack>
@@ -321,7 +498,6 @@ Detailed view showing ARIA implementation including:
 
 export const WithValidation = Template.bind({});
 WithValidation.args = {
-  showARIA: true,
   showValidation: true,
 };
 WithValidation.parameters = {
