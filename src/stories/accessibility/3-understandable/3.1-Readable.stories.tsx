@@ -242,10 +242,60 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.1 Readable - Make text content readable and understandable. Includes guidelines 3.1.1 Language of Page, 3.1.2 Language of Parts, 3.1.3 Unusual Words, 3.1.4 Abbreviations, and 3.1.5 Reading Level.'
-      },
-      story: {
-        inline: true
+        component: `
+# WCAG 3.1 Readable Content
+
+This component demonstrates how to make text content readable and understandable for all users, following WCAG 3.1 guidelines.
+
+## Key Features
+- **Language Declaration**: Proper language identification for pages and parts
+- **Technical Terms**: Explanation of complex or unusual words
+- **Abbreviations**: Expansion of abbreviations on first use
+- **Reading Level**: Content written at appropriate comprehension levels
+- **Multilingual Support**: Content available in multiple languages
+
+## Implementation Guidelines
+1. **Language Identification**
+   - Use lang attribute on HTML elements
+   - Mark language changes within content
+   - Support right-to-left languages
+   - Maintain language metadata
+
+2. **Technical Terms**
+   - Provide definitions for complex terms
+   - Include pronunciation guides
+   - Link to glossaries
+   - Use consistent terminology
+
+3. **Abbreviation Handling**
+   - Expand abbreviations on first use
+   - Provide glossary of terms
+   - Use \`<abbr>\` element with title
+   - Maintain consistency
+
+4. **Reading Level**
+   - Write at secondary education level
+   - Offer simplified versions
+   - Use clear, concise language
+   - Avoid complex terminology
+
+## Best Practices
+- Declare document language
+- Mark language changes
+- Define technical terms
+- Expand abbreviations
+- Simplify complex content
+- Provide translations
+- Use clear writing style
+
+## Technical Requirements
+- HTML lang attributes
+- Semantic markup
+- ARIA language roles
+- Translation support
+- Term definitions
+- Reading level tools
+`
       }
     }
   },
@@ -288,6 +338,19 @@ Basic.args = {
   enableAbbreviations: false,
   showReadingLevel: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: `
+Basic implementation showing:
+- Default language handling
+- Simple content structure
+- Clear writing examples
+- Essential readability features
+      `
+    }
+  }
+};
 
 export const WithLanguageControls = Template.bind({});
 WithLanguageControls.args = {
@@ -295,10 +358,39 @@ WithLanguageControls.args = {
   enableAbbreviations: false,
   showReadingLevel: false,
 };
+WithLanguageControls.parameters = {
+  docs: {
+    description: {
+      story: `
+Enhanced language support demonstrating:
+- Language switching controls
+- Content translations
+- Language indicators
+- Multilingual support
+- Simplified versions
+      `
+    }
+  }
+};
 
 export const FullFeatures = Template.bind({});
 FullFeatures.args = {
   showLanguageControls: true,
   enableAbbreviations: true,
   showReadingLevel: true,
+};
+FullFeatures.parameters = {
+  docs: {
+    description: {
+      story: `
+Complete implementation showcasing:
+- Language controls
+- Abbreviation handling
+- Reading level examples
+- Technical term definitions
+- Content simplification
+- Full accessibility support
+      `
+    }
+  }
 }; 

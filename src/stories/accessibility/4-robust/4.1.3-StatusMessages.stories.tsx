@@ -226,7 +226,70 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 4.1.3 Status Messages - Status messages can be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.'
+        component: `
+# WCAG 4.1.3 Status Messages
+
+This component demonstrates how to implement status messages that can be programmatically determined and presented to users by assistive technologies without receiving focus.
+
+## Key Features
+- **Live Regions**: Proper implementation of ARIA live regions
+- **Message Types**: Different roles for various message types
+- **Focus Management**: Messages announced without focus changes
+- **Dynamic Updates**: Proper handling of content updates
+
+## Implementation Guidelines
+1. **Live Region Types**
+   - aria-live="polite" for non-urgent updates
+   - aria-live="assertive" for important messages
+   - role="status" for status messages
+   - role="alert" for important notifications
+
+2. **Message Categories**
+   - Success notifications
+   - Error messages
+   - Loading states
+   - Progress updates
+   - Status changes
+
+3. **Best Practices**
+   - Use appropriate ARIA roles
+   - Choose correct live region types
+   - Maintain clear message text
+   - Avoid focus interruption
+
+4. **Common Patterns**
+   - Form submission feedback
+   - Loading indicators
+   - Progress bars
+   - Error notifications
+   - Success messages
+
+## Technical Requirements
+- ARIA live regions
+- Role assignments
+- Focus management
+- Dynamic content updates
+- Screen reader support
+- Timing control
+`
+      }
+    }
+  },
+  argTypes: {
+    showARIAExplanations: {
+      control: 'boolean',
+      description: 'Shows explanations of ARIA live regions and roles',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    simulateSlowNetwork: {
+      control: 'boolean',
+      description: 'Simulates slow network to demonstrate loading states',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -239,15 +302,50 @@ Basic.args = {
   showARIAExplanations: false,
   simulateSlowNetwork: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing different types of status messages and their implementation.'
+    }
+  }
+};
 
 export const WithARIAExplanations = Template.bind({});
 WithARIAExplanations.args = {
   showARIAExplanations: true,
   simulateSlowNetwork: false,
 };
+WithARIAExplanations.parameters = {
+  docs: {
+    description: {
+      story: `
+Detailed view with ARIA explanations showing:
+- Live region implementations
+- Role assignments
+- Message priorities
+- Update behaviors
+- Focus management
+      `
+    }
+  }
+};
 
 export const SlowNetwork = Template.bind({});
 SlowNetwork.args = {
   showARIAExplanations: true,
   simulateSlowNetwork: true,
+};
+SlowNetwork.parameters = {
+  docs: {
+    description: {
+      story: `
+Network simulation view demonstrating:
+- Loading states
+- Progress indicators
+- Error handling
+- Success messages
+- Status updates timing
+      `
+    }
+  }
 }; 

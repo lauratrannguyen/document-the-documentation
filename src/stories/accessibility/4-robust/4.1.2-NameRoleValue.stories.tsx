@@ -208,7 +208,77 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 4.1.2 Name, Role, Value - For all user interface components, the name and role can be programmatically determined; states, properties, and values can be programmatically set; and notification of changes is available to user agents, including assistive technologies.'
+        component: `
+# WCAG 4.1.2 Name, Role, Value
+
+This component demonstrates how to ensure user interface components are programmatically identifiable and controllable by assistive technologies.
+
+## Key Features
+- **Accessible Names**: Every interactive element has a clear, programmatic name
+- **Proper Roles**: Components use appropriate ARIA roles or semantic HTML
+- **State Management**: Component states are properly communicated
+- **Value Updates**: Changes in values are announced to assistive tech
+
+## Implementation Guidelines
+1. **Accessible Names**
+   - Use proper labels for form controls
+   - Provide aria-label when needed
+   - Implement descriptive text alternatives
+   - Maintain clear button/link text
+
+2. **Role Definition**
+   - Use semantic HTML elements
+   - Apply appropriate ARIA roles
+   - Follow role hierarchy rules
+   - Maintain role compatibility
+
+3. **State Management**
+   - Track component states
+   - Update ARIA states
+   - Announce state changes
+   - Handle focus management
+
+4. **Value Communication**
+   - Update aria-valuenow
+   - Maintain aria-valuemin/max
+   - Provide value text
+   - Handle range inputs
+
+## Best Practices
+- Use native HTML elements when possible
+- Provide clear accessible names
+- Maintain state consistency
+- Test with screen readers
+- Document ARIA usage
+- Validate role implementations
+- Monitor state changes
+
+## Technical Requirements
+- ARIA 1.2 compliance
+- Screen reader compatibility
+- Keyboard accessibility
+- Focus management
+- State tracking
+- Event handling
+`
+      }
+    }
+  },
+  argTypes: {
+    showARIA: {
+      control: 'boolean',
+      description: 'Shows ARIA attributes and roles information',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
+      }
+    },
+    showValidation: {
+      control: 'boolean',
+      description: 'Shows validation feedback for accessibility implementation',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -221,15 +291,50 @@ Basic.args = {
   showARIA: false,
   showValidation: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing components with proper name, role, and value implementation.'
+    }
+  }
+};
 
 export const WithARIA = Template.bind({});
 WithARIA.args = {
   showARIA: true,
   showValidation: false,
 };
+WithARIA.parameters = {
+  docs: {
+    description: {
+      story: `
+Detailed view showing ARIA implementation including:
+- Role assignments
+- State management
+- Value updates
+- Focus handling
+- Event announcement
+      `
+    }
+  }
+};
 
 export const WithValidation = Template.bind({});
 WithValidation.args = {
   showARIA: true,
   showValidation: true,
+};
+WithValidation.parameters = {
+  docs: {
+    description: {
+      story: `
+Complete view with validation feedback showing:
+- Accessibility violations
+- ARIA implementation details
+- State management validation
+- Best practices compliance
+- Suggested improvements
+      `
+    }
+  }
 }; 

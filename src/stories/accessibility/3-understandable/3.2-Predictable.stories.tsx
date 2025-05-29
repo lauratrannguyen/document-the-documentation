@@ -325,10 +325,63 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.2 Predictable - Make web pages appear and operate in predictable ways.'
-      },
-      story: {
-        inline: true
+        component: `
+# WCAG 3.2 Predictable Behavior
+
+This component demonstrates how to create web interfaces that appear and operate in predictable ways, following WCAG 3.2 guidelines.
+
+## Key Features
+- **Consistent Navigation**: Navigation patterns remain consistent
+- **Predictable Interactions**: Components behave as expected
+- **Context Changes**: Changes occur only when initiated by user
+- **Component Identification**: Components are consistently identified
+
+## Implementation Guidelines
+1. **Navigation Consistency**
+   - Maintain consistent navigation order
+   - Use consistent menu structures
+   - Keep navigation placement stable
+   - Provide clear navigation paths
+   - Use breadcrumbs effectively
+
+2. **Interaction Patterns**
+   - Use standard UI patterns
+   - Maintain consistent behavior
+   - Follow platform conventions
+   - Provide clear feedback
+   - Handle focus predictably
+
+3. **Context Management**
+   - Avoid unexpected changes
+   - Warn before context changes
+   - Maintain user control
+   - Preserve user settings
+   - Handle state changes gracefully
+
+4. **Component Identification**
+   - Use consistent naming
+   - Maintain visual consistency
+   - Apply consistent styling
+   - Use standard icons
+   - Provide clear labels
+
+## Best Practices
+- Keep navigation consistent
+- Use standard patterns
+- Avoid unexpected changes
+- Maintain visual consistency
+- Provide clear feedback
+- Follow platform conventions
+- Document interaction patterns
+
+## Technical Requirements
+- Consistent DOM structure
+- Stable navigation
+- Focus management
+- State handling
+- Event management
+- Visual consistency
+`
       }
     }
   },
@@ -371,6 +424,19 @@ Basic.args = {
   enableContextChanges: false,
   showConsistentIdentification: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: `
+Basic implementation showing:
+- Simple navigation structure
+- Standard interaction patterns
+- Basic component identification
+- Essential predictability features
+      `
+    }
+  }
+};
 
 export const WithNavigation = Template.bind({});
 WithNavigation.args = {
@@ -378,10 +444,39 @@ WithNavigation.args = {
   enableContextChanges: false,
   showConsistentIdentification: false,
 };
+WithNavigation.parameters = {
+  docs: {
+    description: {
+      story: `
+Enhanced navigation features demonstrating:
+- Consistent navigation patterns
+- Breadcrumb navigation
+- Menu structures
+- Navigation order
+- Location indicators
+      `
+    }
+  }
+};
 
 export const Complete = Template.bind({});
 Complete.args = {
   showConsistentNavigation: true,
   enableContextChanges: true,
   showConsistentIdentification: true,
+};
+Complete.parameters = {
+  docs: {
+    description: {
+      story: `
+Complete implementation showcasing:
+- Consistent navigation
+- Predictable interactions
+- Context change handling
+- Component identification
+- Visual consistency
+- Full accessibility support
+      `
+    }
+  }
 }; 
