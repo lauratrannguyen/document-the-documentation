@@ -38,8 +38,8 @@ const TimeBasedMediaGuidance = () => {
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
         <Typography 
-          component="h1" 
-          variant="h4" 
+          component="h1"
+          variant="h4"
           gutterBottom
         >
           Time-based Media Accessibility Guidelines
@@ -47,13 +47,15 @@ const TimeBasedMediaGuidance = () => {
 
         <Alert severity="info" sx={{ mb: 2 }}>
           <AlertTitle>Key Principle</AlertTitle>
-          Time-based media must be accessible to users with different abilities through multiple means of perception, including alternatives for both audio and visual content.
+          <Typography component="div" variant="body1">
+            Time-based media must be accessible to users with different abilities through multiple means of perception, including alternatives for both audio and visual content.
+          </Typography>
         </Alert>
 
         <Box>
           <Typography 
-            component="h2" 
-            variant="h6" 
+            component="h2"
+            variant="h5"
             gutterBottom
           >
             Essential Components:
@@ -85,8 +87,17 @@ const TimeBasedMediaGuidance = () => {
                 <Stack direction="row" alignItems="center" spacing={2}>
                   {method.icon}
                   <Box>
-                    <Typography variant="subtitle1">{method.label}</Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography 
+                      component="h3"
+                      variant="h6"
+                    >
+                      {method.label}
+                    </Typography>
+                    <Typography 
+                      component="p"
+                      variant="body2" 
+                      color="text.secondary"
+                    >
                       {method.description}
                     </Typography>
                   </Box>
@@ -100,8 +111,8 @@ const TimeBasedMediaGuidance = () => {
 
         <Box>
           <Typography 
-            component="h2" 
-            variant="h6" 
+            component="h2"
+            variant="h5"
             gutterBottom
           >
             Common Implementation Challenges:
@@ -115,8 +126,8 @@ const TimeBasedMediaGuidance = () => {
 
         <Box>
           <Typography 
-            component="h2" 
-            variant="h6" 
+            component="h2"
+            variant="h5"
             gutterBottom
           >
             Media Types and Requirements
@@ -125,8 +136,16 @@ const TimeBasedMediaGuidance = () => {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell><strong>Media Type</strong></TableCell>
-                  <TableCell><strong>Required Alternatives</strong></TableCell>
+                  <TableCell>
+                    <Typography component="span" variant="subtitle2">
+                      <strong>Media Type</strong>
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography component="span" variant="subtitle2">
+                      <strong>Required Alternatives</strong>
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -153,8 +172,16 @@ const TimeBasedMediaGuidance = () => {
                   }
                 ].map((row) => (
                   <TableRow key={row.type}>
-                    <TableCell>{row.type}</TableCell>
-                    <TableCell>{row.requirements}</TableCell>
+                    <TableCell>
+                      <Typography component="span" variant="body2">
+                        {row.type}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography component="span" variant="body2">
+                        {row.requirements}
+                      </Typography>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -164,8 +191,8 @@ const TimeBasedMediaGuidance = () => {
 
         <Box>
           <Typography 
-            component="h2" 
-            variant="h6" 
+            component="h2"
+            variant="h5"
             gutterBottom
           >
             Best Practices for Implementation
@@ -184,7 +211,13 @@ const TimeBasedMediaGuidance = () => {
                 <ListItemIcon>
                   <CheckCircleOutlineIcon color="success" />
                 </ListItemIcon>
-                <ListItemText primary={item} />
+                <ListItemText 
+                  primary={
+                    <Typography component="span" variant="body1">
+                      {item}
+                    </Typography>
+                  }
+                />
               </ListItem>
             ))}
           </List>
@@ -192,7 +225,7 @@ const TimeBasedMediaGuidance = () => {
 
         <Alert severity="warning">
           <AlertTitle>Important Considerations</AlertTitle>
-          <Typography variant="body2" component="div">
+          <Typography component="div" variant="body2">
             <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
               <li>Auto-generated captions alone do not meet WCAG requirements</li>
               <li>Consider providing a sign language version for content primarily aimed at deaf users</li>

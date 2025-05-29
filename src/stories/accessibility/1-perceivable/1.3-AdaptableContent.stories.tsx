@@ -541,7 +541,7 @@ const AdaptableChallenges = () => {
         <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
             Common Challenges:
@@ -551,7 +551,7 @@ const AdaptableChallenges = () => {
             <Paper variant="outlined" sx={{ p: 2 }}>
               <Typography 
                 component="h3" 
-                variant="subtitle1" 
+                variant="h6" 
                 gutterBottom
               >
                 1. Complex Layout Adaptation
@@ -573,7 +573,11 @@ const AdaptableChallenges = () => {
                     }}
                   >
                     <Box>
-                      <Typography variant="subtitle2" gutterBottom>
+                      <Typography 
+                        component="h4" 
+                        variant="subtitle1" 
+                        gutterBottom
+                      >
                         Desktop Layout
                       </Typography>
                       <Paper 
@@ -601,7 +605,11 @@ const AdaptableChallenges = () => {
                       </Paper>
                     </Box>
                     <Box>
-                      <Typography variant="subtitle2" gutterBottom>
+                      <Typography 
+                        component="h4" 
+                        variant="subtitle1" 
+                        gutterBottom
+                      >
                         Mobile Layout
                       </Typography>
                       <Paper 
@@ -647,7 +655,7 @@ const AdaptableChallenges = () => {
             <Paper variant="outlined" sx={{ p: 2 }}>
               <Typography 
                 component="h3" 
-                variant="subtitle1" 
+                variant="h6" 
                 gutterBottom
               >
                 2. Data Table Adaptation
@@ -679,12 +687,21 @@ const AdaptableChallenges = () => {
                     </Table>
                   </TableContainer>
                   <Box sx={{ mt: 2 }}>
-                    <Typography variant="subtitle2" gutterBottom>
+                    <Typography 
+                      component="h4" 
+                      variant="subtitle1" 
+                      gutterBottom
+                    >
                       Mobile View (Card Format)
                     </Typography>
                     <Paper variant="outlined" sx={{ p: 2 }}>
                       <Stack spacing={1}>
-                        <Typography variant="subtitle1">John Doe</Typography>
+                        <Typography 
+                          component="h5" 
+                          variant="subtitle2"
+                        >
+                          John Doe
+                        </Typography>
                         <Typography variant="body2">Role: Developer</Typography>
                         <Typography variant="body2">Department: Engineering</Typography>
                         <Typography variant="body2">Location: New York</Typography>
@@ -709,7 +726,7 @@ const AdaptableChallenges = () => {
             <Paper variant="outlined" sx={{ p: 2 }}>
               <Typography 
                 component="h3" 
-                variant="subtitle1" 
+                variant="h6" 
                 gutterBottom
               >
                 3. Interactive Content
@@ -722,7 +739,11 @@ const AdaptableChallenges = () => {
                 <Paper variant="outlined" sx={{ p: 2 }}>
                   <Stack spacing={2}>
                     <Box>
-                      <Typography variant="subtitle2" gutterBottom>
+                      <Typography 
+                        component="h4" 
+                        variant="subtitle1" 
+                        gutterBottom
+                      >
                         Touch-friendly Controls
                       </Typography>
                       <ButtonGroup>
@@ -753,7 +774,11 @@ const AdaptableChallenges = () => {
                       </ButtonGroup>
                     </Box>
                     <Box>
-                      <Typography variant="subtitle2" gutterBottom>
+                      <Typography 
+                        component="h4" 
+                        variant="subtitle1" 
+                        gutterBottom
+                      >
                         Keyboard Navigation
                       </Typography>
                       <Stack direction="row" spacing={1} alignItems="center">
@@ -788,7 +813,7 @@ const AdaptableChallenges = () => {
         <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
             Implementation Tips
@@ -830,7 +855,7 @@ const AdaptableChallenges = () => {
         <Box>
           <Typography 
             component="h2" 
-            variant="h6" 
+            variant="h5" 
             gutterBottom
           >
             Challenge Resolution Checklist
