@@ -132,19 +132,19 @@ const ConformanceTestingDemo = ({
               Testing Process
             </Typography>
             <Stepper orientation="vertical">
-              {testingSteps.map((step, index) => (
+              {testingSteps.map((step, _index) => (
                 <Step key={step.label} active={true}>
                   <StepLabel
-                    StepIconComponent={() => (
+                    icon={
                       <Box sx={{ color: 'primary.main' }}>
                         {step.icon}
                       </Box>
-                    )}
+                    }
                   >
                     <Typography variant="subtitle1" component="h3">{step.label}</Typography>
                   </StepLabel>
                   <StepContent>
-                    <Typography color="text.secondary" paragraph>
+                    <Typography color="text.secondary" sx={{ mb: 2 }}>
                       {step.description}
                     </Typography>
                     {showDetailedSteps && (
