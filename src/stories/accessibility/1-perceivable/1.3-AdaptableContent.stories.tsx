@@ -302,7 +302,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 1.3 Adaptable - Create content that can be presented in different ways without losing structure or information.'
+        component: `WCAG 1.3 Adaptable Content\n
+This guide demonstrates how to create content that can be presented in different ways without losing structure or information.\n
+Key Requirements:\n
+  • Content must adapt to different viewing contexts\n
+  • Information and structure must be preserved across presentations\n
+  • Content must be perceivable regardless of display orientation\n
+  • Interactive elements must have clear purpose and identification\n
+Reference:
+See WCAG 2.2 - 1.3 Adaptable (https://www.w3.org/TR/WCAG22/#adaptable)`
       }
     }
   }
