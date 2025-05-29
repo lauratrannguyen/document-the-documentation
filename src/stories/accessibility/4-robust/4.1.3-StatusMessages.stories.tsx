@@ -761,6 +761,19 @@ Basic.parameters = {
   }
 };
 
+export const Complex = ComplexTemplate.bind({});
+Complex.args = {
+  showARIAExplanations: true,
+  simulateSlowNetwork: false,
+};
+Complex.parameters = {
+  docs: {
+    description: {
+      story: 'Complex view demonstrating advanced status message patterns and implementations.'
+    }
+  }
+};
+
 export const WithARIAExplanations = Template.bind({});
 WithARIAExplanations.args = {
   showARIAExplanations: true,

@@ -35,13 +35,11 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Rating,
   Card,
   CardContent,
 } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import WarningIcon from '@mui/icons-material/Warning';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TranslateIcon from '@mui/icons-material/Translate';
 import UndoIcon from '@mui/icons-material/Undo';
@@ -201,9 +199,15 @@ const InputAssistanceDemo = ({
     const { name, value } = event.target;
     if (name) {
       setFormData((prev) => ({ ...prev, [name]: value }));
+      if (name === 'password') {
+        setPasswordStrength(calculatePasswordStrength(value));
+      }
       if (showErrors) {
         const error = validateField(name as keyof FormData, value);
         setErrors((prev) => ({ ...prev, [name]: error }));
+      }
+      if (variant === 'async' && name === 'username') {
+        handleAsyncValidation(name, value);
       }
     }
   };
@@ -233,6 +237,11 @@ const InputAssistanceDemo = ({
 
     setErrors(newErrors);
     setSubmitted(true);
+
+    // Track errors in history
+    if (Object.values(newErrors).length > 0) {
+      setErrorHistory(prev => [...prev, ...Object.values(newErrors)]);
+    }
 
     // Announce validation status to screen readers
     if (Object.keys(newErrors).length > 0) {
@@ -319,17 +328,33 @@ const InputAssistanceDemo = ({
 
       case 'conditional':
         return (
-          <Stepper activeStep={currentStep} sx={{ mb: 2 }}>
-            <Step>
-              <StepLabel>Account Type</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Basic Info</StepLabel>
-            </Step>
-            <Step>
-              <StepLabel>Verification</StepLabel>
-            </Step>
-          </Stepper>
+          <>
+            <Stepper activeStep={currentStep} sx={{ mb: 2 }}>
+              <Step>
+                <StepLabel>Account Type</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Basic Info</StepLabel>
+              </Step>
+              <Step>
+                <StepLabel>Verification</StepLabel>
+              </Step>
+            </Stepper>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Button 
+                onClick={() => setCurrentStep(prev => Math.max(0, prev - 1))}
+                disabled={currentStep === 0}
+              >
+                Back
+              </Button>
+              <Button 
+                onClick={() => setCurrentStep(prev => Math.min(2, prev + 1))}
+                disabled={currentStep === 2}
+              >
+                Next
+              </Button>
+            </Box>
+          </>
         );
 
       case 'recovery':
@@ -567,6 +592,11 @@ const InputAssistanceDemo = ({
           noValidate
           aria-label="Account registration form"
         >
+          {submitted && (
+            <Alert severity="success" sx={{ mb: 2 }}>
+              Form submitted successfully! Thank you for registering.
+            </Alert>
+          )}
           <Stack spacing={3}>
             <FormControl error={!!errors.username}>
               <TextField
