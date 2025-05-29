@@ -216,49 +216,20 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `
-          # WCAG 1.2 Time-based Media
-          
-          This guide demonstrates implementation requirements and best practices for making time-based media accessible according to WCAG 1.2 guidelines.
-          
-          ## Key Requirements
-          - Provide alternatives for time-based media
-          - Ensure synchronized captions for audio content
-          - Include audio descriptions for visual information
-          - Support sign language interpretation
-          - Offer transcripts and media alternatives
-          
-          ## Reference
-          [WCAG 2.2 - 1.2 Time-based Media](https://www.w3.org/TR/WCAG22/#time-based-media)
-        `
+        component: `WCAG 1.2 Time-based Media\n
+Ensure audio and video content is accessible through synchronized captions, audio descriptions, and transcripts.\n
+Key Requirements:\n
+  • Provide captions for all audio content\n
+  • Include audio descriptions for visual information\n
+  • Offer transcripts for audio-only content\n
+  • Support sign language when needed\n
+Reference:
+See WCAG 2.2 - 1.2 Time-based Media (https://www.w3.org/TR/WCAG22/#time-based-media)`
       }
     }
   }
 };
 
 export const Guidance = GuidanceTemplate.bind({});
-Guidance.parameters = {
-  docs: {
-    description: {
-      story: `
-        # Time-based Media Accessibility Guidelines
-        
-        This guide demonstrates how to implement accessible time-based media following WCAG requirements.
-        
-        ## Key Concepts
-        1. **Multiple Alternatives**: Provide different ways to access content
-        2. **Synchronization**: Maintain timing between content and alternatives
-        3. **Quality Control**: Ensure accuracy and completeness
-        4. **User Experience**: Consider different user needs and preferences
-        
-        ## Best Practices
-        - Plan for accessibility during content creation
-        - Use professional services for complex content
-        - Test with actual users of assistive technologies
-        - Maintain quality of alternatives over time
-      `
-    }
-  }
-};
 
 // Keep your existing CommonChallenges export 

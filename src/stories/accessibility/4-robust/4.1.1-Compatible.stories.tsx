@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { StoryFn } from '@storybook/react';
 import {
   Box,
@@ -11,121 +11,202 @@ import {
   List,
   ListItem,
   ListItemText,
+  Alert,
+  IconButton,
+  Tooltip,
+  Tab,
+  Tabs,
 } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+import ErrorIcon from '@mui/icons-material/Error';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface CompatibleProps {
   showValidation: boolean;
 }
 
-const CompatibleDemo = ({ showValidation }: CompatibleProps) => {
-  // Example of valid HTML structure
-  const validHTML = `
-    <article>
-      <h1>Main Title</h1>
-      <section>
-        <h2>Section Title</h2>
-        <p>Content with <strong>proper</strong> nesting.</p>
-      </section>
-    </article>
-  `;
+const CompatibleDemo = ({ 
+  showValidation,
+}: CompatibleProps) => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [showLiveValidation, setShowLiveValidation] = useState(showValidation);
 
-  // Example of invalid HTML structure
-  const invalidHTML = `
-    <article>
-      <h1>Main Title</h1>
-      <div>
-        <h3>Incorrect Heading Level</h3>
-        <p>Content with <em>improper</em> closing tags.</p>
-      <div>
-    </article>
-  `;
+  // Common edge cases in HTML/ARIA usage
+  const edgeCases = [
+    {
+      title: 'Nested Interactive Elements',
+      valid: `<button type="button">
+  Simple button
+</button>`,
+      invalid: `<button type="button">
+  Click <a href="#">here</a>
+</button>`,
+      error: 'Interactive elements (like links) should not be nested inside buttons',
+      fix: 'Use either a button or a link, not both nested'
+    },
+    {
+      title: 'ARIA Attributes',
+      valid: `<button 
+  aria-expanded="false"
+  aria-controls="menu-1">
+  Toggle Menu
+</button>`,
+      invalid: `<button 
+  aria-expanded="collapsed"
+  controls="menu-1">
+  Toggle Menu
+</button>`,
+      error: 'Invalid ARIA attribute value and incorrect attribute name',
+      fix: 'Use valid ARIA attribute names and values (true/false for aria-expanded)'
+    },
+    {
+      title: 'Form Labels',
+      valid: `<label for="name">Name:</label>
+<input id="name" type="text" />`,
+      invalid: `<label>Name:
+  <input type="text">
+</label>`,
+      error: 'Missing explicit label-input association',
+      fix: 'Use matching for/id attributes to associate labels with inputs'
+    }
+  ];
 
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           Compatible Markup Demo
         </Typography>
 
-        {/* Valid HTML Example */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Valid HTML Structure
-            </Typography>
-            <Box
-              component="pre"
-              sx={{
-                p: 2,
-                bgcolor: 'background.default',
-                borderRadius: 1,
-                overflow: 'auto',
-              }}
-            >
-              <code>{validHTML.trim()}</code>
-            </Box>
-            {showValidation && (
-              <List dense>
-                <ListItem>
-                  <ListItemText
-                    primary="✓ Complete start and end tags"
-                    secondary="All elements are properly opened and closed"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="✓ Proper element nesting"
-                    secondary="Elements are nested according to their specifications"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="✓ Unique IDs"
-                    secondary="No duplicate ID attributes in the document"
-                  />
-                </ListItem>
-              </List>
-            )}
-          </CardContent>
-        </Card>
+        <Alert severity="info">
+          Ensuring markup validity is crucial for assistive technologies to correctly
+          interpret your content. Common issues include invalid nesting, improper ARIA
+          usage, and duplicate IDs.
+        </Alert>
 
-        {/* Invalid HTML Example */}
-        <Card>
-          <CardContent>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Invalid HTML Structure
-            </Typography>
-            <Box
-              component="pre"
-              sx={{
-                p: 2,
-                bgcolor: 'background.default',
-                borderRadius: 1,
-                overflow: 'auto',
-              }}
-            >
-              <code>{invalidHTML.trim()}</code>
-            </Box>
-            {showValidation && (
-              <List dense>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={activeTab} onChange={(_, newValue) => setActiveTab(newValue)}>
+            <Tab label="Common Edge Cases" />
+            <Tab label="Best Practices" />
+          </Tabs>
+        </Box>
+
+        {activeTab === 0 && (
+          <Stack spacing={3}>
+            {edgeCases.map((example, index) => (
+              <Card key={index}>
+                <CardContent>
+                  <Stack spacing={2}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="h6" component="h2">
+                        {example.title}
+                      </Typography>
+                      <Tooltip title="View validation details">
+                        <IconButton
+                          size="small"
+                          onClick={() => setShowLiveValidation(!showLiveValidation)}
+                        >
+                          <InfoIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </Box>
+
+                    <Box>
+                      <Typography variant="subtitle1" component="h3" gutterBottom>
+                        ✓ Valid Example:
+                      </Typography>
+                      <Box
+                        component="pre"
+                        sx={{
+                          p: 2,
+                          bgcolor: 'success.light',
+                          borderRadius: 1,
+                          overflow: 'auto',
+                        }}
+                      >
+                        <code>{example.valid}</code>
+                      </Box>
+                    </Box>
+
+                    <Box>
+                      <Typography variant="subtitle1" component="h3" gutterBottom>
+                        ✗ Invalid Example:
+                      </Typography>
+                      <Box
+                        component="pre"
+                        sx={{
+                          p: 2,
+                          bgcolor: 'error.light',
+                          borderRadius: 1,
+                          overflow: 'auto',
+                        }}
+                      >
+                        <code>{example.invalid}</code>
+                      </Box>
+                    </Box>
+
+                    {(showValidation || showLiveValidation) && (
+                      <>
+                        <Alert severity="error" icon={<ErrorIcon />}>
+                          {example.error}
+                        </Alert>
+                        <Alert severity="success" icon={<CheckCircleIcon />}>
+                          Fix: {example.fix}
+                        </Alert>
+                      </>
+                    )}
+                  </Stack>
+                </CardContent>
+              </Card>
+            ))}
+          </Stack>
+        )}
+
+        {activeTab === 1 && (
+          <Card>
+            <CardContent>
+              <Typography variant="h6" component="h2" gutterBottom>
+                Best Practices for Compatible Markup
+              </Typography>
+              <List>
                 <ListItem>
                   <ListItemText
-                    primary="✗ Missing end tag"
-                    secondary="The div element is not properly closed"
-                    sx={{ color: 'error.main' }}
+                    primary="1. Validate HTML regularly"
+                    secondary="Use tools like W3C Validator to check markup validity"
                   />
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary="✗ Incorrect heading hierarchy"
-                    secondary="Skips from h1 to h3, breaking document outline"
-                    sx={{ color: 'error.main' }}
+                    primary="2. Test with assistive technologies"
+                    secondary="Ensure content works with screen readers and other AT"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="3. Follow ARIA authoring practices"
+                    secondary="Use ARIA attributes correctly and only when necessary"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="4. Maintain clean markup"
+                    secondary="Avoid unnecessary nesting and maintain proper structure"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemText
+                    primary="5. Use semantic HTML"
+                    secondary="Choose appropriate HTML elements for their intended purpose"
                   />
                 </ListItem>
               </List>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Help Text */}
         <Box sx={{ mt: 3, p: 2, bgcolor: 'background.default' }}>
@@ -138,11 +219,11 @@ const CompatibleDemo = ({ showValidation }: CompatibleProps) => {
               <li>IDs are unique within the document</li>
             </ul>
             <Divider sx={{ my: 2 }} />
-            <Typography variant="caption" display="block">
-              Note: Modern browsers may automatically correct some HTML parsing errors,
-              but this can lead to unexpected behavior and accessibility issues.
-              Always validate your HTML to ensure compatibility.
-            </Typography>
+            <Alert severity="warning" sx={{ mt: 2 }}>
+              While modern browsers may correct some HTML parsing errors automatically,
+              this can lead to unexpected behavior with assistive technologies.
+              Always validate your markup to ensure consistent interpretation.
+            </Alert>
           </Typography>
         </Box>
       </Stack>
@@ -172,4 +253,11 @@ Basic.args = {
 export const WithValidation = Template.bind({});
 WithValidation.args = {
   showValidation: true,
+};
+WithValidation.parameters = {
+  docs: {
+    description: {
+      story: 'Shows detailed validation feedback for each example, including error messages and suggested fixes.'
+    }
+  }
 }; 
