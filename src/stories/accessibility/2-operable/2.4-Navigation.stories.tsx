@@ -210,7 +210,7 @@ const NavigationDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Operable/2.4 Navigation',
+  title: 'Accessibility/2. Operable/2.4 Navigation',
   component: NavigationDemo,
   parameters: {
     docs: {

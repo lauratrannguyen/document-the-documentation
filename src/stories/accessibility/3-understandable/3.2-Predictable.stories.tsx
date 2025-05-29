@@ -320,7 +320,7 @@ const PredictableDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/3.2 Predictable',
+  title: 'Accessibility/3. Understandable/3.2 Predictable',
   component: PredictableDemo,
   parameters: {
     docs: {

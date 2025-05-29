@@ -221,7 +221,7 @@ const StatusMessagesDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Robust/4.1.3 Status Messages',
+  title: 'Accessibility/4. Robust/4.1.3 Status Messages',
   component: StatusMessagesDemo,
   parameters: {
     docs: {

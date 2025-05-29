@@ -42,11 +42,15 @@ interface FormErrors {
 interface InputAssistanceProps {
   showHelperText: boolean;
   requireConfirmation: boolean;
+  showErrors: boolean;
+  requiredFields: string[];
 }
 
 const InputAssistanceDemo = ({
   showHelperText,
   requireConfirmation,
+  showErrors,
+  requiredFields,
 }: InputAssistanceProps) => {
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -59,30 +63,37 @@ const InputAssistanceDemo = ({
   const [errors, setErrors] = useState<FormErrors>({});
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const validateField = (name: keyof FormData, value: string): string | undefined => {
+    // First check if field is required
+    if (requiredFields.includes(name) && !value) {
+      return `${name.charAt(0).toUpperCase() + name.slice(1)} is required`;
+    }
+
+    // Then perform specific validations
     switch (name) {
       case 'username':
-        if (value.length < 3) {
+        if (value && value.length < 3) {
           return 'Username must be at least 3 characters long';
         }
-        if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+        if (value && !/^[a-zA-Z0-9_]+$/.test(value)) {
           return 'Username can only contain letters, numbers, and underscores';
         }
         break;
       case 'email':
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
           return 'Please enter a valid email address';
         }
         break;
       case 'password':
-        if (value.length < 8) {
+        if (value && value.length < 8) {
           return 'Password must be at least 8 characters long';
         }
-        if (!/[A-Z]/.test(value)) {
+        if (value && !/[A-Z]/.test(value)) {
           return 'Password must contain at least one uppercase letter';
         }
-        if (!/[0-9]/.test(value)) {
+        if (value && !/[0-9]/.test(value)) {
           return 'Password must contain at least one number';
         }
         break;
@@ -92,7 +103,7 @@ const InputAssistanceDemo = ({
         }
         break;
       case 'accountType':
-        if (!value) {
+        if (requiredFields.includes('accountType') && !value) {
           return 'Please select an account type';
         }
         break;
@@ -105,8 +116,10 @@ const InputAssistanceDemo = ({
     const { name, value } = event.target;
     if (name) {
       setFormData((prev) => ({ ...prev, [name]: value }));
-      const error = validateField(name as keyof FormData, value);
-      setErrors((prev) => ({ ...prev, [name]: error }));
+      if (showErrors) {
+        const error = validateField(name as keyof FormData, value);
+        setErrors((prev) => ({ ...prev, [name]: error }));
+      }
     }
   };
 
@@ -114,8 +127,10 @@ const InputAssistanceDemo = ({
     const { name, value } = event.target;
     if (name) {
       setFormData((prev) => ({ ...prev, [name]: value }));
-      const error = validateField(name as keyof FormData, value);
-      setErrors((prev) => ({ ...prev, [name]: error }));
+      if (showErrors) {
+        const error = validateField(name as keyof FormData, value);
+        setErrors((prev) => ({ ...prev, [name]: error }));
+      }
     }
   };
 
@@ -131,16 +146,15 @@ const InputAssistanceDemo = ({
       }
     });
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
+    setErrors(newErrors);
+    setSubmitted(true);
 
-    if (requireConfirmation) {
-      setShowConfirmDialog(true);
-    } else {
-      // Submit form
-      console.log('Form submitted:', formData);
+    if (Object.keys(newErrors).length === 0) {
+      if (requireConfirmation) {
+        setShowConfirmDialog(true);
+      } else {
+        console.log('Form submitted:', formData);
+      }
     }
   };
 
@@ -153,69 +167,82 @@ const InputAssistanceDemo = ({
 
         {/* Form Instructions */}
         <Alert severity="info" sx={{ mb: 2 }}>
-          All fields are required. Please review the information carefully before submitting.
+          {requiredFields.length > 0 
+            ? 'Required fields are marked with an asterisk (*)'
+            : 'Please fill out the form below'}
         </Alert>
+
+        {submitted && Object.keys(errors).length === 0 && !requireConfirmation && (
+          <Alert severity="success">Form submitted successfully!</Alert>
+        )}
 
         <form onSubmit={handleSubmit} noValidate>
           <Stack spacing={3}>
-            <TextField
-              name="username"
-              label="Username"
-              value={formData.username}
-              onChange={handleChange}
-              error={!!errors.username}
-              helperText={showHelperText ? (errors.username || 'Use letters, numbers, and underscores') : errors.username}
-              required
-              fullWidth
-              aria-describedby="username-helper-text"
-            />
+            <FormControl error={!!errors.username}>
+              <TextField
+                name="username"
+                label="Username"
+                value={formData.username}
+                onChange={handleChange}
+                error={!!errors.username}
+                helperText={showHelperText ? (errors.username || 'Use letters, numbers, and underscores') : errors.username}
+                required={requiredFields.includes('username')}
+                fullWidth
+                aria-describedby="username-helper-text"
+              />
+            </FormControl>
 
-            <TextField
-              name="email"
-              label="Email Address"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={!!errors.email}
-              helperText={showHelperText ? (errors.email || 'Enter your email address') : errors.email}
-              required
-              fullWidth
-              aria-describedby="email-helper-text"
-            />
+            <FormControl error={!!errors.email}>
+              <TextField
+                name="email"
+                label="Email Address"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={!!errors.email}
+                helperText={showHelperText ? (errors.email || 'Enter your email address') : errors.email}
+                required={requiredFields.includes('email')}
+                fullWidth
+                aria-describedby="email-helper-text"
+              />
+            </FormControl>
 
-            <TextField
-              name="password"
-              label="Password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={!!errors.password}
-              helperText={
-                showHelperText
-                  ? (errors.password ||
-                      'Password must be at least 8 characters with one uppercase letter and one number')
-                  : errors.password
-              }
-              required
-              fullWidth
-              aria-describedby="password-helper-text"
-            />
+            <FormControl error={!!errors.password}>
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                error={!!errors.password}
+                helperText={
+                  showHelperText
+                    ? (errors.password ||
+                        'Password must be at least 8 characters with one uppercase letter and one number')
+                    : errors.password
+                }
+                required={requiredFields.includes('password')}
+                fullWidth
+                aria-describedby="password-helper-text"
+              />
+            </FormControl>
 
-            <TextField
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              error={!!errors.confirmPassword}
-              helperText={showHelperText ? (errors.confirmPassword || 'Re-enter your password') : errors.confirmPassword}
-              required
-              fullWidth
-              aria-describedby="confirm-password-helper-text"
-            />
+            <FormControl error={!!errors.confirmPassword}>
+              <TextField
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                error={!!errors.confirmPassword}
+                helperText={showHelperText ? (errors.confirmPassword || 'Re-enter your password') : errors.confirmPassword}
+                required={requiredFields.includes('confirmPassword')}
+                fullWidth
+                aria-describedby="confirm-password-helper-text"
+              />
+            </FormControl>
 
             <FormControl 
-              required 
               error={!!errors.accountType}
               fullWidth
             >
@@ -226,6 +253,7 @@ const InputAssistanceDemo = ({
                 value={formData.accountType}
                 label="Account Type"
                 onChange={handleSelectChange}
+                required={requiredFields.includes('accountType')}
               >
                 <MenuItem value="personal">Personal</MenuItem>
                 <MenuItem value="business">Business</MenuItem>
@@ -244,7 +272,7 @@ const InputAssistanceDemo = ({
                   checked={agreedToTerms}
                   onChange={(e) => setAgreedToTerms(e.target.checked)}
                   name="terms"
-                  required
+                  required={requiredFields.includes('terms')}
                 />
               }
               label="I agree to the terms and conditions"
@@ -290,6 +318,7 @@ const InputAssistanceDemo = ({
               onClick={() => {
                 console.log('Form submitted:', formData);
                 setShowConfirmDialog(false);
+                setSubmitted(true);
               }}
             >
               Confirm
@@ -317,12 +346,12 @@ const InputAssistanceDemo = ({
 };
 
 export default {
-  title: 'Accessibility/Understandable/3.3 Input Assistance',
+  title: 'Accessibility/3. Understandable/3.3 Input Assistance',
   component: InputAssistanceDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.3 Input Assistance - Help users avoid and correct mistakes.'
+        component: 'WCAG 3.3 Input Assistance - Help users avoid and correct mistakes, with a focus on proper form labeling and comprehensive error prevention.'
       }
     }
   }
@@ -330,14 +359,26 @@ export default {
 
 const Template: StoryFn<typeof InputAssistanceDemo> = (args) => <InputAssistanceDemo {...args} />;
 
-export const BasicAssistance = Template.bind({});
-BasicAssistance.args = {
+export const BasicForm = Template.bind({});
+BasicForm.args = {
   showHelperText: false,
   requireConfirmation: false,
+  showErrors: false,
+  requiredFields: [],
 };
 
-export const FullAssistance = Template.bind({});
-FullAssistance.args = {
+export const WithLabelsAndHelp = Template.bind({});
+WithLabelsAndHelp.args = {
+  showHelperText: true,
+  requireConfirmation: false,
+  showErrors: false,
+  requiredFields: ['username', 'email', 'password'],
+};
+
+export const FullValidation = Template.bind({});
+FullValidation.args = {
   showHelperText: true,
   requireConfirmation: true,
+  showErrors: true,
+  requiredFields: ['username', 'email', 'password', 'confirmPassword', 'accountType', 'terms'],
 }; 
