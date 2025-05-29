@@ -13,7 +13,6 @@ import {
   Alert,
   TextField,
   Button,
-  Divider,
 } from '@mui/material';
 
 interface ConformanceClaimsProps {
@@ -54,7 +53,11 @@ const ConformanceClaimsDemo = ({
   return (
     <Paper elevation={3} sx={{ p: 3, maxWidth: 800 }}>
       <Stack spacing={3}>
-        <Typography variant="h4" component="h1" gutterBottom>
+        <Typography variant="h4" component="h1" sx={{ 
+          fontSize: { xs: '1.5rem', sm: '2rem' },
+          lineHeight: 1.2,
+          fontWeight: 500
+        }} gutterBottom>
           WCAG 2.2 Conformance Claims
         </Typography>
 
