@@ -923,7 +923,7 @@ const CAPTCHATemplate: StoryFn<typeof CAPTCHAGuidanceDemo> = () => <CAPTCHAGuida
 const VideoTemplate: StoryFn<typeof VideoGuidanceDemo> = () => <VideoGuidanceDemo />;
 
 export default {
-  title: 'Accessibility/Perceivable/1.1 Text Alternatives',
+  title: 'Accessibility/1. Perceivable/1.1 Text Alternatives',
   parameters: {
     docs: {
       description: {
