@@ -187,7 +187,46 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.2 Conformance Levels - Understanding the three levels of conformance (A, AA, AAA) and their requirements.'
+        component: `
+# WCAG 2.2 Conformance Levels
+
+This component demonstrates the three levels of WCAG conformance (A, AA, AAA) and their requirements.
+
+## Key Features
+- **Level A**: Basic accessibility requirements that must be met
+- **Level AA**: Additional requirements addressing major accessibility barriers
+- **Level AAA**: Highest level of accessibility with enhanced requirements
+
+## Implementation Guidelines
+- Each level builds upon the previous level
+- Most organizations aim for Level AA compliance
+- Level AAA may not be achievable for all content types
+- All success criteria must be met for claimed level
+
+## Best Practices
+- Start with Level A as the foundation
+- Progress systematically to Level AA
+- Document conformance for each level
+- Regularly test against requirements
+- Consider specific user needs when choosing level
+- Maintain compliance through updates
+
+## Technical Requirements
+- Ensure all pages meet chosen level criteria
+- Test with various assistive technologies
+- Validate conformance regularly
+- Document any exceptions or limitations
+`
+      }
+    }
+  },
+  argTypes: {
+    showExamples: {
+      control: 'boolean',
+      description: 'Shows practical examples for each conformance level',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -201,8 +240,28 @@ export const Basic = Template.bind({});
 Basic.args = {
   showExamples: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing the three conformance levels (A, AA, AAA) and their general descriptions.'
+    }
+  }
+};
 
 export const WithExamples = Template.bind({});
 WithExamples.args = {
   showExamples: true,
+};
+WithExamples.parameters = {
+  docs: {
+    description: {
+      story: `
+Detailed view with practical examples for each conformance level:
+- Level A examples of basic accessibility requirements
+- Level AA examples of enhanced accessibility features
+- Level AAA examples of comprehensive accessibility support
+- General conformance requirements and guidelines
+      `
+    }
+  }
 }; 

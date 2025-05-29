@@ -927,20 +927,15 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: `
-          # WCAG 1.1 Text Alternatives
-          
-          This guide demonstrates implementations of WCAG 1.1 Text Alternatives guidelines, which require providing text alternatives for any non-text content.
-          
-          ## Key Requirements
-          - All non-text content must have text alternatives that serve equivalent purpose
-          - Decorative content should be implemented to be ignored by assistive technology
-          - Live content must have text alternatives that update
-          - Complex content (charts, diagrams) must have detailed descriptions
-          
-          ## Reference
-          [WCAG 2.2 - 1.1 Text Alternatives](https://www.w3.org/TR/WCAG22/#text-alternatives)
-        `
+        component: `WCAG 1.1 Text Alternatives\n
+This guide demonstrates implementations of WCAG 1.1 Text Alternatives guidelines, which require providing text alternatives for any non-text content.\n
+Key Requirements:\n
+  • All non-text content must have text alternatives that serve equivalent purpose\n
+  • Decorative content should be implemented to be ignored by assistive technology\n
+  • Live content must have text alternatives that update\n
+  • Complex content (charts, diagrams) must have detailed descriptions\n
+Reference:
+See WCAG 2.2 - 1.1 Text Alternatives (https://www.w3.org/TR/WCAG22/#text-alternatives)`
       }
     }
   }
@@ -951,22 +946,17 @@ export const BasicUsage = BasicTemplate.bind({});
 BasicUsage.parameters = {
   docs: {
     description: {
-      story: `
-        # Basic Text Alternatives
-        
-        This guide demonstrates fundamental implementation of text alternatives for common scenarios.
-        
-        ## Key Concepts
-        1. **Purpose Over Description**: Alt text should convey meaning, not just describe visuals
-        2. **Context Matters**: The same image might need different alt text in different contexts
-        3. **Decorative vs Functional**: Different approaches for different image roles
-        
-        ## Best Practices
-        - Write alt text that serves the same purpose as the image
-        - Use empty alt text for decorative images
-        - Keep descriptions concise and meaningful
-        - Test with screen readers
-      `
+      story: `Basic Text Alternatives\n
+This guide demonstrates fundamental implementation of text alternatives for common scenarios.\n
+Key Concepts:\n
+  • Purpose Over Description: Alt text should convey meaning, not just describe visuals\n
+  • Context Matters: The same image might need different alt text in different contexts\n
+  • Decorative vs Functional: Different approaches for different image roles\n
+Best Practices:\n
+  • Write alt text that serves the same purpose as the image\n
+  • Use empty alt text for decorative images\n
+  • Keep descriptions concise and meaningful\n
+  • Test with screen readers`
     }
   }
 };
@@ -975,22 +965,17 @@ export const ComplexContent = ComplexTemplate.bind({});
 ComplexContent.parameters = {
   docs: {
     description: {
-      story: `
-        # Complex Content Accessibility
-        
-        This guide demonstrates how to make complex content accessible through multiple techniques.
-        
-        ## Key Concepts
-        1. **Layered Approach**: Provide multiple ways to understand the content
-        2. **Structured Alternatives**: Use semantic markup and structured data
-        3. **Progressive Enhancement**: Start with basic text and enhance with visual elements
-        
-        ## Best Practices
-        - Combine multiple accessibility techniques
-        - Provide structured data alternatives
-        - Use appropriate semantic markup
-        - Test with different assistive technologies
-      `
+      story: `Complex Content Accessibility\n
+This guide demonstrates how to make complex content accessible through multiple techniques.\n
+Key Concepts:\n
+  • Layered Approach: Provide multiple ways to understand the content\n
+  • Structured Alternatives: Use semantic markup and structured data\n
+  • Progressive Enhancement: Start with basic text and enhance with visual elements\n
+Best Practices:\n
+  • Combine multiple accessibility techniques\n
+  • Provide structured data alternatives\n
+  • Use appropriate semantic markup\n
+  • Test with different assistive technologies`
     }
   }
 };
@@ -999,21 +984,16 @@ export const CAPTCHAGuidance = CAPTCHATemplate.bind({});
 CAPTCHAGuidance.parameters = {
   docs: {
     description: {
-      story: `
-        # Implementing Accessible CAPTCHAs
-        
-        CAPTCHAs present unique accessibility challenges. This guide demonstrates best practices for implementing accessible verification methods.
-        
-        ## Key Principles
-        1. **Multiple Methods**: Always provide alternative verification methods
-        2. **Equal Access**: Ensure each method is equally usable and secure
-        3. **Clear Instructions**: Provide clear guidance for each verification option
-        4. **Modern Alternatives**: Consider using modern solutions that don't rely on visual puzzles
-        
-        ## Resources
-        - [W3C CAPTCHA Alternatives](https://www.w3.org/WAI/GL/wiki/Captcha_Alternatives_and_thoughts)
-        - [WCAG 2.2 Success Criterion 1.1.1](https://www.w3.org/TR/WCAG22/#non-text-content)
-      `
+      story: `Implementing Accessible CAPTCHAs\n
+CAPTCHAs present unique accessibility challenges. This guide demonstrates best practices for implementing accessible verification methods.\n
+Key Principles:\n
+  • Multiple Methods: Always provide alternative verification methods\n
+  • Equal Access: Ensure each method is equally usable and secure\n
+  • Clear Instructions: Provide clear guidance for each verification option\n
+  • Modern Alternatives: Consider using modern solutions that don't rely on visual puzzles\n
+Resources:\n
+  See W3C CAPTCHA Alternatives (https://www.w3.org/WAI/GL/wiki/Captcha_Alternatives_and_thoughts)\n
+  See WCAG 2.2 Success Criterion 1.1.1 (https://www.w3.org/TR/WCAG22/#non-text-content)`
     }
   }
 };
@@ -1022,23 +1002,18 @@ export const VideoGuidance = VideoTemplate.bind({});
 VideoGuidance.parameters = {
   docs: {
     description: {
-      story: `
-        # Video Content Accessibility
-        
-        This guide outlines the requirements and best practices for making video content accessible according to WCAG 2.2 guidelines.
-        
-        ## Key Components
-        1. **Captions**: Essential for deaf or hard-of-hearing users
-        2. **Transcripts**: Provide complete text alternatives
-        3. **Audio Descriptions**: Describe important visual content
-        4. **Accessible Controls**: Ensure playback controls are usable by all
-        
-        ## Standards Reference
-        - [WCAG 2.2 - 1.2.1 Audio-only and Video-only](https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded)
-        - [WCAG 2.2 - 1.2.2 Captions](https://www.w3.org/TR/WCAG22/#captions-prerecorded)
-        - [WCAG 2.2 - 1.2.3 Audio Description or Media Alternative](https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded)
-        - [WCAG 2.2 - 1.2.5 Audio Description](https://www.w3.org/TR/WCAG22/#audio-description-prerecorded)
-      `
+      story: `Video Content Accessibility\n
+This guide outlines the requirements and best practices for making video content accessible according to WCAG 2.2 guidelines.\n
+Key Components:\n
+  • Captions: Essential for deaf or hard-of-hearing users\n
+  • Transcripts: Provide complete text alternatives\n
+  • Audio Descriptions: Describe important visual content\n
+  • Accessible Controls: Ensure playback controls are usable by all\n
+Standards Reference:\n
+  See WCAG 2.2 - 1.2.1 Audio-only and Video-only (https://www.w3.org/TR/WCAG22/#audio-only-and-video-only-prerecorded)\n
+  See WCAG 2.2 - 1.2.2 Captions (https://www.w3.org/TR/WCAG22/#captions-prerecorded)\n
+  See WCAG 2.2 - 1.2.3 Audio Description (https://www.w3.org/TR/WCAG22/#audio-description-or-media-alternative-prerecorded)\n
+  See WCAG 2.2 - 1.2.5 Audio Description (https://www.w3.org/TR/WCAG22/#audio-description-prerecorded)`
     }
   }
 };
