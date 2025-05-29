@@ -1,0 +1,129 @@
+{/* AccessibilityGuide.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="WCAG 2.2 Accessibility Guide" />
+
+<style>
+{`
+  .sb-container {
+    margin: 2rem;
+  }
+  .sb-section {
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #f6f9fc 0%, #edf2f7 100%);
+  }
+  .sb-section-title {
+    color: #1a365d;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .sb-highlight {
+    color: #2b6cb0;
+    font-weight: 600;
+  }
+  .sb-link {
+    color: #2b6cb0;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  .sb-link:hover {
+    color: #1a365d;
+  }
+  .sb-text {
+    color: #2d3748;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .sb-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .sb-feature {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  .sb-feature-title {
+    color: #2c5282;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+`}
+</style>
+
+<div className="sb-container">
+  <div className="sb-section">
+    <h1 className="sb-section-title">Exploring WCAG 2.2 with Material-UI</h1>
+    
+    <p className="sb-text">
+      Welcome to our interactive guide demonstrating <a href="https://www.w3.org/TR/WCAG22/" className="sb-link">WCAG 2.2 accessibility standards</a> using <a href="https://mui.com/" className="sb-link">Material-UI</a> components. This Storybook project was created with <span className="sb-highlight">Generative AI</span> to showcase how modern web applications can achieve accessibility compliance while maintaining a beautiful, functional interface.
+    </p>
+  </div>
+
+  <div className="sb-section">
+    <h2 className="sb-section-title">About This Guide</h2>
+    
+    <p className="sb-text">
+      This project serves as a practical demonstration of WCAG 2.2 guidelines implemented through Material-UI (MUI) components. Each example was generated using AI during development to illustrate how accessibility standards can be effectively implemented in real-world applications.
+    </p>
+
+    <div className="sb-features">
+      <div className="sb-feature">
+        <h3 className="sb-feature-title">WCAG 2.2 Standards</h3>
+        <p className="sb-text">
+          Explore practical implementations of WCAG 2.2 success criteria, with each example thoroughly documented to explain the accessibility principles being demonstrated.
+        </p>
+      </div>
+
+      <div className="sb-feature">
+        <h3 className="sb-feature-title">MUI Integration</h3>
+        <p className="sb-text">
+          See how Material-UI components can be leveraged and customized to meet accessibility requirements while maintaining their signature modern design aesthetic.
+        </p>
+      </div>
+
+      <div className="sb-feature">
+        <h3 className="sb-feature-title">AI-Generated Examples</h3>
+        <p className="sb-text">
+          The examples and documentation were created using AI to ensure comprehensive coverage of accessibility considerations, relevant WCAG criteria, and implementation details.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div className="sb-section">
+    <h2 className="sb-section-title">What You'll Find</h2>
+    
+    <ul className="sb-text">
+      <li>Real-world examples of accessible MUI components</li>
+      <li>Detailed explanations of WCAG 2.2 success criteria</li>
+      <li>Best practices for implementing accessibility features</li>
+      <li>Common accessibility patterns and solutions</li>
+      <li>Interactive demonstrations of accessibility features</li>
+    </ul>
+  </div>
+
+  <div className="sb-section">
+    <h2 className="sb-section-title">How to Use This Guide</h2>
+    
+    <p className="sb-text">
+      Navigate through the examples using the sidebar. Each demonstration includes:
+    </p>
+    
+    <ul className="sb-text">
+      <li>The specific WCAG 2.2 criteria being addressed</li>
+      <li>Interactive MUI component examples</li>
+      <li>Implementation details and code snippets</li>
+      <li>Accessibility testing results</li>
+      <li>Tips for maintaining accessibility in your own projects</li>
+    </ul>
+  </div>
+</div> 
