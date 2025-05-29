@@ -28,6 +28,23 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Drawer,
+  Snackbar,
+  CircularProgress,
+  Stepper,
+  Step,
+  StepLabel,
+  Portal,
+  Fade,
+  SpeedDial,
+  SpeedDialAction,
+  SpeedDialIcon,
+  Tabs,
+  Tab,
+  Backdrop,
+  SwipeableDrawer,
+  BottomNavigation as MuiBottomNavigation,
+  BottomNavigationAction,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -35,17 +52,32 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import LanguageIcon from '@mui/icons-material/Language';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import RestoreIcon from '@mui/icons-material/Restore';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
 
 interface PredictableProps {
   showConsistentNavigation: boolean;
   enableContextChanges: boolean;
   showConsistentIdentification: boolean;
+  variant?: 'navigation' | 'interaction' | 'feedback';
 }
 
 const PredictableDemo = ({
   showConsistentNavigation,
   enableContextChanges,
   showConsistentIdentification,
+  variant,
 }: PredictableProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
@@ -53,6 +85,11 @@ const PredictableDemo = ({
   const [searchValue, setSearchValue] = useState('');
   const [showSearchAlert, setShowSearchAlert] = useState(false);
   const [selectedItem, setSelectedItem] = useState('home');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [notifications, setNotifications] = useState<string[]>([]);
+  const [showGlobalAlert, setShowGlobalAlert] = useState(false);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -78,6 +115,161 @@ const PredictableDemo = ({
     
     if (newValue.length > 2) {
       setShowSearchAlert(true);
+    }
+  };
+
+  const getVariantContent = () => {
+    switch (variant) {
+      case 'navigation':
+        return (
+          <Box>
+            <Card sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Navigation Patterns
+                </Typography>
+                <Stepper activeStep={activeStep} sx={{ mb: 2 }}>
+                  <Step><StepLabel>Content</StepLabel></Step>
+                  <Step><StepLabel>Preview</StepLabel></Step>
+                  <Step><StepLabel>Publish</StepLabel></Step>
+                </Stepper>
+                <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+                  <Button
+                    startIcon={<KeyboardArrowLeftIcon />}
+                    disabled={activeStep === 0}
+                    onClick={() => setActiveStep(prev => prev - 1)}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    endIcon={<KeyboardArrowRightIcon />}
+                    variant="contained"
+                    onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setActiveStep(prev => Math.min(2, prev + 1));
+                        setLoading(false);
+                      }, 1000);
+                    }}
+                    disabled={activeStep === 2 || loading}
+                  >
+                    {loading ? <CircularProgress size={24} /> : 'Next'}
+                  </Button>
+                </Stack>
+                <Alert severity="info">
+                  Navigation remains consistent and predictable across steps
+                </Alert>
+              </CardContent>
+            </Card>
+          </Box>
+        );
+
+      case 'interaction':
+        return (
+          <Box>
+            <Card sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  Interaction Patterns
+                </Typography>
+                <Stack spacing={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setLoading(true);
+                      setTimeout(() => {
+                        setSettingsOpen(true);
+                        setLoading(false);
+                      }, 500);
+                    }}
+                  >
+                    Open Settings
+                  </Button>
+                  <TextField
+                    fullWidth
+                    label="Search"
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value.length > 2) {
+                        setNotifications(prev => [...prev, 'Search results updating...']);
+                      }
+                    }}
+                  />
+                  <Alert severity="info">
+                    Interactions provide consistent feedback and behavior
+                  </Alert>
+                </Stack>
+              </CardContent>
+            </Card>
+
+            <Dialog
+              open={settingsOpen}
+              onClose={() => setSettingsOpen(false)}
+              aria-labelledby="settings-dialog"
+            >
+              <DialogTitle id="settings-dialog">Settings</DialogTitle>
+              <DialogContent>
+                <Stack spacing={2}>
+                  <FormControlLabel
+                    control={<Switch />}
+                    label="Enable notifications"
+                  />
+                  <FormControlLabel
+                    control={<Switch />}
+                    label="Dark mode"
+                  />
+                </Stack>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setSettingsOpen(false)}>Cancel</Button>
+                <Button variant="contained" onClick={() => setSettingsOpen(false)}>
+                  Save
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+        );
+
+      case 'feedback':
+        return (
+          <Box>
+            <Card sx={{ mb: 2 }}>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  System Feedback
+                </Typography>
+                <Stack spacing={2}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<NotificationsIcon />}
+                    onClick={() => {
+                      const newNotification = `Notification ${notifications.length + 1}`;
+                      setNotifications(prev => [...prev, newNotification]);
+                    }}
+                  >
+                    Trigger Notification
+                  </Button>
+                  {notifications.length > 0 && (
+                    <List>
+                      {notifications.map((notification, index) => (
+                        <ListItem key={index}>
+                          <ListItemIcon><InfoIcon /></ListItemIcon>
+                          <ListItemText primary={notification} />
+                        </ListItem>
+                      ))}
+                    </List>
+                  )}
+                  <Alert severity="info">
+                    System feedback is consistent and predictable
+                  </Alert>
+                </Stack>
+              </CardContent>
+            </Card>
+          </Box>
+        );
+
+      default:
+        return null;
     }
   };
 
@@ -158,6 +350,8 @@ const PredictableDemo = ({
 
       {/* Main Content */}
       <Box sx={{ p: 3 }}>
+        {getVariantContent()}
+        
         <Stack spacing={3}>
           {/* Breadcrumb Navigation */}
           <Breadcrumbs
@@ -409,6 +603,15 @@ This component demonstrates how to create web interfaces that appear and operate
         type: { summary: 'boolean' },
         defaultValue: { summary: false }
       }
+    },
+    variant: {
+      description: 'Shows different variants of predictable behavior',
+      control: 'select',
+      options: ['navigation', 'interaction', 'feedback'],
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: null }
+      }
     }
   },
   tags: ['autodocs']
@@ -420,7 +623,7 @@ const Template: StoryFn<typeof PredictableDemo> = (args) => <PredictableDemo {..
 
 export const Basic = Template.bind({});
 Basic.args = {
-  showConsistentNavigation: false,
+  showConsistentNavigation: true,
   enableContextChanges: false,
   showConsistentIdentification: false,
 };
@@ -438,44 +641,79 @@ Basic implementation showing:
   }
 };
 
-export const WithNavigation = Template.bind({});
-WithNavigation.args = {
+export const NavigationPatterns = Template.bind({});
+NavigationPatterns.args = {
   showConsistentNavigation: true,
-  enableContextChanges: false,
-  showConsistentIdentification: false,
+  enableContextChanges: true,
+  showConsistentIdentification: true,
+  variant: 'navigation',
 };
-WithNavigation.parameters = {
+NavigationPatterns.parameters = {
   docs: {
     description: {
       story: `
-Enhanced navigation features demonstrating:
-- Consistent navigation patterns
-- Breadcrumb navigation
-- Menu structures
-- Navigation order
-- Location indicators
+## Navigation Predictability
+
+Demonstrates core navigation patterns:
+
+- Step-by-step progression
+- State preservation
+- Loading indicators
+- Consistent behavior
+- Clear feedback
+- Focus management
       `
     }
   }
 };
 
-export const Complete = Template.bind({});
-Complete.args = {
+export const InteractionPatterns = Template.bind({});
+InteractionPatterns.args = {
   showConsistentNavigation: true,
   enableContextChanges: true,
   showConsistentIdentification: true,
+  variant: 'interaction',
 };
-Complete.parameters = {
+InteractionPatterns.parameters = {
   docs: {
     description: {
       story: `
-Complete implementation showcasing:
-- Consistent navigation
-- Predictable interactions
-- Context change handling
-- Component identification
-- Visual consistency
-- Full accessibility support
+## Interaction Predictability
+
+Shows consistent interaction patterns:
+
+- Modal dialogs
+- Form interactions
+- State changes
+- Focus management
+- Keyboard navigation
+- Clear feedback
+      `
+    }
+  }
+};
+
+export const FeedbackPatterns = Template.bind({});
+FeedbackPatterns.args = {
+  showConsistentNavigation: true,
+  enableContextChanges: true,
+  showConsistentIdentification: true,
+  variant: 'feedback',
+};
+FeedbackPatterns.parameters = {
+  docs: {
+    description: {
+      story: `
+## System Feedback
+
+Demonstrates predictable feedback:
+
+- Notifications
+- Status updates
+- Error messages
+- Loading states
+- Success indicators
+- User alerts
       `
     }
   }
