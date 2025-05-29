@@ -141,7 +141,7 @@ const ConformanceTestingDemo = ({
                       </Box>
                     )}
                   >
-                    <Typography variant="subtitle1">{step.label}</Typography>
+                    <Typography variant="subtitle1" component="h3">{step.label}</Typography>
                   </StepLabel>
                   <StepContent>
                     <Typography color="text.secondary" paragraph>
@@ -175,7 +175,7 @@ const ConformanceTestingDemo = ({
             <Stack spacing={2}>
               {evaluationMethods.map((method) => (
                 <Box key={method.title}>
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography variant="subtitle1" component="h3" gutterBottom>
                     {method.title}
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>

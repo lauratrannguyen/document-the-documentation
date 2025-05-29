@@ -17,7 +17,6 @@ import {
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 interface ConformanceLevelsProps {
   showExamples: boolean;
@@ -89,7 +88,7 @@ const ConformanceLevelsDemo = ({
                     icon={<StarIcon />}
                   />
                   <Typography variant="h6" component="h2">
-                    {level.icon}
+                    Level {level.level} Rating: {level.icon}
                   </Typography>
                 </Box>
 
