@@ -237,7 +237,61 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 4.1.1 Compatible (Parsing) - Content can be reliably interpreted by user agents, including assistive technologies.'
+        component: `
+# WCAG 4.1.1 Compatible (Parsing)
+
+This component demonstrates how to ensure content can be reliably interpreted by user agents, including assistive technologies.
+
+## Key Features
+- **Valid HTML Structure**: Complete start and end tags
+- **Proper Nesting**: Elements nested according to specifications
+- **Unique IDs**: No duplicate IDs in the document
+- **Valid Attributes**: No duplicate attributes on elements
+
+## Implementation Guidelines
+1. **HTML Validation**
+   - Use complete start and end tags
+   - Follow proper element nesting rules
+   - Ensure unique ID attributes
+   - Validate markup regularly
+
+2. **ARIA Implementation**
+   - Use valid ARIA attributes
+   - Apply correct ARIA values
+   - Follow ARIA authoring practices
+   - Test with assistive technologies
+
+3. **Common Patterns**
+   - Form controls with labels
+   - Interactive elements
+   - Custom components
+   - Dynamic content updates
+
+## Best Practices
+- Validate HTML regularly
+- Use semantic HTML elements
+- Test with multiple browsers
+- Verify with screen readers
+- Monitor parsing errors
+- Document markup patterns
+- Maintain consistent structure
+
+## Technical Requirements
+- W3C HTML validation
+- ARIA specification compliance
+- Cross-browser compatibility
+- Assistive technology support
+`
+      }
+    }
+  },
+  argTypes: {
+    showValidation: {
+      control: 'boolean',
+      description: 'Shows validation feedback for markup examples',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: false }
       }
     }
   }
@@ -249,6 +303,13 @@ export const Basic = Template.bind({});
 Basic.args = {
   showValidation: false,
 };
+Basic.parameters = {
+  docs: {
+    description: {
+      story: 'Basic view showing common markup patterns and best practices for compatibility.'
+    }
+  }
+};
 
 export const WithValidation = Template.bind({});
 WithValidation.args = {
@@ -257,7 +318,14 @@ WithValidation.args = {
 WithValidation.parameters = {
   docs: {
     description: {
-      story: 'Shows detailed validation feedback for each example, including error messages and suggested fixes.'
+      story: `
+Detailed view with validation feedback including:
+- Common markup edge cases
+- Error detection and reporting
+- Suggested fixes and improvements
+- Best practices implementation
+- Live validation examples
+      `
     }
   }
 }; 

@@ -188,35 +188,45 @@ export default {
     docs: {
       description: {
         component: `
-# WCAG 2.2 Conformance Levels
+## WCAG 2.2 Conformance Levels
+Conformance measures how well web content meets WCAG requirements. There are three levels of conformance (A, AA, AAA), each building upon the previous level.
 
-This component demonstrates the three levels of WCAG conformance (A, AA, AAA) and their requirements.
+### Core Requirements
+1. **Success Criteria**: Meet all requirements for chosen level
+2. **Full Pages**: Apply to entire web pages
+3. **Complete Processes**: All steps must conform
+4. **Accessibility Support**: Use supported technologies
+5. **Non-Interference**: Non-conforming content must not block access
 
-## Key Features
-- **Level A**: Basic accessibility requirements that must be met
-- **Level AA**: Additional requirements addressing major accessibility barriers
-- **Level AAA**: Highest level of accessibility with enhanced requirements
+### Level Overview
+- **Level A**: Essential accessibility. Addresses fundamental barriers.
+- **Level AA**: Enhanced accessibility. Industry standard level.
+- **Level AAA**: Optimal accessibility. Highest level of support.
 
-## Implementation Guidelines
-- Each level builds upon the previous level
-- Most organizations aim for Level AA compliance
-- Level AAA may not be achievable for all content types
-- All success criteria must be met for claimed level
+### Key Edge Cases
+1. **Dynamic Content**
+   - SPAs, real-time updates, interactive widgets
+   - Focus management and state updates
 
-## Best Practices
-- Start with Level A as the foundation
-- Progress systematically to Level AA
-- Document conformance for each level
-- Regularly test against requirements
-- Consider specific user needs when choosing level
-- Maintain compliance through updates
+2. **Third-Party Content**
+   - Embedded content, iframes, social media
+   - User-generated content
 
-## Technical Requirements
-- Ensure all pages meet chosen level criteria
-- Test with various assistive technologies
-- Validate conformance regularly
-- Document any exceptions or limitations
-`
+3. **Complex Interactions**
+   - Custom controls, drag-drop, virtual scrolling
+   - Canvas/WebGL content
+
+4. **Platform Considerations**
+   - Mobile/touch interfaces
+   - Different assistive technologies
+   - Internationalization support
+
+### Best Practices
+- Start with Level A as foundation
+- Progress systematically to AA
+- Document exceptions and limitations
+- Regular testing and maintenance
+- Consider user needs when choosing level`
       }
     }
   },

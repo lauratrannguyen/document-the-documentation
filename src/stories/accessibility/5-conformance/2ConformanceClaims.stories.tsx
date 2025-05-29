@@ -178,14 +178,34 @@ export default {
         component: `
 # WCAG 2.2 Conformance Claims
 
+## What is a Conformance Claim?
+A conformance claim is an official declaration that documents how well your web content meets WCAG requirements. It serves as a transparent communication tool between content providers and users, clearly stating the level of accessibility achieved and any limitations or exceptions.
+
+### Purpose and Importance
+- **Transparency**: Clearly communicates accessibility status to users
+- **Accountability**: Creates a formal record of accessibility commitment
+- **Documentation**: Provides a reference point for accessibility maintenance
+- **Compliance**: Helps demonstrate regulatory compliance where required
+- **User Trust**: Builds confidence in your commitment to accessibility
+
 This component demonstrates how to properly document and declare conformance with WCAG guidelines.
 
-## Key Features
+## Key Components of a Claim
+A complete conformance claim must include:
+
+### Required Elements
 - **Date of Claim**: When the conformance claim was made
 - **Guidelines Version**: Version of WCAG used for conformance
 - **Conformance Level**: Level of conformance achieved (A, AA, or AAA)
 - **Scope**: Exact pages covered by the claim
 - **Technologies**: List of technologies required for conformance
+
+### Optional Elements
+- Pre-recorded media information
+- Live media information
+- Non-relied upon technologies
+- Additional accessibility features
+- Documented exceptions
 
 ## Implementation Guidelines
 - Claims must be accurate and verifiable
@@ -209,6 +229,13 @@ This component demonstrates how to properly document and declare conformance wit
 - Specify exact pages or sections covered
 - List any additional requirements met
 - Document testing and verification methods
+
+## Maintaining Claims
+- Regular review and updates
+- Version control for changes
+- Documentation of testing
+- Contact information for inquiries
+- Process for addressing issues
 `
       }
     }

@@ -230,7 +230,43 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.2 Timing - Provide users enough time to read and use content.'
+        component: `
+## WCAG 2.2 Timing
+Provide users enough time to read and use content.
+
+### Overview
+This component demonstrates best practices for handling timed interactions and content, ensuring users have sufficient time to read, understand, and interact with content.
+
+### Key Features
+- Adjustable time limits
+- Options to extend time
+- Warning notifications before timeout
+- Ability to save progress
+- Auto-save functionality
+
+### Implementation Guidelines
+1. Provide options to:
+   - Turn off time limits
+   - Adjust time limits
+   - Extend time limits
+2. Warn users before timing out
+3. Preserve user data when sessions expire
+4. Allow users to request more time
+
+### WCAG Success Criteria
+- 2.2.1 Timing Adjustable (Level A)
+- 2.2.2 Pause, Stop, Hide (Level A)
+- 2.2.3 No Timing (Level AAA)
+- 2.2.4 Interruptions (Level AAA)
+- 2.2.6 Timeouts (Level AAA)
+
+### Best Practices
+- Default to no time limits when possible
+- Save user progress automatically
+- Provide clear timing information
+- Allow multiple time extensions
+- Ensure timing is not essential for tasks
+`
       }
     }
   }
@@ -243,9 +279,38 @@ BasicTiming.args = {
   allowTimeAdjustment: false,
   enableAutoUpdate: false,
 };
+BasicTiming.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Timing Example
+Demonstrates simple timing functionality:
+- Basic countdown timer
+- Warning notifications
+- Session expiration handling
+- Simple timeout behavior
+`
+    }
+  }
+};
 
 export const AdvancedTiming = Template.bind({});
 AdvancedTiming.args = {
   allowTimeAdjustment: true,
   enableAutoUpdate: true,
+};
+AdvancedTiming.parameters = {
+  docs: {
+    description: {
+      story: `
+### Advanced Timing Features
+Shows advanced timing features:
+- Time extension options
+- Multiple warning levels
+- Progress preservation
+- Auto-save functionality
+- User preference settings
+`
+    }
+  }
 }; 

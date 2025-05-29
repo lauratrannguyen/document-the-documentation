@@ -379,7 +379,41 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 2.1 Keyboard Accessible - Make all functionality available from a keyboard.'
+        component: `
+## WCAG 2.1 Keyboard Accessible
+Make all functionality available from a keyboard.
+
+### Overview
+This component demonstrates best practices for keyboard accessibility, ensuring that all interactive elements can be accessed and operated using only a keyboard.
+
+### Key Features
+- Full keyboard navigation support
+- Visible focus indicators
+- Custom keyboard shortcuts
+- Form controls accessible via keyboard
+- No keyboard traps
+
+### Implementation Guidelines
+1. Ensure all interactive elements are focusable
+2. Maintain logical tab order
+3. Provide visible focus indicators
+4. Support standard keyboard interactions:
+   - Tab: Navigate between elements
+   - Enter/Space: Activate buttons
+   - Arrow keys: Navigate within components
+   - Esc: Close modals/popups
+
+### WCAG Success Criteria
+- 2.1.1 Keyboard (Level A)
+- 2.1.2 No Keyboard Trap (Level A)
+- 2.1.4 Character Key Shortcuts (Level A)
+
+### Best Practices
+- Never remove focus outlines without providing an alternative
+- Implement skip links for main content
+- Provide keyboard shortcuts for common actions
+- Ensure consistent focus management
+`
       }
     }
   }
@@ -393,12 +427,40 @@ BasicForm.args = {
   showTooltips: false,
   showAccessibleForm: true,
 };
+BasicForm.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Form Example
+Demonstrates a simple accessible form with:
+- Proper label associations
+- Clear focus indicators
+- Logical tab order
+- Error messages readable by screen readers
+`
+    }
+  }
+};
 
 export const BasicKeyboard = Template.bind({});
 BasicKeyboard.args = {
   enableShortcuts: false,
   showTooltips: true,
   showAccessibleForm: false,
+};
+BasicKeyboard.parameters = {
+  docs: {
+    description: {
+      story: `
+### Basic Keyboard Navigation
+Shows fundamental keyboard navigation features:
+- Visible focus indicators
+- Logical tab sequence
+- Interactive element feedback
+- Tooltip support
+`
+    }
+  }
 };
 
 export const AdvancedKeyboard = Template.bind({});
@@ -407,10 +469,40 @@ AdvancedKeyboard.args = {
   showTooltips: true,
   showAccessibleForm: false,
 };
+AdvancedKeyboard.parameters = {
+  docs: {
+    description: {
+      story: `
+### Advanced Keyboard Features
+Demonstrates enhanced keyboard functionality:
+- Custom keyboard shortcuts
+- Advanced navigation patterns
+- Rich tooltip interactions
+- Modal focus management
+`
+    }
+  }
+};
 
 export const CompleteExample = Template.bind({});
 CompleteExample.args = {
   enableShortcuts: true,
   showTooltips: true,
   showAccessibleForm: true,
+};
+CompleteExample.parameters = {
+  docs: {
+    description: {
+      story: `
+### Complete Implementation
+Showcases all keyboard accessibility features:
+- Form controls with keyboard support
+- Custom shortcuts
+- Enhanced tooltips
+- Focus management
+- Error handling
+- Navigation patterns
+`
+    }
+  }
 }; 
