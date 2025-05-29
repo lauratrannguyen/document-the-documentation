@@ -345,22 +345,82 @@ const InputAssistanceDemo = ({
   );
 };
 
-export default {
+const meta = {
   title: 'Accessibility/3. Understandable/3.3 Input Assistance',
   component: InputAssistanceDemo,
   parameters: {
     docs: {
       description: {
-        component: 'WCAG 3.3 Input Assistance - Help users avoid and correct mistakes, with a focus on proper form labeling and comprehensive error prevention.'
-      },
-      story: {
-        inline: true
+        component: `
+# WCAG 3.3 Input Assistance
+
+This component demonstrates how to help users avoid and correct mistakes when entering information, following WCAG 3.3 guidelines.
+
+## Key Features
+- **Error Prevention**: Help users avoid mistakes
+- **Error Identification**: Clearly indicate errors
+- **Error Suggestions**: Provide correction guidance
+- **Form Validation**: Validate input in real-time
+- **Confirmation**: Allow review before submission
+
+## Implementation Guidelines
+1. **Error Prevention**
+   - Clear input instructions
+   - Real-time validation
+   - Format examples
+   - Required field marking
+   - Input constraints
+   - Default values
+
+2. **Error Identification**
+   - Clear error messages
+   - Error highlighting
+   - Field-specific feedback
+   - Accessible notifications
+   - Status updates
+   - Focus management
+
+3. **Error Correction**
+   - Specific suggestions
+   - Format guidance
+   - Auto-correction options
+   - Input formatting
+   - Validation rules
+   - Help text
+
+4. **Form Submission**
+   - Data review step
+   - Confirmation dialogs
+   - Reversible actions
+   - Success feedback
+   - Error recovery
+   - Progress saving
+
+## Best Practices
+- Clear instructions
+- Immediate feedback
+- Specific error messages
+- Format examples
+- Input constraints
+- Help text
+- Confirmation steps
+- Recovery options
+
+## Technical Requirements
+- Form validation
+- Error handling
+- ARIA live regions
+- Focus management
+- Input formatting
+- State management
+- Data persistence
+`
       }
     }
   },
   argTypes: {
     showHelperText: {
-      description: 'Shows additional helper text below form fields',
+      description: 'Shows helper text and input instructions',
       control: 'boolean',
       table: {
         type: { summary: 'boolean' },
@@ -368,7 +428,7 @@ export default {
       }
     },
     requireConfirmation: {
-      description: 'Shows a confirmation dialog before form submission',
+      description: 'Requires confirmation before form submission',
       control: 'boolean',
       table: {
         type: { summary: 'boolean' },
@@ -376,7 +436,7 @@ export default {
       }
     },
     showErrors: {
-      description: 'Shows validation errors as the user types',
+      description: 'Shows validation errors and suggestions',
       control: 'boolean',
       table: {
         type: { summary: 'boolean' },
@@ -384,8 +444,8 @@ export default {
       }
     },
     requiredFields: {
-      description: 'List of fields that are required for form submission',
-      control: 'object',
+      description: 'List of required form fields',
+      control: 'array',
       table: {
         type: { summary: 'string[]' },
         defaultValue: { summary: '[]' }
@@ -394,6 +454,8 @@ export default {
   },
   tags: ['autodocs']
 } as const;
+
+export default meta;
 
 const Template: StoryFn<typeof InputAssistanceDemo> = (args) => <InputAssistanceDemo {...args} />;
 
@@ -404,13 +466,41 @@ BasicForm.args = {
   showErrors: false,
   requiredFields: [],
 };
+BasicForm.parameters = {
+  docs: {
+    description: {
+      story: `
+Basic form implementation showing:
+- Simple input fields
+- Basic validation
+- Required fields
+- Standard form layout
+- Essential error handling
+      `
+    }
+  }
+};
 
 export const WithLabelsAndHelp = Template.bind({});
 WithLabelsAndHelp.args = {
   showHelperText: true,
   requireConfirmation: false,
-  showErrors: false,
-  requiredFields: ['username', 'email', 'password'],
+  showErrors: true,
+  requiredFields: ['username', 'email'],
+};
+WithLabelsAndHelp.parameters = {
+  docs: {
+    description: {
+      story: `
+Enhanced form with assistance features:
+- Helper text for inputs
+- Format examples
+- Input requirements
+- Error messages
+- Real-time validation
+      `
+    }
+  }
 };
 
 export const FullValidation = Template.bind({});
@@ -419,4 +509,20 @@ FullValidation.args = {
   requireConfirmation: true,
   showErrors: true,
   requiredFields: ['username', 'email', 'password', 'confirmPassword', 'accountType', 'terms'],
+};
+FullValidation.parameters = {
+  docs: {
+    description: {
+      story: `
+Complete form implementation with:
+- Comprehensive validation
+- Error prevention
+- Input assistance
+- Confirmation steps
+- Success feedback
+- Error recovery
+- Full accessibility
+      `
+    }
+  }
 }; 
