@@ -20,8 +20,13 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
+  Chip
 } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
+import WarningIcon from '@mui/icons-material/Warning';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import InfoIcon from '@mui/icons-material/Info';
 import AudiotrackIcon from '@mui/icons-material/Audiotrack';
 import SecurityIcon from '@mui/icons-material/Security';
 import FunctionsIcon from '@mui/icons-material/Functions';
